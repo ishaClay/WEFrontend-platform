@@ -401,7 +401,9 @@ const CourseInformation = ({
                 <Switch
                   disabled={isFreeCourse}
                   checked={provideDisc}
-                  onCheckedChange={() => setProvideDisc(!provideDisc)}
+                  onCheckedChange={() => {
+                    setProvideDisc(!provideDisc);
+                  }}
                   className="w-8 h-5"
                   switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
                 />
@@ -420,11 +422,15 @@ const CourseInformation = ({
                   // {...register("price")}
                   onChange={(e: any) => {
                     const { value } = e.target;
+                    const regex = /^[0-9]*\.?[0-9]*$/;
+                    // const regex = /^([0-9]*)?(\.*[0-9]+)*$/;
+                    console.log("🚀 ~ regex:", regex.test(value));
 
                     if (
-                      value.match(/^[0-9]*$/) &&
-                      (value > 0 || value === "") &&
-                      value <= 99999
+                      value === "" ||
+                      (regex.test(value) &&
+                        (value > 0 || value === "") &&
+                        value <= 99999)
                     ) {
                       setValue("price", value);
                       // @ts-ignore
@@ -452,15 +458,20 @@ const CourseInformation = ({
                   onChange={(e: any) => {
                     const { value } = e.target;
 
+                    const regex = /^[0-9]*\.?[0-9]*$/;
+
                     if (
-                      value.match(/^[0-9]*$/) &&
-                      (value > 0 || value === "")
+                      value === "" ||
+                      (regex.test(value) &&
+                        (value > 0 || value === "") &&
+                        value <= 99999)
                     ) {
                       setDiscount(value);
                     }
                   }}
                   error={
-                    +discount > +coursePrise
+                    (!!provideDisc && +discount > +coursePrise) ||
+                    +discount === +coursePrise
                       ? "Discount is greater than course price"
                       : ""
                   }

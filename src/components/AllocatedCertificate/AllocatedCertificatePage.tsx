@@ -43,7 +43,7 @@ const AllocatedCertificatePage = () => {
     onSuccess: () => {
       toast({
         title: "Success",
-        description: "Allocate Certificate User deleted successfully",
+        description: "Certificate deleted successfully",
         variant: "success",
       });
 

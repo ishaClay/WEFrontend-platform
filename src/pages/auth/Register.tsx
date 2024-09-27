@@ -432,7 +432,7 @@ function Register() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div className="mb-2">
                         <InputWithLable
-                          label="Enter your name if you are a Sole-Trader"
+                          label="Registered Company Name (Enter your name if you are a Sole-Trader)"
                           className="h-[46px] border solid 1.5px"
                           placeholder="Enter Company Name"
                           {...register("name")}

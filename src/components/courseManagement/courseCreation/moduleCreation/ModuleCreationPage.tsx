@@ -39,7 +39,7 @@ export const intialSectionCreation: SectionCreation | any = {
   },
 };
 
-export const intialModuleCreation: ModuleCreation | any = {
+const intialModuleCreation: ModuleCreation | any = {
   moduleTitle: "",
   section: [intialSectionCreation],
 };

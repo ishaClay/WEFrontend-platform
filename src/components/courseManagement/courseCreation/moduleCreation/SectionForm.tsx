@@ -120,6 +120,8 @@ const SectionForm = ({
   };
 
   console.log("watchwatch", watch());
+  console.log("errors.readingTime", errors.readingTime);
+  
 
   return (
     <div className="p-5 border-t border-[#D9D9D9]">
@@ -163,7 +165,8 @@ const SectionForm = ({
       </div>
       <div className="pb-5">
         <h6 className="text-base font-droid text-[#515151] pb-2">
-          Information <span className="text-xs">(Max 5000 characters only)</span>
+          Information{" "}
+          <span className="text-xs">(Max 5000 characters only)</span>
         </h6>
         <div className="relative">
           <CKEditorComponent
@@ -371,13 +374,20 @@ const SectionForm = ({
                       value === "" ? undefined : Number(value),
                   })}
                   type="number"
-                  defaultValue={watch("livesessionDuration.hour")}
+                  min={0}
+                  defaultValue={watch("livesessionDuration.hour") || 0}
                   className="w-full p-3 pr-10 text-sm text-black h-full"
                 />
                 <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Hours
                 </h6>
               </div>
+              {errors?.livesessionDuration?.hour && (
+                <FormError
+                  className="font-droid not-italic"
+                  message={errors?.livesessionDuration?.hour?.message}
+                />
+              )}
             </div>
             <div className="">
               <h6 className="text-base text-[#515151] font-droid pb-3">
@@ -390,13 +400,20 @@ const SectionForm = ({
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  defaultValue={watch("livesessionDuration.minute")}
+                  min={0}
+                  defaultValue={watch("livesessionDuration.minute") || 0}
                   className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
                 <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Minute
                 </h6>
               </div>
+              {errors?.livesessionDuration?.minute && (
+                <FormError
+                  className="font-droid not-italic"
+                  message={errors?.livesessionDuration?.minute?.message}
+                />
+              )}
             </div>
             <div className="">
               <h6 className="text-base text-[#515151] font-droid pb-3">
@@ -409,33 +426,22 @@ const SectionForm = ({
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  defaultValue={watch("livesessionDuration.second")}
+                  min={0}
+                  defaultValue={watch("livesessionDuration.second") || 0}
                   className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
                 <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Second
                 </h6>
               </div>
+              {errors?.livesessionDuration?.second && (
+                <FormError
+                  className="font-droid not-italic"
+                  message={errors?.livesessionDuration?.second?.message}
+                />
+              )}
             </div>
           </div>
-          {errors?.livesessionDuration?.hour && (
-            <FormError
-              className="font-droid not-italic"
-              message={errors?.livesessionDuration?.hour?.message}
-            />
-          )}
-          {errors?.livesessionDuration?.minute && (
-            <FormError
-              className="font-droid not-italic"
-              message={errors?.livesessionDuration?.minute?.message}
-            />
-          )}
-          {errors?.livesessionDuration?.second && (
-            <FormError
-              className="font-droid not-italic"
-              message={errors?.livesessionDuration?.second?.message}
-            />
-          )}
         </div>
       )}
 

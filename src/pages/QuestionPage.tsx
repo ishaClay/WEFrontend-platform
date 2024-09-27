@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
+import { assessmentQuestionScore as assessmentQuestionScoreList } from "@/services/apiServices/pillar";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -45,6 +46,8 @@ const QuestionPage = () => {
   const location = useLocation();
   const currPath = localStorage.getItem("path");
   const isHide = location.pathname?.split("/")?.length === 2 ? false : true;
+  const isRetakeAssessment = location.pathname === "/retakeAssessment";
+  const isEmployee = +userData?.query?.role === UserRole.Employee;
 
   const userID = UserId
     ? UserId
@@ -58,6 +61,19 @@ const QuestionPage = () => {
 
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
+
+  const {
+    data: assessmentQuestionScoreLIST,
+    isFetching: fetchingAssessmentQuestionScore,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.assessmentQuestionScore, { userID, clientId }],
+    queryFn: () =>
+      assessmentQuestionScoreList(
+        isEmployee ? userData?.company?.userDetails?.id : +userID,
+        +clientId
+      ),
+    enabled: isRetakeAssessment,
+  });
 
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
@@ -106,7 +122,7 @@ const QuestionPage = () => {
   }, [clientwisePillarList?.data?.data, activePillar, dispatch]);
 
   const { data: questionList, isPending } = useQuery({
-    queryKey: [QUERY_KEYS.questionList],
+    queryKey: [QUERY_KEYS.questionList, { clientId }],
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
 
@@ -290,6 +306,17 @@ const QuestionPage = () => {
     });
   }, []);
 
+  if (fetchingAssessmentQuestionScore) return <Loader />;
+  if (assessmentQuestionScoreLIST?.data && !fetchingAssessmentQuestionScore) {
+    const hasNewAssessment = assessmentQuestionScoreLIST?.data?.some(
+      (item: any) => !item.completedAssessmentDate
+    );
+    if (!hasNewAssessment) {
+      navigate(
+        `/${UserRole[userData?.query?.role]?.toLowerCase()}/maturityassessment`
+      );
+    }
+  }
   return (
     <div
       className={`font-droid font-normal ${
@@ -302,17 +329,19 @@ const QuestionPage = () => {
         } bg-teal h-[44px] justify-between items-center sticky top-0 max-h-screen z-30`}
       >
         <div className="w-full text-white px-4 text-lg leading-[21.97px xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5]">
-          <div className="flex gap-[9px]">
-            <button
-              className="flex items-center gap-2"
-              onClick={() => {
-                history.back();
-              }}
-            >
-              <img src={LeftArrow} alt="arrow" width={22} height={22} />
-              <span>Back</span>
-            </button>
-          </div>
+          {!isRetakeAssessment && (
+            <div className="flex gap-[9px]">
+              <button
+                className="flex items-center gap-2"
+                onClick={() => {
+                  history.back();
+                }}
+              >
+                <img src={LeftArrow} alt="arrow" width={22} height={22} />
+                <span>Back</span>
+              </button>
+            </div>
+          )}
 
           {/* <button className="flex items-center gap-3 border border-solid border-white w-[166px] justify-center">
           <img src={TreePlantingWhite} alt="tree" width={24} height={30} />

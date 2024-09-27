@@ -78,7 +78,7 @@ const SupportRequestTable = ({
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Last Updated
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <TriangleUpIcon
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,0,15,5"
@@ -87,7 +87,7 @@ const SupportRequestTable = ({
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,5,15,15"
               />
-            </div>
+            </div> */}
           </Button>
         );
       },
@@ -108,7 +108,7 @@ const SupportRequestTable = ({
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Requestor
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <TriangleUpIcon
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,0,15,5"
@@ -117,7 +117,7 @@ const SupportRequestTable = ({
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,5,15,15"
               />
-            </div>
+            </div> */}
           </Button>
         );
       },
@@ -231,7 +231,7 @@ const SupportRequestTable = ({
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Assign to
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <TriangleUpIcon
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,0,15,5"
@@ -240,12 +240,12 @@ const SupportRequestTable = ({
                 className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
                 viewBox="0,5,15,15"
               />
-            </div>
+            </div> */}
           </Button>
         );
       },
       cell: ({ row }) => {
-        return <div>{row.original?.assignTo?.name ?? "-"}</div>;
+        return <div>{row?.original?.assignTo?.role === 2 ? row?.original?.assignTo?.fname + " " + row?.original?.assignTo?.lname : row.original?.assignTo?.name ?? "-"}</div>;
       },
       meta: {
         className: "sm:table-cell hidden",

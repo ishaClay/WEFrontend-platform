@@ -282,7 +282,7 @@ const Addcertificate = () => {
               ref={captureRef}
               className="2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6"
             >
-              <div className="relative h-full w-full">
+              <div className="relative h-[700px] w-full">
                 {watch("backgroundImage") && (
                   <div className="flex justify-center">
                     <img
@@ -375,7 +375,7 @@ const Addcertificate = () => {
                               <img
                                 src={watch("administratorSignature") || ""}
                                 alt="logo"
-                                className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full object-contain"
+                                className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full"
                               />
                             ) : (
                               <div className="max-w-[100px] w-full md:min-h-[80px] min-h-[50px] md:max-h-[80px] max-h-[50px] mx-auto h-full"></div>
@@ -404,12 +404,12 @@ const Addcertificate = () => {
                         )}
                       </div>
                       <div className="flex items-end justify-between md:pt-3 pt-1 md:pl-6 pl-3">
-                        <div className=" md:w-[100px] md:h-[100px] w-[60px] h-[60px] overflow-hidden">
+                        <div className=" md:w-[100px] md:h-[100px] w-[60px] h-full overflow-hidden">
                           {
                             <img
                               src={watch("companyLogo1")}
                               alt="logo"
-                              className="max-w-[100px] md:w-full w-[80px] min-h-[50px] md:max-h-[100px] max-h-[50px] h-full object-contain"
+                              className="max-w-[100px] md:w-full w-[80px] min-h-[50px] md:max-h-[80px] md:min-h-[80px] h-full"
                             />
                           }
                         </div>

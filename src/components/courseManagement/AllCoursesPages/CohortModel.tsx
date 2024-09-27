@@ -1,36 +1,28 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { AllCourse } from "@/types/allcourses";
+import moment from "moment";
 
 const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
   const getUpcommingCohort = (cohortData: AllCourse) => {
-    const currentDate = new Date();
-    const formattedCurrentDate = {
-      date: String(currentDate.getDate()).padStart(2, "0"),
-      month: String(currentDate.getMonth() + 1).padStart(2, "0"),
-      year: String(currentDate.getFullYear()),
-    };
-    console.log("cohortDatacohortData", cohortData);
+    function parseDate(year: string, month: string, date: string) {
+      // Note: month is 0-based in JavaScript Date, so we subtract 1
+      return new Date(`${year}-${month}-${date}`);
+    }
 
-    const matchingSlot =
-      cohortData?.cohortGroups?.length > 0 &&
-      cohortData?.cohortGroups?.filter(
-        (slot) =>
-          parseInt(slot.slotStartDate.year) > +formattedCurrentDate.year ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) > +formattedCurrentDate.month) ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) ===
-              +formattedCurrentDate.month &&
-            parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date &&
-            parseInt(slot.slotEndDate.year) > +formattedCurrentDate.year) ||
-          (parseInt(slot.slotEndDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotEndDate.month) > +formattedCurrentDate.month) ||
-          (parseInt(slot.slotEndDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotEndDate.month) === +formattedCurrentDate.month &&
-            parseInt(slot.slotEndDate.date) > +formattedCurrentDate.date)
-      );
+    const upcomingItems =
+      cohortData?.cohortGroups &&
+      cohortData?.cohortGroups?.filter((item) => {
+        const startDate = parseDate(
+          item.slotStartDate?.year,
+          item.slotStartDate?.month,
+          item.slotStartDate?.date
+        );
 
-    const upcomingData = matchingSlot ? matchingSlot : [];
+        // Check if the current date is within the start and end date range
+        return moment(startDate).isAfter(new Date());
+      });
+
+    const upcomingData = upcomingItems ? upcomingItems : [];
 
     return (
       <>

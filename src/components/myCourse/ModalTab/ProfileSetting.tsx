@@ -292,13 +292,13 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 setValue("gender", data);
                 setHasChange(true);
               }}
-              value={watch("gender")}
+              value={watch("gender")?.toLowerCase()}
               disabled={data?.data?.gender ? true : false}
               className="flex sm:flex-nowrap flex-wrap gap-4"
             >
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="Male"
+                  value="male"
                   id="option-one"
                   className="border-[#000] w-4 h-4"
                   indicatorClassName="w-3 h-3"
@@ -312,7 +312,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               </div>
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="Female"
+                  value="female"
                   id="option-two"
                   className="border-[#000] w-4 h-4
                   "
@@ -327,7 +327,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               </div>
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="N/A"
+                  value="n/a"
                   id="option-three"
                   className="border-[#000] w-4 h-4
                   "
@@ -342,7 +342,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               </div>
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="Don't want to disclose"
+                  value="don't want to disclose"
                   id="option-four"
                   className="border-[#000] w-4 h-4
                   "

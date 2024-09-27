@@ -1,5 +1,6 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -23,6 +24,7 @@ import MyCourseTrainee from "./components/courseManagement/MyCourse/MyCourseTrai
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
+import { useToast } from "./components/ui/use-toast";
 import { getDeviceToken } from "./firebaseConfig";
 import { useAppDispatch, useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
@@ -87,19 +89,17 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
-import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
-import { changeTheme } from "./services/apiServices/theme";
-import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
-import { LogOut } from "./services/apiServices/authService";
-import Cookies from "js-cookie";
-import { useToast } from "./components/ui/use-toast";
-import { ResponseError } from "./types/Errors";
 import { setPath } from "./redux/reducer/PathReducer";
+import { LogOut } from "./services/apiServices/authService";
+import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
+import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
+import { changeTheme } from "./services/apiServices/theme";
+import { ResponseError } from "./types/Errors";
 
 function App() {
   let socket: any;
   const dispatch = useAppDispatch();
-  const {toast} = useToast();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const domain = document.location.origin;
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -200,11 +200,14 @@ function App() {
       });
     });
 
-    socket.on("employee status", (data: any) => {      
-      if(data?.user?.employeeDetails?.employeeStatus === "Inactive" && data?.user?.id === +UserId) {
+    socket.on("employee status", (data: any) => {
+      if (
+        data?.user?.employeeDetails?.employeeStatus === "Inactive" &&
+        data?.user?.id === +UserId
+      ) {
         mutate(data?.user?.id);
       }
-    })
+    });
 
     return () => {
       socket.disconnect();
@@ -274,6 +277,14 @@ function App() {
         />
         <Route
           path="/question"
+          element={
+            <CompanyProtectedRoute>
+              <QuestionPage />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/retakeAssessment"
           element={
             <CompanyProtectedRoute>
               <QuestionPage />

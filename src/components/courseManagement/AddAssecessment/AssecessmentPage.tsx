@@ -67,11 +67,11 @@ const AssecessmentPage = () => {
     title: string;
     passingPercentage: string;
     timeBound: number;
-    timeDuration: {
-      hours: number;
-      minutes: number;
-      seconds: number;
-    };
+    // timeDuration: {
+    //   hours: number;
+    //   minutes: number;
+    //   seconds: number;
+    // };
   }>(initialState);
   const { assesment, setAssesment } = useContext(AssesmentContext);
 
@@ -101,12 +101,12 @@ const AssecessmentPage = () => {
         title: getAssessmentByIdData?.data?.title,
         passingPercentage: getAssessmentByIdData?.data?.passingPercentage,
         timeBound: +getAssessmentByIdData?.data?.timeBound,
-        timeDuration: {
-          hours: getAssessmentByIdData?.data?.timeDuration?.hours,
-          minutes: getAssessmentByIdData?.data?.timeDuration?.minutes,
-          seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
-        },
       });
+      // timeDuration: {
+      //   hours: getAssessmentByIdData?.data?.timeDuration?.hours,
+      //   minutes: getAssessmentByIdData?.data?.timeDuration?.minutes,
+      //   seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
+      // },
 
       const a = {
         "Single Choice Question": "MCQ",
@@ -347,14 +347,14 @@ const AssecessmentPage = () => {
     }
 
     // Validate timeDuration
-    if (
-      !createAssecessment?.timeDuration?.hours &&
-      !createAssecessment?.timeDuration?.minutes &&
-      !createAssecessment?.timeDuration?.seconds
-    ) {
-      newErrors.timeDuration = "Time Duration is required";
-      valid = false;
-    }
+    // if (
+    //   !createAssecessment?.timeDuration?.hours &&
+    //   !createAssecessment?.timeDuration?.minutes &&
+    //   !createAssecessment?.timeDuration?.seconds
+    // ) {
+    //   newErrors.timeDuration = "Time Duration is required";
+    //   valid = false;
+    // }
 
     setErrors(newErrors);
     return valid;
@@ -382,9 +382,9 @@ const AssecessmentPage = () => {
       const payload = {
         ...createAssecessment,
         timeDuration: {
-          hours: +createAssecessment?.timeDuration?.hours || 0,
-          minutes: +createAssecessment?.timeDuration?.minutes || 0,
-          seconds: +createAssecessment?.timeDuration?.seconds || 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
         },
       };
       if (assId && +assId) {

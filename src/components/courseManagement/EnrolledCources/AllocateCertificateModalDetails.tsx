@@ -76,7 +76,7 @@ const AllocateCertificateModalDetails = ({
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
-      toast({ title: data?.data?.message, variant: "default" });
+      toast({ title: "Certificate added successfully", variant: "default" });
       setUpload(data?.data?.data?.file);
     },
     onError: () => {

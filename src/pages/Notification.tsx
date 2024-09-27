@@ -1,10 +1,10 @@
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loading from "@/components/comman/Error/Loading";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getTimeAgo } from "@/lib/utils";
+import { cn, getTimeAgo } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   deleteNotificationById,
@@ -120,6 +120,22 @@ function Notification() {
           className="mt-[9px] text-[12px] md:text-[16px] md:leading-[22px] leading-[14px] h-[auto]"
           dangerouslySetInnerHTML={{ __html: notificationDetails?.content }}
         ></p>
+
+        {notificationDetails?.images?.length > 0 && (
+          <div className="flex items-center flex-wrap gap-2 mt-4">
+            {notificationDetails?.images.map((item: any) => {
+              return (
+                <a
+                  href={item}
+                  className={cn(buttonVariants({ variant: "default" }))}
+                  target="_blank"
+                >
+                  View Attechment
+                </a>
+              );
+            })}
+          </div>
+        )}
 
         <div className="mt-[40px] w-full md:block flex justify-center flex-wrap gap-[10px]">
           <Button

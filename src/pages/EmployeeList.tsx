@@ -368,13 +368,13 @@ function CoursesAllocate() {
             >
               <Pencil className="text-gray-200 w-[20px]" />
             </Button>
-            <Button
+            {row.original.status !== "Registered" && <Button
               onClick={() => setOpenDelete(row?.original)}
               variant={"ghost"}
               className="p-0"
             >
               <img src={delet} alt="" />
-            </Button>
+            </Button>}
           </div>
         );
       },

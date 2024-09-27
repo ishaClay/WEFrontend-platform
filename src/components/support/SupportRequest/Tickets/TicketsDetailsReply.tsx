@@ -4,7 +4,7 @@ import Loading from "@/components/comman/Error/Loading";
 import FileUpload from "@/components/comman/FileUpload";
 import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -17,6 +17,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchAssigToUser,
@@ -116,9 +117,9 @@ const TicketsDetailsReply = () => {
       setValue("ticketType", String(data?.data?.data?.type));
       // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
-        data?.data?.data?.openBy?.id === userID
-          ? String(data?.data?.data?.assignTo?.name)
-          : String(data?.data?.data?.openBy?.name)
+        data?.data?.data?.openBy.id === userID
+          ? String(data?.data?.data?.assignTo?.role === 2 ? data?.data?.data?.assignTo?.fname + " " + data?.data?.data?.assignTo?.lname : data?.data?.data?.assignTo.name)
+          : String(data?.data?.data?.openBy.name)
       );
       setSelectTicketStatus(data?.data.data?.status);
       // setSelectTicketStatus(
@@ -157,14 +158,6 @@ const TicketsDetailsReply = () => {
       newName += uName[i]?.charAt(0).toUpperCase();
     }
     return newName;
-  };
-
-  const handleDownload = () => {
-    const pdfUrl = data?.data?.data?.documentUrl;
-    const anchor = document.createElement("a");
-    anchor.href = pdfUrl;
-    anchor.download = "document.pdf";
-    anchor.click();
   };
 
   const onSubmit = (data: FieldValues) => {
@@ -305,13 +298,19 @@ const TicketsDetailsReply = () => {
                       {data?.data.data?.documentUrl.split("/").pop()}
                     </h3>
                   </div>
-                  <Button
-                    onClick={handleDownload}
-                    className="sm:ml-[22px] mt-5"
-                    type="button"
+                  <a
+                    href={
+                      data?.data.data?.documentUrl || data?.data.data?.videoUrl
+                    }
+                    download
+                    target="_blank"
+                    className={cn(
+                      buttonVariants({ variant: "default" }),
+                      "sm:ml-[22px] mt-5"
+                    )}
                   >
                     DOWNLOAD
-                  </Button>
+                  </a>
                 </div>
                 {data?.data.data.videoUrl && (
                   <div
@@ -372,13 +371,17 @@ const TicketsDetailsReply = () => {
                         <h3 className="text-[16px] ml-2">
                           {itm?.documentUrl.split("/").pop()}
                         </h3>
-                        <Button
-                          type="button"
-                          onClick={handleDownload}
-                          className="ml-[22px]"
+                        <a
+                          href={itm?.documentUrl || itm?.videoUrl}
+                          download
+                          target="_blank"
+                          className={cn(
+                            buttonVariants({ variant: "default" }),
+                            "ml-[22px]"
+                          )}
                         >
                           DOWNLOAD
-                        </Button>
+                        </a>
                       </div>
                       {itm.videoUrl && (
                         <div

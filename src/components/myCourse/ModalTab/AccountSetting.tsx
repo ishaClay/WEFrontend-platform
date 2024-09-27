@@ -22,6 +22,15 @@ const schema = zod
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password don't match",
     path: ["confirmPassword"],
+  })
+  .superRefine((data, ctx) => {
+    if (data?.password === data?.oldPassword) {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: "Please use another password",
+        path: ["password"],
+      });
+    }
   });
 
 const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {

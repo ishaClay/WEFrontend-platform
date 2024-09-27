@@ -9,11 +9,11 @@ interface AssecessmentModuleSectionProps {
       title: string;
       passingPercentage: string;
       timeBound: number;
-      timeDuration: {
-        hours: number;
-        minutes: number;
-        seconds: number;
-      };
+      // timeDuration: {
+      //   hours: number;
+      //   minutes: number;
+      //   seconds: number;
+      // };
     }>
   >;
   errors: any;
@@ -158,7 +158,7 @@ const AssecessmentModuleSection = ({
               </RadioGroup>
             </div>
           </div> */}
-          <div className="">
+          {/* <div className="">
             <h6 className="text-base text-[#515151] font-droid pb-3">
               Duration
             </h6>
@@ -227,7 +227,7 @@ const AssecessmentModuleSection = ({
             {errors.timeDuration && (
               <p className="text-red-500 text-sm">{errors.timeDuration}</p>
             )}
-          </div>
+          </div> */}
         </div>
         {errors.passingPercentage && (
           <p className="text-red-500 text-sm">{errors.passingPercentage}</p>

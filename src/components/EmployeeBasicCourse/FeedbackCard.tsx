@@ -19,7 +19,7 @@ const FeedbackCard = ({ data }: { data: DataEntity }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-10">
             <h4 className="text-[16px] font-[600] font-droid">
-              {data?.user?.name || data?.user?.email?.split("@")[0]}Bloker
+              {data?.user?.name || data?.user?.email?.split("@")[0]}
             </h4>
             <span className="flex items-center">
               {Array.from({ length: data?.courseRate }, (_: any) => (

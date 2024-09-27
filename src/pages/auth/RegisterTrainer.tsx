@@ -24,12 +24,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
 import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
 import {
   fetchProviderTypes,
@@ -49,6 +55,7 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
@@ -105,6 +112,7 @@ function RegisterTrainer() {
       }),
   });
   const pathName = location?.pathname?.split("/");
+  const dispatch = useDispatch();
 
   console.log("+++++++++++", !pathName?.includes("trainer-regestration"));
 
@@ -170,6 +178,7 @@ function RegisterTrainer() {
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", defEmail || "");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -518,12 +527,12 @@ function RegisterTrainer() {
                     )}
                   </div> */}
                   <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                  <div className="col-span-2">
-                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
-                      Contact Telephone No.{" "}
-                    </label>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="col-span-2">
+                          <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
+                            Contact Telephone No.{" "}
+                          </label>
                           <PhoneInput
                             {...register("contactTelephone")}
                             placeholder="Enter contact number"
@@ -532,7 +541,10 @@ function RegisterTrainer() {
                             onChange={(e: any) => {
                               setValue("contactTelephone", e);
                               setPhone(e);
-                              if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                              if (
+                                e?.trim()?.length < 10 ||
+                                e?.trim()?.length > 15
+                              ) {
                                 setError("contactTelephone", {
                                   message: "Please enter valid phone number",
                                 });
@@ -544,18 +556,22 @@ function RegisterTrainer() {
                             }}
                             className="phone-input"
                           />
-                    {errors.contactTelephone && (
-                      <ErrorMessage
-                        message={errors.contactTelephone.message as string}
-                      />
-                    )}
-                  </div>
-                  </TooltipTrigger>
-                        <TooltipContent side="bottom">
-                          <p>Country calling code (select from dropdown) + Number</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                          {errors.contactTelephone && (
+                            <ErrorMessage
+                              message={
+                                errors.contactTelephone.message as string
+                              }
+                            />
+                          )}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p>
+                          Country calling code (select from dropdown) + Number
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                   <div className="col-span-2">
                     <InputWithLable
                       placeholder="Enter email address"

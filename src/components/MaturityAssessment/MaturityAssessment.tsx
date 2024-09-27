@@ -45,6 +45,7 @@ const MaturityAssessment = () => {
   const [selectAssessment, setSelectAssessment] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { empPermissions } = useContext(PermissionContext);
+  console.log("🚀 ~ MaturityAssessment ~ empPermissions:", empPermissions);
   const [isEdit, setIsEdit] = useState(false);
   const [assessmentPercentage, setAssessmentPercentage] = useState(0);
   const [activeTab, setActiveTab] =
@@ -90,12 +91,16 @@ const MaturityAssessment = () => {
     );
   }, [getCheckedmeasures]);
 
-  const { data: assessmentQuestionScoreLIST, isLoading } = useQuery({
+  const {
+    data: assessmentQuestionScoreLIST,
+    isFetching: fetchingAssessmentQuestionScore,
+  } = useQuery({
     queryKey: [
       QUERY_KEYS.assessmentQuestionScore,
       { pillarCompleted: pillarCompleted?.id, userID, clientId },
     ],
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
+    staleTime: 0,
   });
 
   // const { data: assessmentQuestionScoreLIST1 } = useQuery({
@@ -109,19 +114,23 @@ const MaturityAssessment = () => {
   const assesmentOption = assessmentQuestionScoreLIST?.data?.filter(
     (item: any) => !!item?.completedAssessmentDate
   );
+  console.log("🚀 ~ MaturityAssessment ~ assesmentOption:", assesmentOption);
 
   const reTakeOption = assessmentQuestionScoreLIST?.data?.find(
     (item: any) => !item?.completedAssessmentDate
   );
 
-  console.log("🚀 ~ MaturityAssessment ~ reTakeOption:", isFirstTime);
   useEffect(() => {
-    if (isLoading || !isFirstTime) return;
+    if (fetchingAssessmentQuestionScore || !isFirstTime) return;
 
     if (assesmentOption?.length) {
       const lastAssessmentNumber = assesmentOption.filter(
         (a: any) => a.completedAssessmentDate
       ); // Filter out assessments with no completed date
+      console.log(
+        "🚀 ~ useEffect ~ lastAssessmentNumber:",
+        lastAssessmentNumber
+      );
       setSelectAssessment(
         lastAssessmentNumber?.at(-1)?.assessmentNumber?.toString()
       );
@@ -129,11 +138,13 @@ const MaturityAssessment = () => {
       setSelectAssessment("1");
     }
     isFirstTime = false;
-  }, [assesmentOption]);
+  }, [assesmentOption, fetchingAssessmentQuestionScore]);
 
-  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
-
-  console.log("🚀 ~ MaturityAssessment ~ assesmentOption:", assesmentOption);
+  useEffect(() => {
+    return () => {
+      isFirstTime = true;
+    };
+  }, []);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -187,11 +198,6 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
-  console.log(
-    "assessmentQuestionScoreLIST?.data?.length",
-    assessmentQuestionScoreLIST?.data
-  );
-
   const completionDate = useMemo(() => {
     if (assessmentQuestionScoreLIST?.data?.length) {
       const lastAssessmentNumber = assessmentQuestionScoreLIST?.data.filter(
@@ -218,9 +224,6 @@ const MaturityAssessment = () => {
       return data;
     }
   }, [assessmentQuestionScoreLIST, selectAssessment]);
-
-  console.log("🚀 ~ MaturityAssessment ~ completionDate:", completionDate);
-  console.log("getCheckedmeasures?.data?.data", getCheckedmeasures?.data?.data);
 
   return (
     <div className="">
@@ -338,7 +341,7 @@ const MaturityAssessment = () => {
                     type="button"
                     variant={"destructive"}
                     onClick={() => {
-                      navigate(`/question`);
+                      navigate(`/retakeAssessment`);
                       isFirstTime = true;
                     }}
                   >

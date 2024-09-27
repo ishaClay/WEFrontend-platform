@@ -200,7 +200,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     createImageBitmap(file).then((imageBitmap) => {
       const { width, height } = imageBitmap;
       console.log("width, height ,", width, height);
-      if (width >= 1024 || height >= 768) {
+      if (width > 1025 || height > 769) {
         toast({
           variant: "destructive",
           title: `Image dimensions must be 1024x768 pixels`,
