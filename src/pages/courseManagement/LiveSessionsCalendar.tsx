@@ -216,7 +216,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
           {event.title}
         </p>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent showCloseButton={true}>
         <h3 className="mb-2 text-wrap">
           <strong>Title:</strong> {event?.title}
         </h3>

@@ -101,11 +101,11 @@ const AssecessmentPage = () => {
         title: getAssessmentByIdData?.data?.title,
         passingPercentage: getAssessmentByIdData?.data?.passingPercentage,
         timeBound: +getAssessmentByIdData?.data?.timeBound,
-        timeDuration: {
-          hours: getAssessmentByIdData?.data?.timeDuration?.hours,
-          minutes: getAssessmentByIdData?.data?.timeDuration?.minutes,
-          seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
-        },
+        // timeDuration: {
+        //   hours: getAssessmentByIdData?.data?.timeDuration?.hours,
+        //   minutes: getAssessmentByIdData?.data?.timeDuration?.minutes,
+        //   seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
+        // },
       });
 
       const a = {
@@ -347,14 +347,14 @@ const AssecessmentPage = () => {
     }
 
     // Validate timeDuration
-    if (
-      !createAssecessment?.timeDuration?.hours &&
-      !createAssecessment?.timeDuration?.minutes &&
-      !createAssecessment?.timeDuration?.seconds
-    ) {
-      newErrors.timeDuration = "Time Duration is required";
-      valid = false;
-    }
+    // if (
+    //   !createAssecessment?.timeDuration?.hours &&
+    //   !createAssecessment?.timeDuration?.minutes &&
+    //   !createAssecessment?.timeDuration?.seconds
+    // ) {
+    //   newErrors.timeDuration = "Time Duration is required";
+    //   valid = false;
+    // }
 
     setErrors(newErrors);
     return valid;

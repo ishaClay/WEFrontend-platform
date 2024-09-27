@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { BsTicketPerforated } from "react-icons/bs";
@@ -18,6 +20,7 @@ const EmployeeListSidebar = () => {
   const [isOpen2, setIsOpen2] = useState(false);
   const [isOpen3, setIsOpen3] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const toggleDropdown1 = () => {
     setIsOpen1(!isOpen1);
@@ -163,6 +166,7 @@ const EmployeeListSidebar = () => {
         onConfirm={() => {
           localStorage.clear();
           Cookies.remove("accessToken");
+          dispatch(setPath([]));
         }}
       />
     </>

@@ -1,4 +1,5 @@
 import Loader from "@/components/comman/Loader";
+import NoDataText from "@/components/comman/NoDataText";
 import InviteMember from "@/components/Models/InviteMember";
 import { Button } from "@/components/ui/button";
 import { PermissionContext } from "@/context/PermissionContext";
@@ -12,7 +13,6 @@ import React, { Dispatch, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AssignCard from "./AssignCard";
 import AssignProf from "./AssignProf";
-import NoDataText from "@/components/comman/NoDataText";
 
 const Assign = ({
   setStep,
@@ -80,7 +80,7 @@ const Assign = ({
             <Button
               type="button"
               onClick={() => {
-                setStep(0);
+                setStep(1);
                 setIsEdit(true);
               }}
               className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"

@@ -148,6 +148,7 @@ const TrainerDetailsEdit = () => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
+      setTrainerEditPermission(clientDetails?.data?.editCourses);
       setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
       setValue("name", clientDetails?.data?.name || "");
       setValue("number", clientDetails?.data?.phone || "");

@@ -66,6 +66,7 @@ const TrainerDetails = () => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
+      setTrainerEditPermission(clientDetails?.data?.editCourses);
       setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
     }
   }, [clientDetails]);

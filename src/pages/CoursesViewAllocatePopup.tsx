@@ -297,7 +297,7 @@ function CourseViewAllocatePopup({
                       <div className="flex items-center gap-2">
                         <MdOutlineGroup />
                         <p className="text-[#A3A3A3] text-base">
-                          {courseData?.numberOfEmployee || 0} Employee
+                          {courseData?.employee?.length || 0} Employee
                         </p>
                       </div>
                     </div>

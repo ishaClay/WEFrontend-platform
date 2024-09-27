@@ -1,4 +1,6 @@
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { getCountry } from "@/services/apiServices/company";
 import { fetchNfqlLevel } from "@/services/apiServices/courseManagement";
@@ -51,6 +53,7 @@ const genderOptions: {
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
+  const dispatch = useAppDispatch();
   const params = new URLSearchParams(search);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
@@ -151,7 +154,7 @@ const RegisterTraineeForm = () => {
 
   const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel(0),
+    queryFn: () => fetchNfqlLevel(1),
   });
 
   const nfqOption = getNfqlLevelList?.data
@@ -192,6 +195,7 @@ const RegisterTraineeForm = () => {
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", email || "");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
