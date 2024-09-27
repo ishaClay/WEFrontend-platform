@@ -1,12 +1,15 @@
 import image from "@/assets/images/GuidingImage.svg";
 import image1 from "@/assets/images/GuidingImage1.png";
 import { RegisterContext } from "@/context/RegisterContext";
+import Cookies from "js-cookie";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "../ui/use-toast";
 
 const GuidingPlatform = () => {
   const navigate = useNavigate();
   const { setSelectedRole } = useContext(RegisterContext);
+  const userToken = Cookies.get("accessToken") || "";
   return (
     <div className="xl:py-[32px] sm:py-[16px] py-7 sm:mb-[54px] mb-10 bg-[#F7F8FC]">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6">
@@ -95,8 +98,15 @@ const GuidingPlatform = () => {
         <div
           className="rounded-[4px] flex justify-center items-center text-left gap-[10px]  text-lg font-normal font-font-droid m-auto w-[249px] h-[59px] lg:mt-8 mt-6 bg-[#75BD43] text-color cursor-pointer"
           onClick={() => {
-            setSelectedRole("company");
-            navigate("/register");
+            if (userToken) {
+              toast({
+                variant: "destructive",
+                title: "You are already registered !",
+              });
+            } else {
+              setSelectedRole("company");
+              navigate("/register");
+            }
           }}
         >
           <p className="leading-[normal]">

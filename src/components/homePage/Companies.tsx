@@ -1,11 +1,14 @@
 import { RegisterContext } from "@/context/RegisterContext";
+import Cookies from "js-cookie";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 const Companies = () => {
   const navigate = useNavigate();
   const { setSelectedRole } = useContext(RegisterContext);
+  const userToken = Cookies.get("accessToken") || "";
   return (
     <div id="company">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 md:my-[40px] my-0">
@@ -35,8 +38,15 @@ const Companies = () => {
           type="button"
           variant={"default"}
           onClick={() => {
-            setSelectedRole("company");
-            navigate("/register");
+            if (userToken) {
+              toast({
+                variant: "destructive",
+                title: "You are already registered !",
+              });
+            } else {
+              setSelectedRole("company");
+              navigate("/register");
+            }
           }}
           className="rounded-[4px] flex justify-center items-center text-left gap-[10px] text-lg font-normal font-font-droid m-auto w-[300px] sm:h-[59px] h-[44px] bg-[#75BD43] secondary-text md:mt-8 mt-6"
         >

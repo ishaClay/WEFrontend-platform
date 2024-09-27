@@ -5,12 +5,15 @@ import stepImage6 from "@/assets/images/PathSteps.png";
 import stepImage1 from "@/assets/images/TreePlanting.png";
 import stepImage3 from "@/assets/images/WeakFinancialGrowth.png";
 import { RegisterContext } from "@/context/RegisterContext";
+import Cookies from "js-cookie";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "../ui/use-toast";
 
 const Steps = () => {
   const navigate = useNavigate();
   const { setSelectedRole } = useContext(RegisterContext);
+  const userToken = Cookies.get("accessToken") || "";
   const step = [
     {
       image: stepImage1,
@@ -84,8 +87,15 @@ const Steps = () => {
       <div
         className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-normal font-font-droid m-auto w-[249px] h-[59px] lg:mt-[30px] mt-6 bg-[#75BD43] secondary-text cursor-pointer"
         onClick={() => {
-          setSelectedRole("company");
-          navigate("/register");
+          if (userToken) {
+            toast({
+              variant: "destructive",
+              title: "You are already registered !",
+            });
+          } else {
+            setSelectedRole("company");
+            navigate("/register");
+          }
         }}
       >
         <p className="leading-[normal]">
