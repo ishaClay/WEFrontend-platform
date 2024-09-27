@@ -120,6 +120,8 @@ const SectionForm = ({
   };
 
   console.log("watchwatch", watch());
+  console.log("errors.readingTime", errors.readingTime);
+  
 
   return (
     <div className="p-5 border-t border-[#D9D9D9]">

@@ -121,13 +121,13 @@ const Accomplishments = () => {
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Started : </p>
                     <span>
-                      {moment(new Date(sData)).format("DD MMM, YYYY")}
+                      {sData ? moment(new Date(sData)).format("DD MMM, YYYY") : <span className="ml-1">-</span>}
                     </span>
                   </div>
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Completed : </p>
                     <span>
-                      {moment(new Date(eData)).format("DD MMM, YYYY")}
+                      {eData ? moment(new Date(eData)).format("DD MMM, YYYY") : <span className="ml-1">-</span>}
                     </span>
                   </div>
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">

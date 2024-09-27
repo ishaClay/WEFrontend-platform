@@ -245,7 +245,7 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return <div>{row.original?.assignTo?.name ?? "-"}</div>;
+        return <div>{row?.original?.assignTo?.role === 2 ? row?.original?.assignTo?.fname + " " + row?.original?.assignTo?.lname : row.original?.assignTo?.name ?? "-"}</div>;
       },
       meta: {
         className: "sm:table-cell hidden",

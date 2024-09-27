@@ -174,15 +174,15 @@ function SelectLevel() {
                       link: null,
                     },
                     {
-                      label: "Recommended Course",
-                      link: `/company/coursesrecommended`,
+                      label: "All Courses",
+                      link: `/company/allcourses`,
                     },
                   ])
                 );
-                navigate("/company/coursesrecommended");
+                navigate("/company/allcourses");
               }}
             >
-              Recommended Courses
+              All Courses
             </Button>{" "}
             ’ to see what training is available to specifically help you advance
             your green.)

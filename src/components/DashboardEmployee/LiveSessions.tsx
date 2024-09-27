@@ -29,7 +29,7 @@ const LiveSessions = () => {
         {data && data?.sessions?.length > 2 && (
           <Button
             onClick={() =>
-              navigate(`${location?.pathname?.split("/")[1]}/mycourses`)
+              navigate(`/${location?.pathname?.split("/")[1]}/mycourses`)
             }
             className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-droid"
           >
