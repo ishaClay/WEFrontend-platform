@@ -145,7 +145,7 @@ export enum CourseTime {
   PartTime = 1,
 }
 export enum IsOnline {
-  Online = 0, "Self-paced Online" = 1, "In-Person" = 2, Hybrid = 3
+  Online = 0, "Self placed Online" = 1, "In-Person" = 2, Hybrid = 3
 }
 
 export enum Provider {

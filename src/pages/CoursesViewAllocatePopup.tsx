@@ -354,8 +354,8 @@ function CourseViewAllocatePopup({
                           <span>Hybrid</span>
                         )}
                         {courseData?.course?.isOnline ===
-                          IsOnline?.["Self-paced Online"] && (
-                          <span>Self-paced Online</span>
+                          IsOnline?.["Self placed Online"] && (
+                          <span>Self placed Online</span>
                         )}
                       </p>
                     </div>

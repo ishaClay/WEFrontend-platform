@@ -268,8 +268,9 @@ const GridCard = ({
                       {allcourse.isOnline === IsOnline.Hybrid && (
                         <span>Hybrid</span>
                       )}
-                      {allcourse.isOnline === IsOnline["Self-paced Online"] && (
-                        <span>Self-paced Online</span>
+                      {allcourse.isOnline ===
+                        IsOnline["Self placed Online"] && (
+                        <span>Self placed Online</span>
                       )}
                     </p>
                   </div>

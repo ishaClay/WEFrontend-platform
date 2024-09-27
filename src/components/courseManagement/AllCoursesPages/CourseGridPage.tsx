@@ -102,22 +102,10 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           slot.slotStartDate.date === matchingSlot.slotStartDate.date
       );
 
-    const upcomingData = matchingSlot
-      ? matchingSlot
-      : cohortData?.isOnline === IsOnline["Self-paced Online"]
-      ? {
-          slotStartDate: {
-            date: moment(currentDate).format("DD"),
-            month: moment(currentDate).format("MM"),
-            year: moment(currentDate).format("YYYY"),
-          },
-          slotEndDate: {
-            date: moment(courseEndDate).format("DD"),
-            month: moment(courseEndDate).format("MM"),
-            year: moment(courseEndDate).format("YYYY"),
-          },
-        }
-      : null;
+    const upcomingData =
+      cohortData?.isOnline === IsOnline["Self placed Online"]
+        ? null
+        : matchingSlot && matchingSlot;
 
     return (
       // <div className="xl:col-span-4 col-span-7 2xl:w-[265px] xl:w-auto sm:w-[270px] w-full">
@@ -143,18 +131,28 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
             <div className="font-droid text-[10px] leading-3 text-[#000000] font-normal">
               <span>Start Date : </span>
               <span>
-                {`${upcomingData.slotStartDate.date
-                  .toString()
-                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
-                  .toString()
-                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
+                {
+                  // @ts-ignore
+                  `${upcomingData?.slotStartDate.date
+                    .toString()
+                    // @ts-ignore
+                    .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
+                    .toString()
+                    // @ts-ignore
+                    .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`
+                }{" "}
               </span>
               <span>End Date : </span>
-              <span>{`${upcomingData.slotEndDate.date
-                .toString()
-                .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
-                .toString()
-                .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
+              <span>{
+                // @ts-ignore
+                `${upcomingData?.slotEndDate.date
+                  .toString()
+                  // @ts-ignore
+                  .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
+                  .toString()
+                  // @ts-ignore
+                  .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`
+              }</span>
             </div>
           </div>
         )}
@@ -364,8 +362,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                                 <span>Hybrid</span>
                               )}
                               {allcourse.isOnline ===
-                                IsOnline["Self-paced Online"] && (
-                                <span>Self-paced Online</span>
+                                IsOnline["Self placed Online"] && (
+                                <span>Self placed Online</span>
                               )}
                             </p>
                           </div>
@@ -395,12 +393,13 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
                         disabled={
-                          allcourse?.isOnline === 1
+                          allcourse?.isOnline === IsOnline["Self placed Online"]
                             ? false
-                            : // @ts-ignore
-                              allcourse?.enrolledStatus === 1 ||
-                              // @ts-ignore
-                              allcourse?.enrolledStatus === 0 ||
+                            : (allcourse?.enrolled && // @ts-ignore
+                                allcourse?.enrolledStatus === 1) ||
+                              (allcourse?.enrolled &&
+                                // @ts-ignore
+                                allcourse?.enrolledStatus === 0) ||
                               !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >

@@ -49,12 +49,14 @@ const RecommendedCoursesModel = ({
     const currentValue = itemList[index];
     const incrementedValue = currentValue + 1;
 
-    if(incrementedValue > +userData?.maxEmployeeLimit){
-      setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
-    } else{
+    if (incrementedValue > +userData?.maxEmployeeLimit) {
+      setMaxEmployeeError(
+        `Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`
+      );
+    } else {
       setMaxEmployeeError("");
-    }   
-      
+    }
+
     if (index === selectCourseByIndex) {
       setItemList((prev) =>
         prev.map((item, idx) => (idx === index ? item + 1 : item))
@@ -71,9 +73,11 @@ const RecommendedCoursesModel = ({
     const currentValue = itemList[index];
     const incrementedValue = currentValue - 1;
 
-    if(incrementedValue > +userData?.maxEmployeeLimit){
-      setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
-    } else{
+    if (incrementedValue > +userData?.maxEmployeeLimit) {
+      setMaxEmployeeError(
+        `Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`
+      );
+    } else {
       setMaxEmployeeError("");
     }
 
@@ -125,6 +129,9 @@ const RecommendedCoursesModel = ({
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
       });
       toast({
         variant: "success",
@@ -226,20 +233,23 @@ const RecommendedCoursesModel = ({
                             value={itemList[index]}
                             min={0}
                             onChange={(e) => {
-                              if(+e.target.value > +userData?.maxEmployeeLimit){
-                                setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
-                              } else{
+                              if (
+                                +e.target.value > +userData?.maxEmployeeLimit
+                              ) {
+                                setMaxEmployeeError(
+                                  `Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`
+                                );
+                              } else {
                                 setMaxEmployeeError("");
-                              }                              
+                              }
                               setItemList((prevItemList) =>
                                 prevItemList?.map((item: any, idx: number) =>
                                   idx === index
                                     ? parseInt(e.target.value) || 1
                                     : item
                                 )
-                              )
-                            }
-                            }
+                              );
+                            }}
                             className="w-[88px] h-[42px] text-center focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                           />
                           <Button
@@ -262,9 +272,11 @@ const RecommendedCoursesModel = ({
                         </span>
                       </div>
                     </div>
-                    {
-                      maxEmployeeError && <p className="text-red-500 text-xs mt-1">{maxEmployeeError}</p>
-                    }
+                    {maxEmployeeError && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {maxEmployeeError}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -287,7 +299,10 @@ const RecommendedCoursesModel = ({
           disabled={
             data?.[0]?.isOnline === 1
               ? false || !selectCourse || isPending || !!maxEmployeeError
-              : isPending || !selectCourse || !selectFilterByCategory || !!maxEmployeeError
+              : isPending ||
+                !selectCourse ||
+                !selectFilterByCategory ||
+                !!maxEmployeeError
           }
         >
           {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select

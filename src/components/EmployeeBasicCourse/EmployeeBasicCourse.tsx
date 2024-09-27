@@ -15,7 +15,7 @@ import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Loading from "../comman/Error/Loading";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
@@ -39,7 +39,6 @@ const EmployeeBasicCourse = () => {
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () =>
@@ -102,7 +101,7 @@ const EmployeeBasicCourse = () => {
   }, [tab, location]);
 
   useEffect(() => {
-    if (+userData?.query?.role === 4 && checkFeedback) {
+    if (+userData?.query?.role === 4 && !checkFeedback) {
       const check = getModule?.moduleStatuses?.every(
         (item) => item.status === "completed"
       );
@@ -117,6 +116,7 @@ const EmployeeBasicCourse = () => {
       );
       console.log("check", !isFeedback);
 
+      // @ts-ignore
       if (check && checkAssesment && !isFeedback && !checkFeedback?.data) {
         setIsOpenReviewModal(true);
       }

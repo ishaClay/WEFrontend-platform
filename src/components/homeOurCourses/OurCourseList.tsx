@@ -101,8 +101,8 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
                   <span>InPerson</span>
                 )}
                 {data?.isOnline === IsOnline.Hybrid && <span>Hybrid</span>}
-                {data?.isOnline === IsOnline["Self-paced Online"] && (
-                  <span>Self-paced Online</span>
+                {data?.isOnline === IsOnline["Self placed Online"] && (
+                  <span>Self placed Online</span>
                 )}
               </p>
             </div>

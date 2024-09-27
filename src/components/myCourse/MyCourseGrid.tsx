@@ -160,8 +160,9 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
                   {grid?.course?.isOnline === IsOnline.Hybrid && (
                     <span>Hybrid</span>
                   )}
-                  {grid?.course?.isOnline === IsOnline["Self-paced Online"] && (
-                    <span>Self-paced Online</span>
+                  {grid?.course?.isOnline ===
+                    IsOnline["Self placed Online"] && (
+                    <span>Self placed Online</span>
                   )}
                 </p>
               </div>

@@ -309,8 +309,8 @@ const CourseGridView = ({
                         <span>Hybrid</span>
                       )}
                       {recommendeddata.isOnline ===
-                        IsOnline["Self-paced Online"] && (
-                        <span>Self-paced Online</span>
+                        IsOnline["Self placed Online"] && (
+                        <span>Self placed Online</span>
                       )}
                     </p>
                   </div>
@@ -382,8 +382,10 @@ const CourseGridView = ({
                 }}
                 className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
                 disabled={
-                  recommendeddata?.enrolledStatus === 1 ||
-                  recommendeddata?.enrolledStatus === 0
+                  (recommendeddata?.enrolled &&
+                    recommendeddata?.enrolledStatus === 1) ||
+                  (recommendeddata?.enrolled &&
+                    recommendeddata?.enrolledStatus === 0)
                 }
               >
                 {recommendeddata?.enrolled

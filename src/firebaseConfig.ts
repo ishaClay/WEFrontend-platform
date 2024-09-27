@@ -10,13 +10,14 @@ import {
 } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB_gIx9o3CEWslOdGz9P3lAbbK1mjIRLf0",
-  authDomain: "webackend-7454d.firebaseapp.com",
-  projectId: "webackend-7454d",
-  storageBucket: "webackend-7454d.appspot.com",
-  messagingSenderId: "645113398515",
-  appId: "1:645113398515:web:31a2ba7edf06423dd42386",
-  measurementId: "G-1STGBMWT6S",
+  apiKey: import.meta.env.VITE_API_FIREBASE_APIKEY,
+  authDomain: import.meta.env.VITE_API_FIREBASE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_API_FIREBASE_PROJECTID,
+  storageBucket: import.meta.env.VITE_API_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_API_FIREBASE_MESSAGESENDER,
+  appId: import.meta.env.VITE_API_FIREBASE_APPID,
+  measurementId: import.meta.env.VITE_API_FIREBASE_MESURMENTID,
+  databaseURL: import.meta.env.VITE_API_FIREBASE_DATABASEURL,
 };
 
 // Initialize Firebase

@@ -17,7 +17,6 @@ import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
 
@@ -27,6 +26,7 @@ type dataGridProps = {
 };
 
 const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
+  console.log("🚀 ~ CourseListPage ~ selectedCourse:", selectedCourse);
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
   >();
@@ -98,19 +98,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
 
     const upcomingData = matchingSlot
       ? matchingSlot
-      : cohortData?.isOnline === IsOnline["Self-paced Online"]
-      ? {
-          slotStartDate: {
-            date: moment(currentDate).format("DD"),
-            month: moment(currentDate).format("MM"),
-            year: moment(currentDate).format("YYYY"),
-          },
-          slotEndDate: {
-            date: moment(courseEndDate).format("DD"),
-            month: moment(courseEndDate).format("MM"),
-            year: moment(courseEndDate).format("YYYY"),
-          },
-        }
+      : cohortData?.isOnline === IsOnline["Self placed Online"]
+      ? null
       : null;
 
     return (
@@ -186,12 +175,12 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
 
       {data?.length > 0 ? (
         data?.map((allcourse: AllCourse) => {
-          const maturityLevel =
-            selectedCourse &&
-            allcourse?.courseData?.find(
-              (item) =>
-                item.fetchPillar?.pillarName === selectedCourse?.pillarName
-            );
+          // const maturityLevel =
+          //   selectedCourse &&
+          //   allcourse?.courseData?.find(
+          //     (item) =>
+          //       item.fetchPillar?.pillarName === selectedCourse?.pillarName
+          //   );
           return (
             <>
               <div
@@ -210,17 +199,17 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                       src={allcourse?.bannerImage}
                       alt="Course"
                     />
-                    <input
+                    {/* <input
                       type="checkbox"
                       className="absolute top-[10px] right-[10px] h-[24px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
-                    />
-                    <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
+                    /> */}
+                    {/* <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                       <FaStar className="text-[#FD8E1F]" />
                       <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">
                         {allcourse?.courseReconmendedStatus ||
                           maturityLevel?.fetchMaturity?.maturityLevelName}
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -272,8 +261,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                               <span>Hybrid</span>
                             )}
                             {allcourse.isOnline ===
-                              IsOnline["Self-paced Online"] && (
-                              <span>Self-paced Online</span>
+                              IsOnline["Self placed Online"] && (
+                              <span>Self placed Online</span>
                             )}
                           </p>
                         </div>
@@ -353,9 +342,13 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                         disabled={
-                          allcourse?.isOnline === 1
+                          allcourse?.isOnline === IsOnline["Self placed Online"]
                             ? false
-                            : allcourse?.enrolled ||
+                            : (allcourse?.enrolled && // @ts-ignore
+                                allcourse?.enrolledStatus === 1) ||
+                              (allcourse?.enrolled &&
+                                // @ts-ignore
+                                allcourse?.enrolledStatus === 0) ||
                               !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >
