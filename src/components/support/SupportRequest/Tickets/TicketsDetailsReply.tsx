@@ -308,6 +308,7 @@ const TicketsDetailsReply = () => {
                   <Button
                     onClick={handleDownload}
                     className="sm:ml-[22px] mt-5"
+                    type="button"
                   >
                     DOWNLOAD
                   </Button>
@@ -371,7 +372,11 @@ const TicketsDetailsReply = () => {
                         <h3 className="text-[16px] ml-2">
                           {itm?.documentUrl.split("/").pop()}
                         </h3>
-                        <Button onClick={handleDownload} className="ml-[22px]">
+                        <Button
+                          type="button"
+                          onClick={handleDownload}
+                          className="ml-[22px]"
+                        >
                           DOWNLOAD
                         </Button>
                       </div>

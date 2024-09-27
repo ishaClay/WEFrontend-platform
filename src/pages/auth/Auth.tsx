@@ -123,102 +123,114 @@ function Auth() {
     onSuccess: (data) => {
       const user = data?.data?.data?.query;
       const role = trackUserLogin(+user?.role);
-      console.log(role, user?.role, "rolerolerolerolerole");
-      if ((window as any).gtag) {
-        (window as any).gtag("event", "login", {
-          user_id: user?.id,
-          user_role: trackUserLogin(+user?.role),
-          user_name: user?.name,
-          user_email: user?.email,
-          gender: user?.gender,
-        });
-      }
+      console.log("🚀 ~ Auth ~ role:", role);
 
-      if (data.data.data.status === "Inactive") {
-        toast({
-          variant: "destructive",
-          title: data?.data?.message || "",
-        });
-      } else if (data.data.data.status === "Pending") {
-        toast({
-          variant: "destructive",
-          title: data?.data?.message,
-        });
-      } else if (data.data.data.status === "IsNew") {
-        navigate("/resetpassword", {
-          state: {
-            oldPassword: getValues("password"),
-            email: getValues("email"),
-            status:
-              data?.data?.data?.status === "IsNew"
-                ? "Pending"
-                : data?.data?.data?.status || "",
-            token: data?.data?.data?.accessToken || "",
-          },
-        });
-        dispatch(setUserData(user.id));
-      } else {
-        dispatch(setUserData(user.id));
-        dispatch(setClientRole(+user.role));
-        localStorage.setItem("user", JSON.stringify(data.data.data));
-        const expiresIn24Hours = new Date(
-          new Date().getTime() + 24 * 60 * 60 * 1000
-        );
-        Cookies.set("accessToken", data?.data?.data?.accessToken, {
-          expires: expiresIn24Hours,
-        });
-        localStorage.setItem(
-          "path",
-          JSON.stringify(data.data.data?.query?.pathstatus)
-        );
-        dispatch(setCompanyId(data.data.data.query?.detailsid));
+      if (role !== "SuperAdmin" && role !== "Client") {
+        console.log(role, user?.role, "rolerolerolerolerole");
+        if ((window as any).gtag) {
+          (window as any).gtag("event", "login", {
+            user_id: user?.id,
+            user_role: trackUserLogin(+user?.role),
+            user_name: user?.name,
+            user_email: user?.email,
+            gender: user?.gender,
+          });
+        }
 
-        if (user.role == UserRole.SuperAdmin || user.role == UserRole.Client) {
+        if (data.data.data.status === "Inactive") {
           toast({
             variant: "destructive",
-            title: "User Not found",
+            title: data?.data?.message || "",
           });
-        }
-
-        if (user.role == UserRole.Trainer) {
-          navigate("/trainer/dashboard");
-        }
-
-        if (+user.role === UserRole.Trainee) {
-          navigate("/trainee/dashboard");
-        }
-
-        if (user.role == UserRole.Employee) {
-          navigate("/employee/dashboard");
-          toast({
-            variant: "success",
-            title: data.data.message,
-          });
-        }
-
-        if (user.role == UserRole.Client) {
+        } else if (data.data.data.status === "Pending") {
           toast({
             variant: "destructive",
-            title: "Only Company, Trainer Company and Trainee can login",
+            title: data?.data?.message,
           });
-        }
-
-        if (user.role == UserRole.Company) {
-          toast({
-            variant: "success",
-            title: data.data.message,
+        } else if (data.data.data.status === "IsNew") {
+          navigate("/resetpassword", {
+            state: {
+              oldPassword: getValues("password"),
+              email: getValues("email"),
+              status:
+                data?.data?.data?.status === "IsNew"
+                  ? "Pending"
+                  : data?.data?.data?.status || "",
+              token: data?.data?.data?.accessToken || "",
+            },
           });
-
           dispatch(setUserData(user.id));
+        } else {
+          dispatch(setUserData(user.id));
+          dispatch(setClientRole(+user.role));
+          localStorage.setItem("user", JSON.stringify(data.data.data));
+          const expiresIn24Hours = new Date(
+            new Date().getTime() + 24 * 60 * 60 * 1000
+          );
+          Cookies.set("accessToken", data?.data?.data?.accessToken, {
+            expires: expiresIn24Hours,
+          });
+          localStorage.setItem(
+            "path",
+            JSON.stringify(data.data.data?.query?.pathstatus)
+          );
+          dispatch(setCompanyId(data.data.data.query?.detailsid));
 
-          if (user.pathstatus < "4") {
-            navigate("/savedassesment");
-          } else {
-            handleRedirect(parseInt(user.pathstatus), data.data.data);
+          if (
+            user.role == UserRole.SuperAdmin ||
+            user.role == UserRole.Client
+          ) {
+            toast({
+              variant: "destructive",
+              title: "User Not found",
+            });
           }
 
-          // }
+          if (user.role == UserRole.Trainer) {
+            navigate("/trainer/dashboard");
+          }
+
+          if (+user.role === UserRole.Trainee) {
+            navigate("/trainee/dashboard");
+          }
+
+          if (user.role == UserRole.Employee) {
+            navigate("/employee/dashboard");
+            toast({
+              variant: "success",
+              title: data.data.message,
+            });
+          }
+
+          if (user.role == UserRole.Client) {
+            toast({
+              variant: "destructive",
+              title: "Only Company, Trainer Company and Trainee can login",
+            });
+          }
+
+          if (user.role == UserRole.Company) {
+            toast({
+              variant: "success",
+              title: data.data.message,
+            });
+
+            dispatch(setUserData(user.id));
+
+            if (user.pathstatus < "4") {
+              navigate("/savedassesment");
+            } else {
+              handleRedirect(parseInt(user.pathstatus), data.data.data);
+            }
+
+            // }
+          }
         }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "User Not found",
+        });
       }
     },
     onError: (error: ErrorType) => {

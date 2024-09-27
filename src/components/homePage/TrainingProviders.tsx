@@ -1,8 +1,11 @@
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 const TrainingProviders = () => {
   const navigate = useNavigate();
+  const userToken = Cookies.get("accessToken") || "";
   return (
     <div className="bg-[#F7F8FC] py-10">
       <div
@@ -88,7 +91,16 @@ const TrainingProviders = () => {
         <Button
           type="button"
           variant={"default"}
-          onClick={() => navigate("/trainer-regestration")}
+          onClick={() => {
+            if (userToken) {
+              toast({
+                variant: "destructive",
+                title: "You are already registered !",
+              });
+            } else {
+              navigate("/trainer-regestration");
+            }
+          }}
           className="rounded-[4px] flex justify-center items-center text-left gap-[10px] text-lg font-normal font-font-droid m-auto w-[278px] sm:h-[59px] h-[44px] bg-[#75BD43] secondary-text md:mt-8 mt-6"
         >
           <div>Register As A Trainer Now</div>

@@ -1,11 +1,14 @@
 import { RegisterContext } from "@/context/RegisterContext";
+import Cookies from "js-cookie";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { SecondaryButton } from "../comman/Button/CustomButton";
+import { toast } from "../ui/use-toast";
 
 const Journey = () => {
   const navigate = useNavigate();
   const { setSelectedRole } = useContext(RegisterContext);
+  const userToken = Cookies.get("accessToken") || "";
   return (
     <div className="lg:flex block items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6 relative xl:mt-[100px] lg:mt-[50px] mt-6 lg:h-[350px] h-auto xl:mb-[100px] lg:mb-[80px] mb-0">
       <div className="z-50">
@@ -25,8 +28,15 @@ const Journey = () => {
             symbol={<img src="../assets/img/Move Right.png" />}
             name="Get Started Today"
             onClick={() => {
-              navigate("/register");
-              setSelectedRole("");
+              if (userToken) {
+                toast({
+                  variant: "destructive",
+                  title: "You are already registered !",
+                });
+              } else {
+                navigate("/register");
+                setSelectedRole("");
+              }
             }}
             className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] lg:text-[20px] text-lg leading-5 font-font-droid font-normal flex items-center justify-center gap-[10px] bg-[#75BD43]"
           ></SecondaryButton>

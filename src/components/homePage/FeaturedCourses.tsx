@@ -48,7 +48,7 @@ const FeaturedCourses = () => {
       setTitle(
         (clientwiseCourseslider?.data &&
           clientwiseCourseslider?.data[current]?.courseType) ||
-        ""
+          ""
       );
     },
     responsive: [
@@ -90,7 +90,6 @@ const FeaturedCourses = () => {
                     // </div>
 
                     <div className="relative">
-
                       <div className="sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between items-start">
                         <div className="sm:order-1 order-2 sm:mt-0 mt-3 w-[calc(100%-450px)] h-full flex flex-col justify-between">
                           <div>
@@ -99,13 +98,13 @@ const FeaturedCourses = () => {
                             </h5>
                           </div>
                           <div>
-                          <h2 className="min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4 mt-5">
-                            {item.courseTitle?.title}
-                          </h2>
+                            <h2 className="min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4 mt-5 truncate">
+                              {item.courseTitle?.title}
+                            </h2>
 
-                          <p className="w-full mb-8 text-lg leading-5 pr-4 font-droid line-clamp-3">
-                            {item.content}
-                          </p>
+                            <p className="w-full mb-8 text-lg leading-5 pr-4 font-droid line-clamp-4">
+                              {item.content}
+                            </p>
                           </div>
                           {item?.courseTitle?.id && item.buttonTitle && (
                             <SecondaryButton
