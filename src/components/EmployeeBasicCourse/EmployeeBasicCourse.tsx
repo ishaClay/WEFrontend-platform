@@ -230,17 +230,7 @@ const EmployeeBasicCourse = () => {
                       const newpath = paths.slice(0, paths.length - 1);
                       pathName !== "employee"
                         ? pathName === "company"
-                          ? (dispatch(setPath(newpath)),
-                            dispatch(
-                              setPath([
-                                { label: "Course Management", link: null },
-                                {
-                                  label: "Recommended Courses",
-                                  link: `/${pathName}/coursesrecommended`,
-                                },
-                              ])
-                            ),
-                            navigate(newpath?.at(-1)?.link || ""))
+                          ? dispatch(setPath(newpath))
                           : dispatch(
                               setPath([
                                 { label: "Course Management", link: null },
