@@ -103,9 +103,9 @@ const TicketsDetailsReply = () => {
 
       setValue(
         "assignTo",
-        data?.data?.data?.openBy.id === userID
-          ? String(data?.data?.data?.assignTo.id)
-          : String(data?.data?.data?.openBy.id)
+        data?.data?.data?.openBy?.id === userID
+          ? String(data?.data?.data?.assignTo?.id)
+          : String(data?.data?.data?.openBy?.id)
       );
       setValue(
         "ticketStatus",
@@ -113,12 +113,12 @@ const TicketsDetailsReply = () => {
           ? "Answered"
           : String(data?.data.data?.status)
       );
-      setValue("ticketType", String(data?.data.data?.type));
+      setValue("ticketType", String(data?.data?.data?.type));
       // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
-        data?.data?.data?.openBy.id === userID
-          ? String(data?.data?.data?.assignTo.name)
-          : String(data?.data?.data?.openBy.name)
+        data?.data?.data?.openBy?.id === userID
+          ? String(data?.data?.data?.assignTo?.name)
+          : String(data?.data?.data?.openBy?.name)
       );
       setSelectTicketStatus(data?.data.data?.status);
       // setSelectTicketStatus(
@@ -126,7 +126,7 @@ const TicketsDetailsReply = () => {
       //     ? "Answered"
       //     : String(data?.data.data?.status)
       // );
-      setSelectTicketType(data?.data.data?.type);
+      setSelectTicketType(data?.data?.data?.type);
     }
   }, [data, setValue]);
 
@@ -254,7 +254,9 @@ const TicketsDetailsReply = () => {
                         : "text-[#0E9CFF]"
                     }`}
                   >
-                    {data?.data?.data?.status === "InProcess" ? "In Process" : data?.data?.data?.status}
+                    {data?.data?.data?.status === "InProcess"
+                      ? "In Process"
+                      : data?.data?.data?.status}
                   </Button>
                 )}
               </div>
