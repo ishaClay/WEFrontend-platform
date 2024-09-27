@@ -35,7 +35,7 @@ const FeaturedCourses = () => {
     autoplaySpeed: 2000,
     fade: true,
     prevArrow: (
-      <div className="hidden sm:block">
+      <div className="hidden sm:block top-[178px]">
         <GrPrevious />
       </div>
     ),
@@ -48,7 +48,7 @@ const FeaturedCourses = () => {
       setTitle(
         (clientwiseCourseslider?.data &&
           clientwiseCourseslider?.data[current]?.courseType) ||
-          ""
+        ""
       );
     },
     responsive: [
@@ -66,13 +66,8 @@ const FeaturedCourses = () => {
   return (
     <div className="">
       <div className="xl:max-w-[1160px] max-w-full mx-auto md:my-[40px] my-0 xl:px-0 px-5 2xl:py-[30px] py-[24px] ">
-        <div>
-          <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
-            {title || "Featured Courses"}
-          </h5>
-        </div>
         <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
-          <div className="relative">
+          {/* <div className="relative">
             <img
               className="w-[332px] h-[357px]"
               src="../assets/img/Group 1000001820.png"
@@ -81,9 +76,9 @@ const FeaturedCourses = () => {
               className="absolute left-[14px] bottom-[2px]"
               src="../assets/img/Voltage.png"
             />
-          </div>
+          </div> */}
 
-          <div className="md:max-w-[697px] w-full">
+          <div className="w-full courses_slider">
             {clientwiseCoursesliderPending ? (
               <Loader />
             ) : (
@@ -95,15 +90,23 @@ const FeaturedCourses = () => {
                     // </div>
 
                     <div className="relative">
-                      <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
-                        <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
-                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4">
+
+                      <div className="sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between items-start">
+                        <div className="sm:order-1 order-2 sm:mt-0 mt-3 w-[calc(100%-450px)] h-full flex flex-col justify-between">
+                          <div>
+                            <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
+                              {title || "Featured Courses"}
+                            </h5>
+                          </div>
+                          <div>
+                          <h2 className="min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4 mt-5">
                             {item.courseTitle?.title}
                           </h2>
 
-                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-droid line-clamp-3">
+                          <p className="w-full mb-8 text-lg leading-5 pr-4 font-droid line-clamp-3">
                             {item.content}
                           </p>
+                          </div>
                           {item?.courseTitle?.id && item.buttonTitle && (
                             <SecondaryButton
                               name={item.buttonTitle}
@@ -120,9 +123,9 @@ const FeaturedCourses = () => {
                           )}
                         </div>
 
-                        <div className="sm:order-2 order-1">
+                        <div className="sm:order-2 order-1 w-[450px]">
                           <img
-                            className="sm:min-w-[274px] sm:w-[274px] w-full h-[357px] object-cover"
+                            className="w-full h-[357px] object-cover"
                             src={item.courseImage}
                           />
                         </div>

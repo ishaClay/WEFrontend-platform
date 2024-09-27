@@ -212,7 +212,7 @@ const SupportRequestTable = ({
                 : row.original.status === "InProcess"
                 ? "text-[#58BA66]"
                 : "text-[#FFD56A]"
-            } w-20 h-8 font-bold px-3 flex items-center justify-center`}
+            } w-25 h-8 font-bold px-3 flex items-center justify-center`}
           >
             {row.original.status === "InProcess"
               ? "In Process"

@@ -155,7 +155,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
                     <span>Online</span>
                   )}
                   {grid?.course?.isOnline === IsOnline["In-Person"] && (
-                    <span>InPerson</span>
+                    <span>In person</span>
                   )}
                   {grid?.course?.isOnline === IsOnline.Hybrid && (
                     <span>Hybrid</span>

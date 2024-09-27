@@ -825,8 +825,8 @@ const Dashboard = () => {
               <DashboardCard
                 isLoading={smeLoading}
                 icon={Total_courses}
-                title="Pending"
-                value={smeDashboardData?.data?.pendingActionItems || 0}
+                title="Open"
+                value={smeDashboardData?.data?.totalActionItems?.report?.open || 0}
               />
               <DashboardCard
                 isLoading={smeLoading}
@@ -876,14 +876,14 @@ const Dashboard = () => {
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Upcoming Live Sessions
           </h3>
-          <div className="bg-white rounded-xl border-[#D9D9D9] border">
+          <div className="bg-white rounded-xl border-[#D9D9D9] border py-3">
             {isLoading ? (
               <span className="py-14 flex justify-center">
                 <Loader2 className="w-5 h-5 animate-spin" />
               </span>
             ) : smeUpcomingLiveSession?.upcomingSessions &&
               smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
-              <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
+              <CustomCarousel className="xl:basis-1/2 md:basis-1/2" dots={false}>
                 {smeUpcomingLiveSession?.upcomingSessions?.map(
                   (data, index) => {
                     return <LiveSessionsItems data={data} key={index} />;

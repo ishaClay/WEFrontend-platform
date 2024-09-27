@@ -397,3 +397,8 @@ input[type="radio"] {
 .rbc-event-label {
   display: none;
 }
+
+.courses_slider .slick-prev, 
+.courses_slider .slick-next{
+  top: 50%;
+}

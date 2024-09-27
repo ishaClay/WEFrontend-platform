@@ -242,7 +242,7 @@ function CoursesAllocate() {
                                   IsOnline.Online && <span>Online</span>}
                                 {courseallocate?.course.isOnline ===
                                   IsOnline["In-Person"] && (
-                                  <span>InPerson</span>
+                                  <span>In person</span>
                                 )}
                                 {courseallocate?.course.isOnline ===
                                   IsOnline.Hybrid && <span>Hybrid</span>}
