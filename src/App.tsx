@@ -284,6 +284,14 @@ function App() {
           }
         />
         <Route
+          path="/retakeAssessment"
+          element={
+            <CompanyProtectedRoute>
+              <QuestionPage />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
           path="/maturelevel"
           element={
             <CompanyProtectedRoute>

@@ -401,7 +401,7 @@ const CourseInformation = ({
                 <Switch
                   disabled={isFreeCourse}
                   checked={provideDisc}
-                  onCheckedChange={(e) => {
+                  onCheckedChange={() => {
                     setProvideDisc(!provideDisc);
                   }}
                   className="w-8 h-5"

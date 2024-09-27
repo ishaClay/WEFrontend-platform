@@ -65,52 +65,42 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
-    const currentDate = new Date();
-    const formattedCurrentDate = {
-      date: String(currentDate.getDate()).padStart(2, "0"),
-      month: String(currentDate.getMonth() + 1).padStart(2, "0"),
-      year: String(currentDate.getFullYear()),
-    };
+    function parseDate(year: string, month: string, date: string) {
+      // Note: month is 0-based in JavaScript Date, so we subtract 1
+      return new Date(`${year}-${month}-${date}`);
+    }
 
-    const duration = cohortData?.duration?.split(" ");
-    const number = parseInt(duration?.[0]) || 0;
-    const unit = duration?.[1] || "days";
-    // @ts-ignore
-    const courseEndDate = moment(currentDate).add(number, unit);
+    const upcomingItems =
+      cohortData?.cohortGroups &&
+      cohortData?.cohortGroups?.find((item) => {
+        const startDate = parseDate(
+          item.slotStartDate?.year,
+          item.slotStartDate?.month,
+          item.slotStartDate?.date
+        );
 
-    const matchingSlot =
-      cohortData?.cohortGroups?.length > 0 &&
-      cohortData?.cohortGroups?.find(
-        (slot) =>
-          parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
-          (parseInt(slot?.slotStartDate?.year) ===
-            +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) >
-              +formattedCurrentDate?.month) ||
-          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) ===
-              +formattedCurrentDate?.month &&
-            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
-      );
+        // Check if the current date is within the start and end date range
+        return moment(startDate).isAfter(new Date());
+      });
 
     const findIndex =
-      matchingSlot &&
+      upcomingItems &&
       cohortData?.cohortGroups?.findIndex(
         (slot) =>
-          slot.slotStartDate.year === matchingSlot.slotStartDate.year &&
-          slot.slotStartDate.month === matchingSlot.slotStartDate.month &&
-          slot.slotStartDate.date === matchingSlot.slotStartDate.date
+          slot.slotStartDate.year === upcomingItems?.slotStartDate?.year &&
+          slot.slotStartDate.month === upcomingItems?.slotStartDate?.month &&
+          slot.slotStartDate.date === upcomingItems?.slotStartDate?.date
       );
 
     const upcomingData =
       cohortData?.isOnline === IsOnline["Self placed Online"]
         ? null
-        : matchingSlot && matchingSlot;
+        : upcomingItems && upcomingItems;
 
     return (
       // <div className="xl:col-span-4 col-span-7 2xl:w-[265px] xl:w-auto sm:w-[270px] w-full">
       <div className="xl:col-span-4 col-span-7 w-full">
-        {upcomingData !== null && (
+        {upcomingData && (
           <div className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between pb-[6px]">
               <p className="text-black text-xs">

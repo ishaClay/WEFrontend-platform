@@ -306,6 +306,7 @@ function CompanyRegister() {
     setValue("name", "");
     setValue("address", "");
     setValue("companyNumberId", null);
+    setCompanyNumberId(null);
     setIsOpen(false);
     setIsCompanyVerified(false);
     toast({

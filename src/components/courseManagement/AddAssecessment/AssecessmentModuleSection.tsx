@@ -9,11 +9,11 @@ interface AssecessmentModuleSectionProps {
       title: string;
       passingPercentage: string;
       timeBound: number;
-      timeDuration: {
-        hours: number;
-        minutes: number;
-        seconds: number;
-      };
+      // timeDuration: {
+      //   hours: number;
+      //   minutes: number;
+      //   seconds: number;
+      // };
     }>
   >;
   errors: any;
