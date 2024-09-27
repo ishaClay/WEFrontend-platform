@@ -9,7 +9,7 @@ type liveSessionItemsProps = {
 const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
   return (
     <div className="col-span-1 md:p-5 p-4 shadow rounded-md sm:m-0 m-1">
-      <div className="flex items-center">
+      <div className="flex">
         <div className="">
           <div className="rounded-md overflow-hidden min-w-20 min-h-20 w-20 h-20">
             <img
@@ -21,7 +21,7 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
           <a
             href={data?.zoomApiBaseUrl}
             target="_blank"
-            className="flex items-center bg-transparent text-sm hover:bg-transparent text-[#00778B] font-bold p-0"
+            className="flex justify-center mt-2 items-center bg-transparent text-sm hover:bg-transparent text-[#00778B] font-bold p-0"
           >
             JOIN <ArrowRight width={16} />
           </a>

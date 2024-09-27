@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -224,9 +225,11 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
           {moment(event?.start).format("hh:mm a")} -
           {moment(event?.end).format("hh:mm a")}
         </p>
-        <p className="mb-2 text-wrap max-w-[450px] break-words">
-          <strong>Description:</strong> {event?.description}
-        </p>
+        <ScrollArea className="max-h-[500px]">
+          <p className="mb-2 text-wrap max-w-[450px] break-words">
+            <strong>Description:</strong> {event?.description}
+          </p>
+        </ScrollArea>
         <Button
           disabled={
             !moment().isBetween(

@@ -356,7 +356,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                                 <span>Online</span>
                               )}
                               {allcourse.isOnline === IsOnline["In-Person"] && (
-                                <span>InPerson</span>
+                                <span>In person</span>
                               )}
                               {allcourse.isOnline === IsOnline.Hybrid && (
                                 <span>Hybrid</span>
