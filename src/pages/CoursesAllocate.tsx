@@ -247,8 +247,8 @@ function CoursesAllocate() {
                                 {courseallocate?.course.isOnline ===
                                   IsOnline.Hybrid && <span>Hybrid</span>}
                                 {courseallocate?.course.isOnline ===
-                                  IsOnline["Self placed Online"] && (
-                                  <span>Self placed Online</span>
+                                  IsOnline["Self-paced Online"] && (
+                                  <span>Self-paced Online</span>
                                 )}
                               </p>
                             </div>

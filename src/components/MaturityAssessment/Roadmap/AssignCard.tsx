@@ -194,22 +194,35 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                     <p className="text-black font-droid text-base">
                       {item?.measure}
                     </p>
-                    {item?.employeeId && (
+                    {(item?.employeeId || item?.companyId) && (
                       <>
                         {" "}
                         <div className="flex items-center gap-2">
                           <Avatar className="w-6 h-6">
-                            <AvatarImage src={item?.employeeId?.profileImg} />
+                            <AvatarImage
+                              src={
+                                item?.employeeId?.profileImg ||
+                                item?.companyId?.profileImg
+                              }
+                            />
                             <AvatarFallback className="text-xs">
-                              {item?.employeeId?.name?.charAt(0) ||
-                                item?.employeeId?.email
-                                  ?.split("@")[0]
-                                  ?.charAt(0)}
+                              {item?.employeeId
+                                ? item?.employeeId?.name?.charAt(0) ||
+                                  item?.employeeId?.email
+                                    ?.split("@")[0]
+                                    ?.charAt(0)
+                                : item?.companyId?.name?.charAt(0) ||
+                                  item?.companyId?.email
+                                    ?.split("@")[0]
+                                    ?.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
                           <h6 className="text-black font-droid text-base">
-                            {item?.employeeId?.name ||
-                              item?.employeeId?.email?.split("@")[0]}
+                            {item?.employeeId
+                              ? item?.employeeId?.name ||
+                                item?.employeeId?.email?.split("@")[0]
+                              : item?.companyId?.name ||
+                                item?.companyId?.email?.split("@")[0]}
                           </h6>
                         </div>
                         <div className="sm:pb-0 pb-2.5">

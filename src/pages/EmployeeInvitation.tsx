@@ -141,7 +141,10 @@ const EmployeeInvitation = () => {
     setInviteData((prevData) => {
       return prevData.map((data, i) => {
         if (i === index) {
-          return { ...data, [name]: value };
+          return {
+            ...data,
+            [name]: value,
+          };
         } else {
           return data;
         }
@@ -187,8 +190,9 @@ const EmployeeInvitation = () => {
                     value={data?.fName}
                     name="fName"
                     onChange={(e) => {
-                      if (/^[A-Za-z ]*$/.test(e.target.value))
+                      if (/^(|[A-Za-z]+)$/.test(e.target.value)) {
                         handleChange(e, index);
+                      }
                     }}
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />
@@ -198,8 +202,9 @@ const EmployeeInvitation = () => {
                     name="lName"
                     value={data?.lName}
                     onChange={(e) => {
-                      if (/^[A-Za-z ]*$/.test(e.target.value))
+                      if (/^(|[A-Za-z]+)$/.test(e.target.value)) {
                         handleChange(e, index);
+                      }
                     }}
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />

@@ -84,12 +84,14 @@ const RegisterTraineeForm = () => {
       .regex(/^[A-Za-z ]+$/, {
         message: "Please enter a valid contact first name",
       })
-      .min(1, { message: "Please enter a contact first name" }),
+      .min(1, { message: "Please enter a contact first name" })
+      .regex(/^\S*$/, "Please enter valid contact first name"),
     surname: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
         message: "Please enter a valid contact last name",
       })
-      .min(1, { message: "Please enter contact last name" }),
+      .min(1, { message: "Please enter contact last name" })
+      .regex(/^\S*$/, "Please enter valid contact last name"),
     phone: Zod.string().optional(),
     currentHighestNFQ: Zod.string({
       required_error: "Please select the current highest NFQ",

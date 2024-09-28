@@ -118,7 +118,13 @@ const TicketsDetailsReply = () => {
       // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
         data?.data?.data?.openBy.id === userID
-          ? String(data?.data?.data?.assignTo?.role === 2 ? data?.data?.data?.assignTo?.fname + " " + data?.data?.data?.assignTo?.lname : data?.data?.data?.assignTo.name)
+          ? String(
+              data?.data?.data?.assignTo?.role === 2
+                ? data?.data?.data?.assignTo?.fname +
+                    " " +
+                    data?.data?.data?.assignTo?.lname
+                : data?.data?.data?.assignTo.name
+            )
           : String(data?.data?.data?.openBy.name)
       );
       setSelectTicketStatus(data?.data.data?.status);
@@ -480,7 +486,7 @@ const TicketsDetailsReply = () => {
                 <SelectContent>
                   <SelectItem value="Open">Open</SelectItem>
                   <SelectItem value="Answered">Answered</SelectItem>
-                  <SelectItem value="InProcess">In Process</SelectItem>
+                  <SelectItem value="InProgress">In Progress</SelectItem>
                 </SelectContent>
               </Select>
               {!errors?.ticketStatus?.ref?.value && (

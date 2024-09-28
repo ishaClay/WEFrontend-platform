@@ -121,9 +121,14 @@ const InviteMember = ({
                   placeholder="First Name"
                   value={emails?.fName}
                   name="fName"
-                  onChange={(e) =>
-                    setEmails({ ...emails, fName: e.target.value })
-                  }
+                  onChange={(e) => {
+                    if (/^(|[A-Za-z]+)$/?.test(e.target.value)) {
+                      setEmails({
+                        ...emails,
+                        fName: e.target.value,
+                      });
+                    }
+                  }}
                   className="border rounded p-3 sm:w-[200px] w-full h-[52px]"
                 />
                 <Input
@@ -131,9 +136,14 @@ const InviteMember = ({
                   placeholder="Last Name"
                   name="lName"
                   value={emails?.lName}
-                  onChange={(e) =>
-                    setEmails({ ...emails, lName: e.target.value })
-                  }
+                  onChange={(e) => {
+                    if (/^(|[A-Za-z]+)$/?.test(e.target.value)) {
+                      setEmails({
+                        ...emails,
+                        lName: e.target.value,
+                      });
+                    }
+                  }}
                   className="border rounded p-3 sm:w-[200px] w-full h-[52px]"
                 />
                 <Input

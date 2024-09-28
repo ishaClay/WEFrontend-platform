@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
@@ -83,12 +84,14 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           `${+item?.slotEndDate?.month}/${+item?.slotEndDate?.date}/${+item
             ?.slotEndDate?.year}`
         );
+
         return {
           id: item?.id,
           publish: item?.publish === 0 ? false : true,
           cohortName: item?.name,
           startDate: startDate,
           endDate: endDate,
+          company: item.company,
           isEdit: false,
           isNew: false,
         };
@@ -240,6 +243,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       };
     });
 
+    console.log("🚀 ~ newData ~ newData:", { newData, dataNew });
     const filteredData = dataNew.filter(
       (item) => item !== null && item !== undefined
     );
@@ -250,20 +254,35 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     };
 
     if (filteredData?.length > 0) {
-      if (
-        !arraysAreEqual(
-          cohortData?.filter(
-            (item) =>
-              item.cohortName !== "" &&
-              item.startDate !== undefined &&
-              item.endDate !== undefined
-          ),
-          newData
-        )
-      ) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        mutate(payload);
+      if (!arraysAreEqual(cohortData, newData)) {
+        const checkData = cohortData.filter((item) => item.cohortName === "");
+        const checkDate = cohortData.filter(
+          (item) => item.startDate === undefined || item.endDate === undefined
+        );
+        console.log("🚀 ~ handleSubmit ~ checkData:", checkData);
+
+        if (checkData?.length === 0 && checkDate?.length === 0) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          mutate(payload);
+        } else {
+          if (checkDate?.length > 0 && checkData?.length > 0) {
+            toast({
+              variant: "destructive",
+              title: "Please enter valid cohort",
+            });
+          } else if (checkDate?.length > 0) {
+            toast({
+              variant: "destructive",
+              title: "Please enter cohort date",
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Please enter cohort name",
+            });
+          }
+        }
       } else {
         toast({
           variant: "destructive",
@@ -358,6 +377,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                 </TableHeader>
                 <TableBody>
                   {cohortData?.map((item, _, arr) => {
+                    console.log("🚀 ~ {cohortData?.map ~ item:", item);
                     const isEditeble = isDateBetween(item?.startDate);
 
                     return (
@@ -430,6 +450,8 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                                 type="button"
                                 disabled={
                                   +userData?.query?.role === UserRole.Trainee ||
+                                  // @ts-ignore
+                                  item?.company?.length > 0 ||
                                   !isEditeble
                                 }
                                 className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
@@ -443,6 +465,8 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                               type="button"
                               disabled={
                                 +userData?.query?.role === UserRole.Trainee ||
+                                // @ts-ignore
+                                item?.company?.length > 0 ||
                                 (!isEditeble &&
                                   (!item?.isNew || arr.length === 1))
                               }

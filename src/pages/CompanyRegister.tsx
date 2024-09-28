@@ -83,10 +83,12 @@ function CompanyRegister() {
       parentCompanyCounty: z.string().nullable().optional(),
       contactFirstName: z
         .string()
-        .min(1, { message: "Please enter contact first name" }),
+        .min(1, { message: "Please enter contact first name" })
+        .regex(/^\S*$/, "Please enter valid contact first name"),
       contactLastName: z
         .string()
-        .min(1, { message: "Please enter contact last name" }),
+        .min(1, { message: "Please enter contact last name" })
+        .regex(/^\S*$/, "Please enter valid contact last name"),
       soleTrader: z.string(),
       companyNumberId: z.number().nullable().optional(),
       isRegister: z.boolean(),
@@ -438,7 +440,7 @@ function CompanyRegister() {
                       htmlFor="isRegister"
                       className="font-normal text-[16px]"
                     >
-                      Is Registered
+                      Is registered
                     </Label>
                   </div>
                 )}

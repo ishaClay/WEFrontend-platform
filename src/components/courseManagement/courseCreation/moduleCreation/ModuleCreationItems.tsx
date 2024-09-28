@@ -186,38 +186,41 @@ const ModuleCreationItems = ({
 
         return (
           <div key={index} className="sm:p-5 p-4 border-t border-[#D9D9D9]">
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="font-bold font-droid sm:text-md text-base">
+                Section {sectionindex + 1}
+              </h4>
+              {sectionindex !== 0 && (
+                <Button
+                  onClick={() => removeSection(sectionindex)}
+                  className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-droid py-0 h-auto"
+                >
+                  <CircleX className="me-1" width={18} />
+                  Remove
+                </Button>
+              )}
+            </div>
             <div className="pb-5">
               <div className="pb-2 flex flex-wrap justify-between items-center ">
                 <h6 className="sm:text-base text-sm font-droid text-[#515151]">
                   Section Title
                 </h6>
-                <div className="flex items-center">
-                  {sectionindex !== 0 && (
-                    <Button
-                      onClick={() => removeSection(sectionindex)}
-                      className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-droid"
-                    >
-                      <CircleX className="me-1" width={18} />
-                      Remove
-                    </Button>
-                  )}
-                  <h6 className="sm:text-base text-sm flex gap-2 items-center font-droid text-[#515151]">
-                    <Switch
-                      checked={sectionItem?.isLive}
-                      onCheckedChange={(val) => {
-                        setValue(
-                          `modules.${index}.section.${sectionindex}.isLive`,
-                          val
-                        );
-                        setErrors(
-                          `modules.${index}.section.${sectionindex}.information`,
-                          { message: "" }
-                        );
-                      }}
-                    />
-                    Live Session
-                  </h6>
-                </div>
+                <h6 className="sm:text-base text-sm flex gap-2 items-center font-droid text-[#515151]">
+                  <Switch
+                    checked={sectionItem?.isLive}
+                    onCheckedChange={(val) => {
+                      setValue(
+                        `modules.${index}.section.${sectionindex}.isLive`,
+                        val
+                      );
+                      setErrors(
+                        `modules.${index}.section.${sectionindex}.information`,
+                        { message: "" }
+                      );
+                    }}
+                  />
+                  Live Session
+                </h6>
               </div>
               <Input
                 {...register(

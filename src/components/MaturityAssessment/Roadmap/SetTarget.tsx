@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
@@ -17,12 +18,14 @@ const SetTarget = ({
   selectAssessment = "1",
   maturitypillar,
   isMaturitypillarLoading,
+  isLoading,
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
   selectAssessment: string;
   maturitypillar: AllActionDataPillerWiseResult[];
   isMaturitypillarLoading: boolean;
+  isLoading: boolean;
 }) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
@@ -124,6 +127,7 @@ const SetTarget = ({
           </Button>
         </div>
       </div>
+      <Loading isLoading={!isMaturitypillarLoading && isLoading} />
     </div>
   );
 };

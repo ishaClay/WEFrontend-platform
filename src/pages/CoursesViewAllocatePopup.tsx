@@ -37,8 +37,14 @@ interface CourseViewAllocatePopupProps {
 }
 
 const schema = zod.object({
-  fname: zod.string().min(1, { message: "Please enter first name" }),
-  lname: zod.string().min(1, { message: "Please enter last name" }),
+  fname: zod
+    .string()
+    .min(1, { message: "Please enter first name" })
+    .regex(/^(|[A-Za-z]+)$/, "Please enter valid first name"),
+  lname: zod
+    .string()
+    .min(1, { message: "Please enter last name" })
+    .regex(/^(|[A-Za-z]+)$/, "Please enter valid last name"),
   email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
@@ -184,6 +190,7 @@ function CourseViewAllocatePopup({
     onClose();
     setIsInvite(false);
     reset();
+    setSelectedEmployee([]);
   };
 
   const selectInviteEmployee = (employeeId: any) => {
@@ -354,8 +361,8 @@ function CourseViewAllocatePopup({
                           <span>Hybrid</span>
                         )}
                         {courseData?.course?.isOnline ===
-                          IsOnline?.["Self placed Online"] && (
-                          <span>Self placed Online</span>
+                          IsOnline?.["Self-paced Online"] && (
+                          <span>Self-paced Online</span>
                         )}
                       </p>
                     </div>

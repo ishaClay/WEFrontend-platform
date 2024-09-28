@@ -41,12 +41,20 @@ const AssignModel = ({
     queryFn: () => EmployeeList(companyId, "Active"),
   });
 
-  const empOption = data?.data?.map((item) => {
-    return {
-      label: item?.name || item.email.split("@")[0],
-      value: item?.id.toString(),
-    };
-  });
+  const emp =
+    data?.data?.map((item) => {
+      return {
+        label: item?.name || item.email.split("@")[0],
+        value: item?.id.toString(),
+      };
+    }) || [];
+  const empOption = [
+    {
+      label: "Assign to Self",
+      value: "Self",
+    },
+    ...emp,
+  ];
 
   const { mutate, isPending } = useMutation({
     mutationFn: assignItemForEmployee,
@@ -79,11 +87,13 @@ const AssignModel = ({
     setError(null);
 
     const payload = {
-      employeeId: selectAsignModel,
+      employeeId: selectAsignModel !== "Self" ? selectAsignModel : null,
       startDate: moment(date?.startDate).toString() as string,
       endDate: moment(date?.endDate).toString() as string,
       userId: userData?.id,
+      companyId: selectAsignModel === "Self" ? companyId : null,
     };
+    console.log("🚀 ~ handleSubmit ~ userData?.query?.detailsid:", companyId);
     if (id) {
       // @ts-ignore
       mutate({ data: payload, masureId: +id });

@@ -325,7 +325,7 @@ const DashboardTrainer = () => {
   const trainerCountItems: DashBoardCardItem[] = [
     {
       icon: Companies,
-      title: "Total active trainer",
+      title: "Total active trainers",
       value: trainerCountData?.data?.trainersCount || 0,
     },
     {

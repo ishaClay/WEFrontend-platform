@@ -8,6 +8,7 @@ export interface DataEntity {
   end_date: Date | undefined;
   id: number;
   name: string;
+  company: any;
   publish: number;
   slotStartDate: SlotStartDateOrSlotEndDate;
   slotEndDate: SlotStartDateOrSlotEndDate;

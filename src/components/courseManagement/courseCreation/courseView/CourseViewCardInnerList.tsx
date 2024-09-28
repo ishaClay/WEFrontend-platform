@@ -1,3 +1,4 @@
+import ModuleVideoPlay from "@/assets/images/assesment_test.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ import {
   deleteSection,
 } from "@/services/apiServices/moduleCreation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FilePenLine, Info, NotepadText, Trash2 } from "lucide-react";
+import { FilePenLine, Info, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const CourseViewCardInnerList = ({
@@ -116,7 +117,11 @@ const CourseViewCardInnerList = ({
       <div className="flex items-center">
         <div className="me-3">
           {data.passingPercentage ? (
-            <NotepadText className="w-[30px] h-[30px] text-[#696969]" />
+            <img
+              src={ModuleVideoPlay}
+              alt="assessment"
+              className="max-w-[32px] w-auto h-auto"
+            />
           ) : FileTypeData ? (
             <img
               src={FileTypeData && FileTypeData?.listIcon}

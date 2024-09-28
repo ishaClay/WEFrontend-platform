@@ -30,9 +30,10 @@ export const assignItemForEmployee = async ({
   masureId,
 }: {
   data: {
-    employeeId: string;
+    employeeId: string | null;
     startDate: Date | undefined;
     endDate: Date | undefined;
+    companyId: string | null
   };
   masureId: number;
 }) => {

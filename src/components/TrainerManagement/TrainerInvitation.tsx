@@ -161,7 +161,10 @@ const TrainerInvitation = () => {
     setInviteData((prevData) => {
       return prevData.map((data, i) => {
         if (i === index) {
-          return { ...data, [name]: value };
+          return {
+            ...data,
+            [name]: value,
+          };
         } else {
           return data;
         }
@@ -212,7 +215,11 @@ const TrainerInvitation = () => {
                   placeholder="First Name"
                   value={data?.name}
                   name="name"
-                  onChange={(e) => handleChange(e, index)}
+                  onChange={(e) => {
+                    if (/^(|[A-Za-z]+)$/?.test(e.target.value)) {
+                      handleChange(e, index);
+                    }
+                  }}
                   className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                 />
                 <Input
@@ -220,7 +227,11 @@ const TrainerInvitation = () => {
                   placeholder="Last Name"
                   name="surname"
                   value={data?.surname}
-                  onChange={(e) => handleChange(e, index)}
+                  onChange={(e) => {
+                    if (/^(|[A-Za-z]+)$/?.test(e.target.value)) {
+                      handleChange(e, index);
+                    }
+                  }}
                   className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                 />
                 <Input

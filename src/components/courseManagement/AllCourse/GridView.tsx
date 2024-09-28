@@ -621,7 +621,8 @@ const GridView = ({
                           <span>Reject</span>
                         </DropdownMenuItem>
                       )}
-                      {item.status === "PUBLISHED" && (
+                      {(item.status === "PUBLISHED" ||
+                        item?.status === "UNPUBLISHED") && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-droid"
                           onClick={(e) => handleEdit(e, item, "editminor")}
