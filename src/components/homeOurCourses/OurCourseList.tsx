@@ -134,7 +134,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           Course info
         </Button>
 
-        <Button
+        {+userData?.query?.role === UserRole.Company && <Button
           type="button"
           onClick={() => {
             if (userData) {
@@ -201,7 +201,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           className="bg-[#64A70B] font-font-droid text-base px-5 py-2 h-auto"
         >
           Enroll Now
-        </Button>
+        </Button>}
       </div>
     </div>
   );

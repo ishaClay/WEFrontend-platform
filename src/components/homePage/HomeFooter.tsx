@@ -4,11 +4,7 @@ import homeFooterLogo from "@/assets/images/HomeFooterLogo.png";
 import homeFooterLogo1 from "@/assets/images/HomeFooterLogo1.png";
 import RoundLogoImage from "@/assets/images/star-footer-image.svg";
 import { UserRole } from "@/types/UserRole";
-import { BsInstagram } from "react-icons/bs";
-import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
-import { IoLogoYoutube } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "../ui/button";
 
 const HomeFooter = () => {
   const location = useLocation();
@@ -56,7 +52,7 @@ const HomeFooter = () => {
                     Chamber Skillnet 2024.
                   </p>
 
-                  <div className="flex gap-5  justify-center sm:my-3">
+                  {/* <div className="flex gap-5  justify-center sm:my-3">
                     <Button
                       variant={"ghost"}
                       className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
@@ -81,7 +77,7 @@ const HomeFooter = () => {
                     >
                       <IoLogoYoutube className="w-[19px] h-[19px]" />
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="lg:order-3 order-1 sm:pb-0 pb-[34px]">
                   <img
@@ -111,13 +107,13 @@ const HomeFooter = () => {
                 </div>
               </div>
               <div className="lg:block hidden">
-                <div className="secondary-text sm:flex block justify-between items-center py-3">
+                <div className="secondary-text sm:flex block justify-between items-center py-3 my-3">
                   <p className="lg:block hidden no-underline text-sm leading-5 font-font-droid font-bold">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
 
-                  <div className="flex gap-5  justify-center my-3">
+                  {/* <div className="flex gap-5  justify-center my-3">
                     <a
                       href="https://x.com/?lang=en"
                       target="_blank"
@@ -146,7 +142,7 @@ const HomeFooter = () => {
                     >
                       <IoLogoYoutube className="w-[19px] h-[19px]" />
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

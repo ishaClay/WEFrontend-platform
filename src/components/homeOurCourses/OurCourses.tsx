@@ -15,7 +15,7 @@ const OurCourses = () => {
   const queryClient = useQueryClient();
   const { clientId } = useAppSelector((state: RootState) => state.user);
   const [query, searchQuery] = useState("");
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const { data: course, isLoading, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.coursePublishAdminClient],
@@ -48,13 +48,13 @@ const OurCourses = () => {
             })
           )}
         </div>
-        <Paginations 
+        {course?.data && !isFetching && <Paginations 
           className="mb-10"
           itemsPerPage={course?.metadata?.itemsPerPage}
           totalPages={course?.metadata?.totalPages}
           currentPage={course?.metadata?.currentPage}
           setCurrentPage={(page: number) => setPage(page)}
-        />
+        />}
       </div>
       <HomeFooter />
     </>

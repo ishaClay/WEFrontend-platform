@@ -114,8 +114,8 @@ function SavedAssesment() {
               </div>
 
               <p className="mt-[20px] w-[430px]">
-                There's just some quenstions lefts to get your Sustainability
-                Score. but you're merrily on the way there...
+                There's just some questions left to get your Sustainability Score, Build your Action Plan and Enrol Courses. 
+                But you're merrily on the way there...
               </p>
               <p className="text-[Calibri] font-font-droid text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
                 {" "}

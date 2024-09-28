@@ -402,7 +402,7 @@ const CourseInformation = ({
                 <Switch
                   disabled={isFreeCourse}
                   checked={provideDisc}
-                  onCheckedChange={(e) => {
+                  onCheckedChange={() => {
                     setProvideDisc(!provideDisc);
                     if (!e) {
                       setDiscount("");
