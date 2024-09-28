@@ -38,6 +38,7 @@ import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import Drawer from "../comman/Drawer";
+import Loader from "../comman/Loader";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
 
@@ -98,13 +99,13 @@ const Message = () => {
     }
   }, [searchParams]);
 
-  const { data: chatList } = useQuery({
+  const { data: chatList, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.chatList, { userID, chatId }],
     queryFn: () => fetchChat(userID, chatId),
     enabled: !!userID && !!chatId && !messageType,
   });
 
-  const { data: groupChat } = useQuery({
+  const { data: groupChat, isLoading: groupChatLoading } = useQuery({
     queryKey: [
       QUERY_KEYS.fetchGroupChat,
       { chatId, messageType, group: !!currentChat?.group },
@@ -679,11 +680,7 @@ const Message = () => {
                       <div className="ml-[15px] w-[calc(100%-57px)]">
                         <div className="flex justify-between mb-0.5">
                           <div className="leading-[19.53px] text-[black] text-base font-droid">
-                            {item?.group
-                              ? item?.name
-                              : item?.fname && item?.lname
-                              ? item?.fname + " " + item?.lname
-                              : item?.name || item?.email?.split("@")?.[0]}
+                            {item?.name || item?.email?.split("@")[0]}
                           </div>
                           <div className="text-xs font-droid leading-[15.6px] text-[black]">
                             {TimeFormatter(item?.last_msg_time)}
@@ -796,100 +793,105 @@ const Message = () => {
                 ref={chatContainerRef}
               >
                 <div className="mb-[30px]">
-                  {allMsg?.map((item: GetChat, index: number) => {
-                    const createdAtDate = new Date(item.createdAt);
-                    const day = createdAtDate.getDate();
-                    const month = createdAtDate.toLocaleString("default", {
-                      month: "short",
-                    });
-                    const year = createdAtDate.getFullYear();
+                  {isLoading || groupChatLoading ? (
+                    <Loader />
+                  ) : (
+                    allMsg?.map((item: GetChat, index: number) => {
+                      const createdAtDate = new Date(item.createdAt);
+                      const day = createdAtDate.getDate();
+                      const month = createdAtDate.toLocaleString("default", {
+                        month: "short",
+                      });
+                      const year = createdAtDate.getFullYear();
 
-                    const showDate =
-                      index === 0 ||
-                      new Date(allMsg[index - 1]?.createdAt).toDateString() !==
-                        createdAtDate.toDateString();
+                      const showDate =
+                        index === 0 ||
+                        new Date(
+                          allMsg[index - 1]?.createdAt
+                        ).toDateString() !== createdAtDate.toDateString();
 
-                    return (
-                      <div key={item.id}>
-                        {showDate && (
-                          <div className="flex justify-between items-center mb-[30px]">
-                            <div className="basis-[calc(50%_-_60px)] h-px bg-[#d9d9d9]"></div>
-                            <div className="basis-[92px] text-center text-neutral-400 text-xs leading-[14.65px]">
-                              {`${day} ${month} ${year}`}
+                      return (
+                        <div key={item.id}>
+                          {showDate && (
+                            <div className="flex justify-between items-center mb-[30px]">
+                              <div className="basis-[calc(50%_-_60px)] h-px bg-[#d9d9d9]"></div>
+                              <div className="basis-[92px] text-center text-neutral-400 text-xs leading-[14.65px]">
+                                {`${day} ${month} ${year}`}
+                              </div>
+                              <div className="basis-[calc(50%_-_60px)] h-px bg-[#d9d9d9]"></div>
                             </div>
-                            <div className="basis-[calc(50%_-_60px)] h-px bg-[#d9d9d9]"></div>
-                          </div>
-                        )}
-                        <div className="flex gap-4 mb-[30px]">
-                          <Avatar className="w-8 h-8">
-                            <AvatarFallback
-                              className="text-white"
-                              style={{
-                                backgroundColor: chatDPColor(
-                                  +item?.senderId?.id
-                                ),
-                              }}
-                            >
-                              {item?.senderId?.name?.[0].toUpperCase() ||
-                                item?.senderId?.email?.[0].toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="leading-[19.53px] text-[black] font-medium">
-                              {item?.senderId?.name ||
-                                item?.senderId?.email?.split("@")?.[0]}
+                          )}
+                          <div className="flex gap-4 mb-[30px]">
+                            <Avatar className="w-8 h-8">
+                              <AvatarFallback
+                                className="text-white"
+                                style={{
+                                  backgroundColor: chatDPColor(
+                                    +item?.senderId?.id
+                                  ),
+                                }}
+                              >
+                                {item?.senderId?.name?.[0].toUpperCase() ||
+                                  item?.senderId?.email?.[0].toUpperCase()}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="leading-[19.53px] text-[black] font-medium">
+                                {item?.senderId?.name ||
+                                  item?.senderId?.email?.split("@")?.[0]}
+                              </div>
+                              <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
+                                {moment(item?.createdAt).format("h:mmA")}
+                              </div>
+                              <p className="text-black leading-[19.53px] break-all	">
+                                {item?.message}
+                              </p>
+                              {Array.isArray(item?.images) &&
+                                item?.images?.length > 0 &&
+                                item?.images?.map((i: string, index) => (
+                                  <div
+                                    key={index}
+                                    className={`max-w-full w-[300px] mb-5 ${
+                                      index === 0 ? "mt-5" : ""
+                                    }`}
+                                  >
+                                    {i?.endsWith(".pdf") ? (
+                                      <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
+                                        <IoIosDocument className="h-5 w-5 me-3" />
+                                        <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
+                                          {i?.split(".com/")?.[1]}
+                                        </span>
+                                        <Button
+                                          variant={"ghost"}
+                                          className="p-0 h-auto"
+                                          onClick={() =>
+                                            window?.open(i, "_blank")
+                                          }
+                                        >
+                                          <img
+                                            src={eye}
+                                            alt="view"
+                                            width={18}
+                                            height={12.38}
+                                          />
+                                        </Button>
+                                      </div>
+                                    ) : (
+                                      <img
+                                        src={i}
+                                        alt="image"
+                                        onClick={() => window.open(i, "_blank")}
+                                        className="cursor-pointer"
+                                      />
+                                    )}
+                                  </div>
+                                ))}
                             </div>
-                            <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
-                              {moment(item?.createdAt).format("h:mmA")}
-                            </div>
-                            <p className="text-black leading-[19.53px] break-all	">
-                              {item?.message}
-                            </p>
-                            {Array.isArray(item?.images) &&
-                              item?.images?.length > 0 &&
-                              item?.images?.map((i: string, index) => (
-                                <div
-                                  key={index}
-                                  className={`max-w-full w-[300px] mb-5 ${
-                                    index === 0 ? "mt-5" : ""
-                                  }`}
-                                >
-                                  {i?.endsWith(".pdf") ? (
-                                    <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
-                                      <IoIosDocument className="h-5 w-5 me-3" />
-                                      <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
-                                        {i?.split(".com/")?.[1]}
-                                      </span>
-                                      <Button
-                                        variant={"ghost"}
-                                        className="p-0 h-auto"
-                                        onClick={() =>
-                                          window?.open(i, "_blank")
-                                        }
-                                      >
-                                        <img
-                                          src={eye}
-                                          alt="view"
-                                          width={18}
-                                          height={12.38}
-                                        />
-                                      </Button>
-                                    </div>
-                                  ) : (
-                                    <img
-                                      src={i}
-                                      alt="image"
-                                      onClick={() => window.open(i, "_blank")}
-                                      className="cursor-pointer"
-                                    />
-                                  )}
-                                </div>
-                              ))}
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                 </div>
               </CardContent>
               <CardFooter className="absolute left-0 right-0 bottom-0 pl-[20px] pr-5 pt-0 pb-[21px] block bg-white">

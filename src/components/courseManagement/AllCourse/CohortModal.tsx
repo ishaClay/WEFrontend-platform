@@ -446,9 +446,17 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                                 (!isEditeble &&
                                   (!item?.isNew || arr.length === 1))
                               }
-                              onClick={() =>
-                                setIsDeleteCohort({ type: true, data: item })
-                              }
+                              onClick={() => {
+                                if (arr?.length > 1) {
+                                  setIsDeleteCohort({ type: true, data: item });
+                                } else {
+                                  toast({
+                                    variant: "destructive",
+                                    title:
+                                      "Can not delete the last cohort from a published course.",
+                                  });
+                                }
+                              }}
                               className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
                             >
                               <Trash2 className="w-4 h-4 text-[#606060]" />

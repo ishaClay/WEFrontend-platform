@@ -10,7 +10,7 @@ import {
   deleteSection,
 } from "@/services/apiServices/moduleCreation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FilePenLine, Info, Trash2 } from "lucide-react";
+import { FilePenLine, Info, NotepadText, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const CourseViewCardInnerList = ({
@@ -20,6 +20,7 @@ const CourseViewCardInnerList = ({
   data: any;
   handelEditSection: (data: any) => void;
 }) => {
+  console.log("🚀 ~ data:", data);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDelete, setIsDelete] = useState(false);
@@ -114,7 +115,9 @@ const CourseViewCardInnerList = ({
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          {FileTypeData ? (
+          {data.passingPercentage ? (
+            <NotepadText className="w-[30px] h-[30px] text-[#696969]" />
+          ) : FileTypeData ? (
             <img
               src={FileTypeData && FileTypeData?.listIcon}
               alt="document icon"
@@ -124,7 +127,11 @@ const CourseViewCardInnerList = ({
           )}
         </div>
         <div className="">
-          <h5 className="text-sm text-black font-droid pb-2">
+          <h5
+            className={`text-sm text-black font-droid ${
+              data.passingPercentage ? "p-0" : "pb-2"
+            } `}
+          >
             {data.isLive == 1 || !data?.isLive ? data.title : data.liveSecTitle}
           </h5>
           <div className="">
@@ -145,19 +152,19 @@ const CourseViewCardInnerList = ({
                   </span>
                 </>
               ) : (
-                <>
-                  {data?.timeDuration
-                    ? ""
-                    : FileTypeData?.name && FileTypeData?.name + " |"}{" "}
-                  Duration:{" "}
-                  <span className="text-black">
-                    {data.readingTime
-                      ? formatReadingTime(data.readingTime)
-                      : data?.timeDuration
-                      ? formatReadingTime(data?.timeDuration)
-                      : formatReadingTime(data.sectionTime)}
-                  </span>
-                </>
+                !data?.timeDuration && (
+                  <>
+                    {data?.timeDuration
+                      ? ""
+                      : FileTypeData?.name && FileTypeData?.name + " |"}{" "}
+                    Duration:{" "}
+                    <span className="text-black">
+                      {data.readingTime
+                        ? formatReadingTime(data.readingTime)
+                        : formatReadingTime(data.sectionTime)}
+                    </span>
+                  </>
+                )
               )}
             </h6>
           </div>

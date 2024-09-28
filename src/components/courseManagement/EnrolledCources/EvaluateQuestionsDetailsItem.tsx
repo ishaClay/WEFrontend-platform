@@ -30,7 +30,7 @@ const EvaluateQuestionsDetailsItem = ({
         <span className="text-[#606060] font-bold sm:text-base text-sm font-droid">
           Answer
         </span>
-        <p className="sm:text-base text-sm font-droid">{item?.answer?.[0]}</p>
+        <p className="sm:text-base text-sm font-droid">{item?.answer}</p>
       </div>
       <div className="pb-3">
         <h6 className="text-[#606060] text-xs font-droid">

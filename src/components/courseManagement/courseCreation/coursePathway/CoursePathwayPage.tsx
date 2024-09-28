@@ -170,7 +170,8 @@ const CoursePathwayPage = () => {
             Target areas/pillars (Select applicable pillars) :
           </span>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
-            Which sustainability pillars does your course apply to, and at which level?
+            Which sustainability pillars does your course apply to, and at which
+            level?
           </p>
         </h4>
         <Button

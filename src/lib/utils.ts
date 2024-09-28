@@ -39,6 +39,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export enum isDiscounted {
+  withDiscount = 1,
+  withoutDiscount = 0,
+}
+
 export const getImages = (name: string, active?: boolean) => {
   switch (name) {
     case "Social":

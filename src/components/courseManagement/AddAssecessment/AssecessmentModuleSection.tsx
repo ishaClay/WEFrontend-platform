@@ -56,7 +56,7 @@ const AssecessmentModuleSection = ({
           <Dot />
           <strong className="text-black me-2">
             {+hours > 0 ? hours : "00"}:{+minutes > 0 ? minutes : "00"}:
-            {+seconds > 0 ? seconds : "00"} Seconds
+            {+seconds > 0 ? seconds : "00"} min
           </strong>{" "}
           Reading
         </h6>
