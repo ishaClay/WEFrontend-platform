@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import AcceptedIcon from "@/assets/images/Accepted_icons.png";
 import RejectedIcons from "@/assets/images/Rejected_icons.png";
 import CourseList from "@/components/comman/CourseList";
@@ -12,14 +13,14 @@ import { ErrorType } from "@/types/Errors";
 import { Data, Enroll } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Euro, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 let socket: any;
 
 const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
+  console.log("🚀 ~ EnrollmentCourseListCard ~ data:", data);
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -49,14 +50,6 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       },
     });
   };
-
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   const { mutate: handleSend, isPending } = useMutation({
     mutationFn: sendMessage,
@@ -146,9 +139,16 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             </div>
             <div className="flex items-center font-bold font-droid sm:text-base text-sm">
               <Euro className="sm:w-[16px] w-[14px] font-bold" />
-              {data?.course?.price
-                ? +data?.course?.price * +data?.numberOfEmployee
-                : 0}
+              {
+                // @ts-ignore
+                data?.isdiscounted === 1
+                  ? data?.course?.price
+                    ? +data?.course?.price * +data?.numberOfEmployee
+                    : 0
+                  : data?.course?.discountApplicable
+                  ? +data?.course?.discountApplicable * +data?.numberOfEmployee
+                  : 0
+              }
             </div>
           </div>
         </div>

@@ -15,6 +15,10 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
     queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
     queryFn: () => fetchEnrollmentRequest(UserId, statusparams),
   });
+  console.log(
+    "🚀 ~ EnrollmentCourseList ~ fetchEnrollRequestData:",
+    fetchEnrollRequestData
+  );
 
   return (
     <>

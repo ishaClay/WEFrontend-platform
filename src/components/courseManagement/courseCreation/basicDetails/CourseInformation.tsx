@@ -402,8 +402,11 @@ const CourseInformation = ({
                 <Switch
                   disabled={isFreeCourse}
                   checked={provideDisc}
-                  onCheckedChange={() => {
+                  onCheckedChange={(e) => {
                     setProvideDisc(!provideDisc);
+                    if (!e) {
+                      setDiscount("");
+                    }
                   }}
                   className="w-8 h-5"
                   switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
@@ -472,7 +475,7 @@ const CourseInformation = ({
                   }}
                   error={
                     (!!provideDisc && +discount > +coursePrise) ||
-                    +discount === +coursePrise
+                    (provideDisc && +discount === +coursePrise)
                       ? "Discount is greater than course price"
                       : ""
                   }
