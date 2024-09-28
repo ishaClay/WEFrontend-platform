@@ -1,6 +1,5 @@
 import Loading from "@/components/comman/Error/Loading";
 import FormError from "@/components/comman/FormError";
-import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
