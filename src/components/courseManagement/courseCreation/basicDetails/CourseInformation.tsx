@@ -158,6 +158,7 @@ const CourseInformation = ({
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
     onSuccess: (data) => {
+      console.log("🚀 CourseInformation ~ data:", data?.data?.data?.course);
       toast({
         title: "Success",
         description: data?.data?.message,

@@ -155,6 +155,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
+      console.log("🚀 ~ CourseLogistic ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,

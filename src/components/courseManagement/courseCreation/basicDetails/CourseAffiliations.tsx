@@ -66,6 +66,10 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   const paramsType = new URLSearchParams(search).get("type");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
+  console.log(
+    "🚀 ~ CourseAffiliations ~ location:",
+    location?.pathname?.split("/")
+  );
   const [selectAffiliations, setSelectAffiliations] =
     useState<SelectAffiliationsTypr>({
       instituteOther: "",
@@ -77,6 +81,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
+      console.log("🚀 ~ CourseAffiliations ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -259,7 +264,8 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                     instituteOther: data,
                   });
                   setValue("instituteOther", data);
-                  // @ts-ignore
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
                   setError("otherInstitutionName", "");
                 }}
                 value={selectAffiliations?.instituteOther || ""}
@@ -315,13 +321,9 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
             <Button
               type="submit"
               className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
-              disabled={isPending || isUpdatePending}
+              isLoading={isPending || isUpdatePending}
             >
-              {isPending || isUpdatePending ? (
-                <Loader containerClassName="h-auto" />
-              ) : (
-                "Next"
-              )}
+              Next
             </Button>
           </div>
         </form>

@@ -91,6 +91,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
+      console.log("🚀 ~ CourseSpecifications ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -136,19 +137,13 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     });
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ useEffect ~ getSingleCourse?.data?.course:",
-      getSingleCourse?.data?.course
-    );
     if (getSingleCourse && getSingleCourse?.data?.course) {
-      const data: CourseData | any = getSingleCourse?.data?.course;
-      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
-        setValue(key, data[key] || "");
-      });
-      setValue(
-        "certificate",
-        getSingleCourse?.data?.course?.certificate?.toString() || ""
-      );
+      const data: CourseData = getSingleCourse?.data?.course;
+      console.log("🚀 ~ useEffect ~ data:", data);
+      setValue("nfqLeval", data?.nfqLeval?.id?.toString() || "");
+      setValue("ectsCredits", data?.ectsCredits || "");
+      setValue("fetCredits", data?.fetCredits || "");
+      setValue("certificate", data?.certificate?.toString() || "");
       setSelectBoxValue({
         nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
         certificate:
