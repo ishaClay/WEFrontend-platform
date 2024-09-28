@@ -312,8 +312,8 @@ function CourseListView({
                         <span>Hybrid</span>
                       )}
                       {recommendeddata?.isOnline ===
-                        IsOnline["Self placed Online"] && (
-                        <span>Self placed Online</span>
+                        IsOnline["Self-paced Online"] && (
+                        <span>Self-paced Online</span>
                       )}
                     </p>
                   </div>

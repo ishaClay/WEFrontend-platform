@@ -67,6 +67,9 @@ const SupportRequestTable = ({
           </Button>
         );
       },
+      cell: ({ row }) => {
+        return <p>#{row.original.id}</p>;
+      },
     },
     {
       accessorKey: "updatedat",
@@ -123,28 +126,10 @@ const SupportRequestTable = ({
       },
       cell: ({ row }) => {
         return (
-          <Link
-            to={`ticket-details/${row.original.id}`}
-            onClick={() =>
-              dispatch(
-                setPath([
-                  {
-                    label: "support",
-                    link: null,
-                  },
-                  {
-                    label: "Support Request",
-                    link: `/${Role}/support-request`,
-                  },
-                  { label: "Ticket Detail", link: null },
-                ])
-              )
-            }
-            className="text-[#00778B] cursor-pointer"
-          >
+          <p className="line-clamp-1 max-w-[400px]">
             {row?.original?.openBy?.name ||
               row?.original?.openBy?.email?.split("@")[0]}
-          </Link>
+          </p>
         );
       },
       meta: {
@@ -176,7 +161,27 @@ const SupportRequestTable = ({
       },
       cell: ({ row }) => {
         return (
-          <p className="line-clamp-1 max-w-[400px]">{row?.original?.subject}</p>
+          <Link
+            to={`ticket-details/${row.original.id}`}
+            onClick={() =>
+              dispatch(
+                setPath([
+                  {
+                    label: "support",
+                    link: null,
+                  },
+                  {
+                    label: "Support Request",
+                    link: `/${Role}/support-request`,
+                  },
+                  { label: "Ticket Detail", link: null },
+                ])
+              )
+            }
+            className="text-[#00778B] cursor-pointer"
+          >
+            {row?.original?.subject}
+          </Link>
         );
       },
     },
@@ -245,7 +250,15 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return <div>{row?.original?.assignTo?.role === 2 ? row?.original?.assignTo?.fname + " " + row?.original?.assignTo?.lname : row.original?.assignTo?.name ?? "-"}</div>;
+        return (
+          <div>
+            {row?.original?.assignTo?.role === 2
+              ? row?.original?.assignTo?.fname +
+                " " +
+                row?.original?.assignTo?.lname
+              : row.original?.assignTo?.name ?? "-"}
+          </div>
+        );
       },
       meta: {
         className: "sm:table-cell hidden",

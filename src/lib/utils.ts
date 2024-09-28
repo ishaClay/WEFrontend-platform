@@ -621,7 +621,7 @@ export const fetchMessageRoles = (role: number) => {
   } else if (role === UserRole.Company) {
     MessageRoles = ["client", "employee", "trainer", "trainer Company"];
   } else if (role === UserRole.Trainee) {
-    MessageRoles = ["client", "employee", "company"];
+    MessageRoles = ["admin", "trainee", "company"];
   } else if (role === UserRole.Employee) {
     MessageRoles = ["company", "trainer", "trainer Company"];
   }

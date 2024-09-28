@@ -325,7 +325,7 @@ const DashboardTrainer = () => {
   const trainerCountItems: DashBoardCardItem[] = [
     {
       icon: Companies,
-      title: "Total active trainer",
+      title: "Total active trainers",
       value: trainerCountData?.data?.trainersCount || 0,
     },
     {
@@ -389,7 +389,7 @@ const DashboardTrainer = () => {
         </Select>
       </div> */}
       <div className="flex items-center flex-wrap sm:flex-nowrap gap-5 mb-10">
-        <div className="w-full">
+        <div className="w-full xl:h-[297px] md:h-[277px] sm:h-[301px]">
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Course overview
           </h3>
@@ -400,7 +400,7 @@ const DashboardTrainer = () => {
             onChangeSelect={(e) => setCourseFilter(e)}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full xl:h-[297px] md:h-[277px] sm:h-[301px]">
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Enrollments
           </h3>
@@ -409,7 +409,7 @@ const DashboardTrainer = () => {
             value={enrollmentRequestFilter}
             items={enrollmentsItems}
             onChangeSelect={(e) => setEnrollmentRequestFilter(e)}
-            className="w-full"
+            className="w-full lg:h-[calc(100%-41px)] h-[calc(100%-41px)]"
           />
         </div>
       </div>

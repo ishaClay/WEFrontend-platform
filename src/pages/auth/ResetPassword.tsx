@@ -58,7 +58,7 @@ const ResetPassword = () => {
     mutationFn: ResetPasswordApi,
     onSuccess: () => {
       toast({
-        title: "Password reset successfully",
+        title: "Password is reset successfully.",
         variant: "success",
       });
       navigate("/auth");
@@ -95,7 +95,7 @@ const ResetPassword = () => {
         <div className="bg-[rgb(241,252,239)] w-1/2 font-poppins relative hidden flex-col items-center md:flex">
           <div className="top-[145px] absolute leading-10 flex flex-col items-center">
             <h2 className="lg:text-[62px] text-[40px] font-bold leading-[93px]">
-              EcoGrow Platform
+              Going Green
             </h2>
             <h3 className="lg:text-[26px] text-[20px] font-normal">
               Nurture your green skills,

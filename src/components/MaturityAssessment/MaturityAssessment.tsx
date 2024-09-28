@@ -84,6 +84,10 @@ const MaturityAssessment = () => {
       }),
   });
 
+  console.log(
+    "🚀 ~ MaturityAssessment ~ getCheckedmeasures:",
+    getCheckedmeasures
+  );
   // @ts-ignore
   const pillarCompleted = useMemo(() => {
     return getCheckedmeasures?.data?.data?.find(

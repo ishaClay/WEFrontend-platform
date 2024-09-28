@@ -31,8 +31,14 @@ interface CourseViewAllocatePopupProps {
 }
 
 const schema = zod.object({
-  fname: zod.string().min(1, { message: "First name is required" }),
-  lname: zod.string().min(1, { message: "Last name is required" }),
+  fname: zod
+    .string()
+    .min(1, { message: "First name is required" })
+    .regex(/^(|[A-Za-z]+)$/, "Please enter valid first name"),
+  lname: zod
+    .string()
+    .min(1, { message: "Last name is required" })
+    .regex(/^(|[A-Za-z]+)$/, "Please enter valid last name"),
   email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
@@ -316,8 +322,12 @@ export function AllocatedCertificateModal({
                             </AvatarFallback>
                           </Avatar>
                           <span>
-                            {`${employee?.contactFirstName && employee?.contactFirstName + " "}${
-                              employee?.contactSurname && employee?.contactSurname
+                            {`${
+                              employee?.contactFirstName &&
+                              employee?.contactFirstName + " "
+                            }${
+                              employee?.contactSurname &&
+                              employee?.contactSurname
                             }` || employee.email.split("@")?.[0]}
                           </span>
                         </div>

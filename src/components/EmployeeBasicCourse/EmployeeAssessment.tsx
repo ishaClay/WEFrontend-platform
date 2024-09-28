@@ -263,9 +263,15 @@ const EmployeeAssessment = () => {
               />
             </div>
             <div className="mb-[38px]">
-              <h2 className="font-semibold mb-[5px]">
+              <h2 className="font-semibold mb-[5px] text-center">
                 Your Score : {assessmentScoreData?.data?.YourPercentage}%{" "}
-                <span className="text-[#64A70B]">
+                <span
+                  className={`${
+                    assessmentScoreData?.data?.isPassed === "Fail"
+                      ? "text-[#FF5252]"
+                      : "text-[#64A70B]"
+                  }`}
+                >
                   ({assessmentScoreData?.data?.isPassed})
                 </span>
               </h2>
@@ -278,6 +284,13 @@ const EmployeeAssessment = () => {
                   Incorrect Answer :{" "}
                   {Number(assessmentScoreData?.data?.total?.questions) -
                     Number(assessmentScoreData?.data?.totalCorrect?.questions)}
+                </span>
+                <span className="text-[#F7C600]">
+                  Pending Questions :{" "}
+                  {Number(
+                    // @ts-ignore
+                    assessmentScoreData?.data?.questionsTypeCount?.total
+                  ) - Number(assessmentScoreData?.data?.total?.questions)}
                 </span>
               </p>
             </div>

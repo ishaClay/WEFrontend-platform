@@ -93,7 +93,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       );
 
     const upcomingData =
-      cohortData?.isOnline === IsOnline["Self placed Online"]
+      cohortData?.isOnline === IsOnline["Self-paced Online"]
         ? null
         : upcomingItems && upcomingItems;
 
@@ -352,8 +352,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                                 <span>Hybrid</span>
                               )}
                               {allcourse.isOnline ===
-                                IsOnline["Self placed Online"] && (
-                                <span>Self placed Online</span>
+                                IsOnline["Self-paced Online"] && (
+                                <span>Self-paced Online</span>
                               )}
                             </p>
                           </div>
@@ -383,7 +383,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
                         disabled={
-                          allcourse?.isOnline === IsOnline["Self placed Online"]
+                          allcourse?.isOnline === IsOnline["Self-paced Online"]
                             ? false
                             : (allcourse?.enrolled && // @ts-ignore
                                 allcourse?.enrolledStatus === 1) ||

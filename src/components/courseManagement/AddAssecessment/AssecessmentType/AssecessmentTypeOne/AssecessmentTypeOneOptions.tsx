@@ -23,8 +23,6 @@ const AssecessmentTypeOneOptions = ({
   id,
 }: optionsProps) => {
   const { assesment, setAssesment } = useContext(AssesmentContext);
-  console.log("data++", data?.option);
-
   const handleCheck = (inx: number) => {
     setAssesment((prev: any) => {
       return prev.map((item: any) => {
@@ -52,11 +50,17 @@ const AssecessmentTypeOneOptions = ({
             options: item?.options?.filter(
               (_: any, idx: number) => idx !== index
             ), // Filter the options array
+            answer: [],
           };
         }
         return item; // Return unchanged item
       });
     });
+    setErrors((prev: any) => ({
+      ...prev,
+      options: prev.options.filter((_: any, ind: number) => ind !== index),
+      diffOptions: "",
+    }));
   };
 
   const handleChange = (e: any, i: number) => {
@@ -98,18 +102,18 @@ const AssecessmentTypeOneOptions = ({
                 className="w-full text-base font-droid text-black h-full px-4 py-[15px] pr-[80px]"
                 onChange={(e) => {
                   handleChange(e, iIndex);
-                  setErrors((prev: any) => ({
-                    ...prev,
-                    options: prev.options.map((option: string, index: number) =>
-                      index === iIndex ? "" : option
-                    ),
-                  }));
+                  setErrors((prev: any) => {
+                    return {
+                      ...prev,
+                      options: prev.options.map(
+                        (option: string, index: number) =>
+                          index === iIndex ? "" : option
+                      ),
+                      diffOptions: "",
+                    };
+                  });
                 }}
-                value={
-                  assesment?.find((item: any) => item?.ids === id)?.options?.[
-                    iIndex
-                  ]?.option || ""
-                }
+                value={data?.option || ""}
               />
               <Button
                 className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2] absolute right-4"

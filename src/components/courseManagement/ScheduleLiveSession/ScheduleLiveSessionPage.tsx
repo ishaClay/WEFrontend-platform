@@ -247,6 +247,19 @@ const ScheduleLiveSessionPage = () => {
     }
   }, [selectedCohort, getCohortData]);
 
+  const cohortEndDate = useMemo(() => {
+    if (selectedCohort) {
+      const findCohort = getCohortData?.data?.find(
+        (item) => +item?.id === +selectedCohort
+      );
+      // @ts-ignore
+      if (!findCohort) return;
+      const { month, date, year } = findCohort?.slotEndDate;
+      const dateNew = new Date(`${year}-${month}-${date}`);
+      return dateNew || new Date();
+    }
+  }, [selectedCohort, getCohortData]);
+
   const cohortOption = getCohortData?.data?.map((item) => {
     const { month, date, year } = item?.slotStartDate;
     const { month: endMonth, date: endDay, year: endYear } = item?.slotEndDate;
@@ -577,6 +590,10 @@ const ScheduleLiveSessionPage = () => {
                     cohortStartDate
                       ? new Date(cohortStartDate)?.toISOString()?.split("T")[0]
                       : new Date().toISOString().split("T")[0]
+                  }
+                  max={
+                    cohortEndDate &&
+                    new Date(cohortEndDate).toISOString().split("T")[0]
                   }
                   {...register("sessionDate")}
                 />

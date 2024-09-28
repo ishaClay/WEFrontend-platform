@@ -165,6 +165,7 @@ const Compose = () => {
     queryFn: () => fetchEmails(selectTab),
   });
 
+  console.log("🚀 ~ Compose ~ emailtemplateList:", emailtemplateList);
   const schema = z.object({
     to: z
       .string({ required_error: "Please select this field" })
@@ -435,7 +436,7 @@ const Compose = () => {
                 </SelectGroup>
                 <SelectContent>
                   {emailtemplateList?.data?.data &&
-                  emailtemplateList?.data?.data?.length > 80 ? (
+                  emailtemplateList?.data?.data?.length > 0 ? (
                     emailtemplateList?.data?.data?.map((item: any) => {
                       return (
                         <SelectItem key={item?.id} value={String(item?.id)}>

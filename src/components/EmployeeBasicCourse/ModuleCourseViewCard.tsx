@@ -1,11 +1,11 @@
 import ModuleVideoPlay from "@/assets/images/assesment_test.png";
+import { cn } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { UserRole } from "@/types/UserRole";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
-import { cn } from "@/lib/utils";
 
 const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const { role } = useSelector((state: RootState) => state.user);
@@ -43,7 +43,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
             <div>
               <h5
                 className={cn(
-                  "sm:text-base text-sm text-black font-droid pb-2 cursor-pointer inline-block",
+                  "sm:text-base text-sm text-black font-droid cursor-pointer inline-block",
                   {
                     "pointer-events-none":
                       +userData?.query?.role === 4
@@ -74,8 +74,8 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
               >
                 {assessmentData?.title}
               </h5>
-              <div className="sm:flex block items-center">
-                <h6 className="text-[#747474] text-xs font-droid sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+              {/* <div className="sm:flex block items-center">
+                <h6 className="text-[#747474] text-xs font-droid">
                   Assessment
                 </h6>
                 <h6 className="text-[#747474] text-xs font-droid">
@@ -92,7 +92,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
                     ?.toString()
                     ?.padStart(2, "0") || "00"}
                 </h6>
-              </div>
+              </div> */}
             </div>
             {+role === 4 && (
               <Button

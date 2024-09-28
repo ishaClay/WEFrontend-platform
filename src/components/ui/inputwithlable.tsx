@@ -7,11 +7,12 @@ export interface InputProps
   label?: string;
   disable?: boolean;
   isMendatory?: boolean;
+  hyperText?: string;
 }
 
 const InputWithLable = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, type, label, disable = false, isMendatory = false, ...props },
+    { className, type, label, hyperText, disable = false, isMendatory = false, ...props },
     ref
   ) => {
     return (
@@ -19,6 +20,7 @@ const InputWithLable = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label className="mb-[8px]  font-normal text-[16px]">
             {label}{" "}
+            {hyperText && <span className="text-sm">{hyperText}</span> }
             <span className="text-red-500">{isMendatory ? "*" : ""}</span>{" "}
           </label>
         )}

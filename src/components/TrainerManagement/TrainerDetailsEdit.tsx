@@ -360,7 +360,7 @@ const TrainerDetailsEdit = () => {
                   <InputWithLable
                     placeholder="john.sample@emailsample.com"
                     className="h-[46px]"
-                    disabled
+                    disabled={clientDetails?.data?.status === 2 ? false : true}
                     label="Email"
                     {...register("email")}
                   />

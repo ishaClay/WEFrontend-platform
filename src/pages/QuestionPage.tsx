@@ -19,7 +19,10 @@ import {
   setQuestion,
 } from "@/redux/reducer/QuestionReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
-import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
+import {
+  assessmentQuestionScore as assessmentQuestionScoreList,
+  fetchClientwisePillarList,
+} from "@/services/apiServices/pillar";
 import {
   assessmentQuestionScore,
   fetchQuestionAnswerList,
@@ -32,7 +35,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
-import { assessmentQuestionScore as assessmentQuestionScoreList } from "@/services/apiServices/pillar";
 
 const QuestionPage = () => {
   const navigate = useNavigate();

@@ -83,7 +83,10 @@ function RegisterTrainer() {
       })
       .min(1, { message: "Please enter provider type" }),
     providerCity: z.string().min(1, { message: "Please enter provider city" }),
-    contactSurname: z.string().min(3, { message: "Please enter last name" }),
+    contactSurname: z
+      .string()
+      .min(1, { message: "Please enter contact lastname" })
+      .regex(/^\S*$/, "Please enter valid contact lastname"),
     contactTelephone: z.string().optional(),
     providerAddress: z
       .string({
@@ -91,7 +94,10 @@ function RegisterTrainer() {
       })
       .min(1, { message: "Please enter provider address" }),
     providerCounty: z.string().optional(),
-    contactFirstName: z.string().min(3, { message: "Please enter first name" }),
+    contactFirstName: z
+      .string()
+      .min(1, { message: "Please enter contact firstname" })
+      .regex(/^\S*$/, "Please enter valid contact firstname"),
     email: z
       .string()
       .min(1, { message: "Please enter email address" })
@@ -169,6 +175,7 @@ function RegisterTrainer() {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  console.log("🚀 ~ RegisterTrainer ~ errors:", errors);
   const email = watch("email");
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({

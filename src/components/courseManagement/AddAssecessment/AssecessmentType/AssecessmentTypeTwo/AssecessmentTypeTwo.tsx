@@ -39,6 +39,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           : 0
       )?.fill(""),
       answer: "",
+      diffOptions: "",
     });
 
     const validateAssecessmentTypeTwo = () => {
@@ -52,7 +53,31 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
             ?.options.length
         ).fill(""),
         answer: "",
+        diffOptions: "",
       };
+
+      const options =
+        assesment.find((item: any) => +item.ids === +assecessmentQuestion?.ids)
+          ?.options || [];
+
+      let canAdd = !options.some((it: any) => !it?.option) || !options.length;
+      options.forEach((value: any, index: number, arr: any) => {
+        if (
+          arr.some(
+            (it: any, itIndex: number) =>
+              index !== itIndex && it?.option === value?.option
+          )
+        ) {
+          canAdd = false;
+        }
+      });
+
+      if (canAdd) {
+        newErrors.diffOptions = "";
+      } else {
+        newErrors.diffOptions = "Please add different options";
+        valid = false;
+      }
 
       // Validate question
       const questionValue =
@@ -256,9 +281,18 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                 </Fragment>
               );
             })}
-          {errors.answer && (
-            <p className="text-red-500 text-sm">{errors.answer}</p>
-          )}
+          <div className="flex justify-between items-center">
+            {errors.diffOptions && (
+              <p className="text-red-500 text-sm self-start w-full">
+                {errors.diffOptions}
+              </p>
+            )}
+            {errors.answer && (
+              <p className="text-red-500 text-sm text-end w-full">
+                {errors.answer}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );

@@ -50,6 +50,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const events = allLiveSession?.map((session) => {
+    console.log("🚀 ~ events ~ session:", session);
     const sessionDurationMinutes = session?.sessionDuration;
 
     const eventStart = moment(session.startTime, "YYYY-MM-DD hh:mm A").toDate();
@@ -64,6 +65,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
       title: session?.subtitle,
       description: session?.description,
       zoomlink: session?.zoomApiBaseUrl,
+      courseTitle: session?.course?.title,
     };
   });
 
@@ -213,12 +215,12 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     <Dialog>
       <DialogTrigger className="w-full text-left h-full">
         <p className="cursor-pointer max-w-[200px] w-full line-clamp-1">
-          {event.title}
+          {event?.courseTitle + " - " + event.title}
         </p>
       </DialogTrigger>
       <DialogContent showCloseButton={true}>
         <h3 className="mb-2 text-wrap">
-          <strong>Title:</strong> {event?.title}
+          <strong>Title:</strong> {event?.courseTitle + " - " + event.title}
         </h3>
         <p className="mb-2">
           <strong>Meeting time:</strong>{" "}

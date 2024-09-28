@@ -319,11 +319,6 @@ const MaturityLevelPage = () => {
                         ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                         : 0;
 
-                    console.log(
-                      "fetchClientmaturitylevel?.data[0]",
-                      fetchClientmaturitylevel?.data?.[0]?.color
-                    );
-
                     return (
                       <>
                         {fetchClientmaturitylevel?.data &&
@@ -334,18 +329,18 @@ const MaturityLevelPage = () => {
                             <Button
                               type="button"
                               variant={"ghost"}
-                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              className="h-auto p-0"
                               key={item.pillarid}
                               onClick={() => {
                                 setIsOpen(item.pillarid);
                                 setPillerName(item.pillarname);
                               }}
                             >
-                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                              <div className="flex flex-wrap lg:gap-5 gap-4 group">
                                 <div
-                                  className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
+                                  className={`border-2 border-introductory_pillar bg-introductory_pillar transition-all duration-500 hover:text-black hover:bg-white text-white lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
-                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                  <div className="flex justify-center items-center group-hover:bg-introductory_pillar bg-white transition-all duration-500 rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                     <img
                                       src={getImages(item.pillarname)}
                                       alt="img"
@@ -402,11 +397,11 @@ const MaturityLevelPage = () => {
                                 setPillerName(item.pillarname);
                               }}
                             >
-                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                              <div className="flex flex-wrap lg:gap-5 gap-4 group">
                                 <div
-                                  className={`border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
+                                  className={`border-2 border-intermediate_pillar transition-all duration-500 hover:bg-white bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
-                                  <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                  <div className="p-2.5 bg-white rounded-full group-hover:bg-intermediate_pillar w-[52px] h-[52px] transition-all duration-500 m-auto">
                                     <img
                                       src={getImages(item.pillarname)}
                                       alt="img"
@@ -463,11 +458,11 @@ const MaturityLevelPage = () => {
                                 setPillerName(item.pillarname);
                               }}
                             >
-                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                              <div className="flex flex-wrap lg:gap-5 gap-4 group">
                                 <div
-                                  className={`border border-solid border-advanced_pillar bg-advanced_pillar lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
+                                  className={`border-2 border-advanced_pillar bg-advanced_pillar hover:bg-white transition-all duration-500 lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
-                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                  <div className="flex justify-center items-center group-hover:bg-advanced_pillar bg-white rounded-full transition-all duration-500 sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                     <img
                                       src={getImages(item.pillarname)}
                                       alt="img"

@@ -73,6 +73,11 @@ const Question = ({
           <CarouselNext /> */}
         </Carousel>
       </div>
+      {allPillar.indexOf(activePillar) === allPillar.length - 1 && (
+        <p className="text-center text-[#ff0000] mb-2">
+          The submit button should get enabled once all questions are answered.
+        </p>
+      )}
       <div
         className={`w-full sm:mt-0 mt-5 gap-2 items-center justify-center ${
           isHide ? "hidden" : "flex"

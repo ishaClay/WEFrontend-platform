@@ -33,21 +33,25 @@ const Roadmap = ({
       ? userData?.query?.id
       : userData?.id;
 
-  const { data: maturitypillar, isLoading: fetchingMaturitypillar } =
-    useQuery<AllActionDataPillerWise>({
-      queryKey: [
-        QUERY_KEYS.maturitypillar,
-        { selectAssessment, clientId, userID },
-      ],
-      queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
-      enabled: !!selectAssessment,
-    });
+  const {
+    data: maturitypillar,
+    isLoading: fetchingMaturitypillar,
+    isFetching: fetching,
+  } = useQuery<AllActionDataPillerWise>({
+    queryKey: [
+      QUERY_KEYS.maturitypillar,
+      { selectAssessment, clientId, userID },
+    ],
+    queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
+    enabled: !!selectAssessment,
+  });
 
   useEffect(() => {
     if (
       !isEdit &&
-      ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
-        showButton !== 0)
+      +userData?.query?.role === UserRole?.Company &&
+      pathStatus > 5 &&
+      showButton !== 0
     ) {
       setStep(2);
     } else {
@@ -80,6 +84,7 @@ const Roadmap = ({
           selectAssessment={selectAssessment}
           maturitypillar={maturitypillar?.data || []}
           isMaturitypillarLoading={fetchingMaturitypillar}
+          isLoading={fetching}
         />
       ) : (
         step === 2 && (

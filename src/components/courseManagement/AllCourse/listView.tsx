@@ -438,7 +438,10 @@ const ListView = ({
                 dispatch(
                   setPath([
                     { label: "Course Management", link: null },
-                    { label: `${pathName === "allcourse" && "All Courses"}`, link: `/${Role}/${pathName}` },
+                    {
+                      label: `${pathName === "allcourse" && "All Courses"}`,
+                      link: `/${Role}/${pathName}`,
+                    },
                     { label: "Employee Basic Course", link: null },
                   ])
                 )
@@ -599,7 +602,8 @@ const ListView = ({
                             <span>Reject</span>
                           </DropdownMenuItem>
                         )}
-                        {data.status === "PUBLISHED" && (
+                        {(data.status === "PUBLISHED" ||
+                          data?.status === "UNPUBLISHED") && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, data, "editminor")}
