@@ -348,18 +348,18 @@ const AssessmentResult = ({
                         <Button
                           type="button"
                           variant={"ghost"}
-                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          className="h-auto p-0"
                           key={item.pillarid}
                           onClick={() => {
                             setIsOpen(item.pillarid);
                             setPillerName(item.pillarname);
                           }}
                         >
-                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                          <div className="flex flex-wrap lg:gap-5 gap-4 group">
                             <div
-                              className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white w-[225px] rounded-xl p-2.5`}
+                              className={`border-2 border-introductory_pillar transition-all duration-500 bg-introductory_pillar hover:text-black hover:bg-white text-white w-[225px] rounded-xl p-2.5`}
                             >
-                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                              <div className="flex justify-center items-center bg-white group-hover:bg-introductory_pillar transition-all duration-500 rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
                                   alt="img"
@@ -411,18 +411,18 @@ const AssessmentResult = ({
                         <Button
                           type="button"
                           variant={"ghost"}
-                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          className="h-auto p-0"
                           key={item.pillarid}
                           onClick={() => {
                             setIsOpen(item.pillarid);
                             setPillerName(item.pillarname);
                           }}
                         >
-                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                          <div className="flex flex-wrap lg:gap-5 gap-4 group">
                             <div
-                              className={`border border-solid border-intermediate_pillar bg-intermediate_pillar w-[225px] rounded-xl p-2.5`}
+                              className={`border-2 border-solid border-intermediate_pillar transition-all duration-500 bg-intermediate_pillar  hover:bg-white w-[225px] rounded-xl p-2.5`}
                             >
-                              <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                              <div className="p-2.5 bg-white group-hover:bg-intermediate_pillar transition-all duration-500 rounded-full w-[52px] h-[52px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
                                   alt="img"
@@ -474,18 +474,18 @@ const AssessmentResult = ({
                         <Button
                           type="button"
                           variant={"ghost"}
-                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          className="h-auto p-0"
                           key={item.pillarid}
                           onClick={() => {
                             setIsOpen(item.pillarid);
                             setPillerName(item.pillarname);
                           }}
                         >
-                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                          <div className="flex flex-wrap lg:gap-5 gap-4 group">
                             <div
-                              className={`border border-solid border-advanced_pillar bg-advanced_pillar w-[225px] rounded-xl p-2.5`}
+                              className={`border-2 border-advanced_pillar hover:bg-white transition-all duration-500 bg-advanced_pillar w-[225px] rounded-xl p-2.5`}
                             >
-                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                              <div className="flex justify-center items-center group-hover:bg-advanced_pillar bg-white transition-all duration-500 rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
                                   alt="img"

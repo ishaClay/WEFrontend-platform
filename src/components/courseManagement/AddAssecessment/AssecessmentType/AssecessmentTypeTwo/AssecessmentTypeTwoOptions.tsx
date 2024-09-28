@@ -63,6 +63,7 @@ const AssecessmentTypeTwoOptions = ({
               // @ts-ignore
               (val: string) => val?.option !== optionToRemove
             ),
+            answer: [],
           };
         }
         return item;
@@ -72,6 +73,8 @@ const AssecessmentTypeTwoOptions = ({
     setErrors((prev: any) => ({
       ...prev,
       answer: "",
+      options: prev.options.filter((_: any, ind: number) => ind !== iIndex),
+      diffOptions: "",
     }));
   };
 
@@ -109,6 +112,12 @@ const AssecessmentTypeTwoOptions = ({
                 className="w-full px-4 py-[15px] pr-[80px] text-base font-droid text-black h-auto"
                 onChange={(e) => {
                   handleChange(e, iIndex);
+                  setErrors((prev: any) => {
+                    return {
+                      ...prev,
+                      diffOptions: "",
+                    };
+                  });
                 }}
                 value={
                   assesment?.find((item: any) => item?.ids === id)?.options?.[

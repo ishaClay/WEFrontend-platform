@@ -398,7 +398,11 @@ input[type="radio"] {
   display: none;
 }
 
-.courses_slider .slick-prev, 
-.courses_slider .slick-next{
+.courses_slider .slick-prev,
+.courses_slider .slick-next {
   top: 50%;
+}
+
+::-ms-reveal {
+  display: none;
 }
