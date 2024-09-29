@@ -40,7 +40,11 @@ export const getCertifications = async (id: string) => {
   const res = await api({ url });
   return res.data;
 };
-export const fetchCourseEnroll = async (courseId: string, employeeId: number, certificateId: string): Promise<any> => {
+export const fetchCourseEnroll = async (
+  courseId: string,
+  employeeId: number,
+  certificateId: string
+): Promise<any> => {
   const url = `api/v1/course/get-enrolled-course/${courseId}/${employeeId}`;
   const params: any = {};
   if (certificateId) {
@@ -51,10 +55,10 @@ export const fetchCourseEnroll = async (courseId: string, employeeId: number, ce
 };
 
 export const fetchcertificate = async (id: string) => {
-  const url = `api/v1/certificate/get/${id}`
+  const url = `api/v1/certificate/get/${id}`;
   const res = await api({ url });
   return res.data;
-}
+};
 
 export const Updatecertificate = ({
   data,
@@ -68,17 +72,20 @@ export const Updatecertificate = ({
   return api({ url, method, data });
 };
 
-export const IssuedCertificateList = async ({
-  id,
-  page,
-  search,
-}: {
-  id: number;
-  page: number;
-  search: string;
-}) => {
+export const IssuedCertificateList = async (
+  {
+    id,
+    page,
+    search,
+  }: {
+    id: number;
+    page: number;
+    search: string;
+  },
+  signal: AbortSignal
+) => {
   const url = `api/v1/certificate/get-employee/${id}?page=${page}&limit=10&keyword=${search}`;
-  const res = await api({ url });
+  const res = await api({ url, signal });
   return res.data;
 };
 
@@ -92,10 +99,10 @@ export const allocateCertificate = async (data: any) => {
   const url = `api/v1/certificate/allocate-certificate`;
   const res = await api({ url, method: "put", data });
   return res.data;
-}
+};
 
 export const deleteAllocateCertificate = async (id: number) => {
   const url = `api/v1/certificate/allocate-delete/${id}`;
   const res = await api({ url, method: "delete" });
   return res.data;
-}
+};

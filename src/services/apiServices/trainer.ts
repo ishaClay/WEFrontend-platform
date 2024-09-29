@@ -5,21 +5,24 @@ export const registerTrainer = (data: any) => {
   return api({ url, data, method: "post" });
 };
 
-export const getTrainer = async ({
-  id,
-  keyword,
-  limit,
-  page,
-  status = "",
-}: {
-  id: string;
-  keyword: string;
-  status?: string;
-  limit: number;
-  page: number;
-}) => {
+export const getTrainer = async (
+  {
+    id,
+    keyword,
+    limit,
+    page,
+    status = "",
+  }: {
+    id: string;
+    keyword: string;
+    status?: string;
+    limit: number;
+    page: number;
+  },
+  signal: AbortSignal
+) => {
   const url = `api/v1/trainer/list?trainerCompanyId=${id}&keyword=${keyword}&limit=${limit}&page=${page}&status=${status}`;
-  const response = await api({ url });
+  const response = await api({ url, signal });
   return response.data;
 };
 
@@ -43,7 +46,7 @@ export const getTrainerById = async ({ id }: { id: string }) => {
 export const getTrainerByCompanyId = async ({
   id,
   courseId,
-  status
+  status,
 }: {
   id: string;
   courseId: string;

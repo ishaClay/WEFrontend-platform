@@ -21,8 +21,11 @@ const TeamProgressPage = () => {
   const companyId = userData?.query?.detailsid;
   const { data, isFetching } = useQuery<EmployeeProgreeResponse>({
     queryKey: [QUERY_KEYS.getEmployeeProgress, { search }],
-    queryFn: () =>
-      getEmployeeProgress({ id: companyId, keyword: search, status: "" }),
+    queryFn: ({ signal }) =>
+      getEmployeeProgress(
+        { id: companyId, keyword: search, status: "" },
+        signal
+      ),
   });
 
   const accordionItems: AccordionOption[] =

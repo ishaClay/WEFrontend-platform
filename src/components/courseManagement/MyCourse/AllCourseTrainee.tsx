@@ -50,12 +50,13 @@ const AllCourseTrainee = () => {
       QUERY_KEYS.fetchAllCourse,
       { searchKeyword, status, UserId, statusTrainee },
     ],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       fetchCourseAllCourse(
         searchKeyword,
         +UserId,
         status === "All" ? "" : status,
-        statusTrainee === "All" ? "" : statusTrainee
+        statusTrainee === "All" ? "" : statusTrainee,
+        signal
       ),
     enabled: !!searchKeyword || !!status || !!UserId,
   });

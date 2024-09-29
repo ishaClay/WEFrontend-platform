@@ -191,7 +191,7 @@ const SupportRequestTable = ({
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="px-0 justify-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -215,15 +215,18 @@ const SupportRequestTable = ({
               row.original.status === "Answered"
                 ? "text-[#58BA66]"
                 : row.original.status === "InProcess"
-                ? "text-[#58BA66]"
-                : "text-[#FFD56A]"
+                ? "text-[#FFD56A]"
+                : "text-[#000]"
             } w-25 h-8 font-bold px-3 flex items-center justify-center`}
           >
             {row.original.status === "InProcess"
-              ? "In Process"
+              ? "In Progress"
               : row.original.status}
           </p>
         );
+      },
+      meta: {
+        className: "text-center",
       },
     },
     {
@@ -361,9 +364,10 @@ const SupportRequestTable = ({
         <Input
           placeholder={"Search by Requestor, Subject, Assign to etc."}
           value={search}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           className="py-[17px] pl-[39px] border sm:w-[550px] w-full rounded-[6px] sm:mx-[23px] mx-[15px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
         />
         <img

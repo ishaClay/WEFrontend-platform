@@ -5,11 +5,12 @@ export const getMemberlist = async (
   page: string,
   limit: string,
   userId: number | null,
-  keyword: string
+  keyword: string,
+  signal: AbortSignal
 ) => {
   const url = `api/v1/employee/list`;
   const params: any = { page, limit, companyId: userId, keyword };
-  const res = await api({ url, params });
+  const res = await api({ url, params, signal });
   return res.data;
 };
 
@@ -19,23 +20,29 @@ export const createEmployeeInvition = (data: EmployeePayload) => {
   return api({ url, data, method });
 };
 
-export const getEmployeeProgress = async ({
-  id,
-  keyword,
-  status,
-}: {
-  id: number;
-  keyword: string;
-  status: string;
-}) => {
+export const getEmployeeProgress = async (
+  {
+    id,
+    keyword,
+    status,
+  }: {
+    id: number;
+    keyword: string;
+    status: string;
+  },
+  signal: AbortSignal
+) => {
   const url = `api/v1/teamprogress/getTeamProgress?companyId=${id}&keyword=${keyword}&status=${status}`;
-  const res = await api({ url });
+  const res = await api({ url, signal });
   return res.data;
 };
 
-export const emploteeResendInvitation = async (data: { email: string, companyId: number }) => {
+export const emploteeResendInvitation = async (data: {
+  email: string;
+  companyId: number;
+}) => {
   const url = `api/v1/employee/resend-invitation`;
   const method = "post";
   const res = await api({ url, data, method });
   return res.data;
-}
+};

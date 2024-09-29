@@ -55,11 +55,12 @@ function CoursesAllocate() {
   const { data: course, isFetching: isPending } =
     useQuery<EnrollmentRequestsResponse>({
       queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
-      queryFn: () =>
+      queryFn: ({ signal }) =>
         fetchAllocatedCourse(
           userData?.query?.id,
           statusFilter === "all" ? "" : statusFilter,
-          clientId
+          clientId,
+          signal
         ),
     });
 
@@ -75,7 +76,7 @@ function CoursesAllocate() {
       now.getDate()
     );
 
-    const isUpcomingDate = newDate > currentDate;
+    const isUpcomingDate = newDate >= currentDate;
 
     return !isUpcomingDate;
   };
@@ -115,8 +116,8 @@ function CoursesAllocate() {
             course?.data?.courseAlloted?.length > 0 ? (
             course?.data?.courseAlloted?.map((courseallocate) => {
               const isRead =
-                +courseallocate?.employee?.length ===
-                  +courseallocate?.numberOfEmployee ||
+                // +courseallocate?.employee?.length ===
+                //   +courseallocate?.numberOfEmployee ||
                 handleCheckUpcomingData(
                   // @ts-ignore
                   courseallocate?.cohortGroup?.slotStartDate

@@ -414,7 +414,7 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <Label className="mb-[8px] font-bold text-[16px]">
+                    <Label className="mb-[8px] text-[16px]">
                       Provider Type <span className="text-red-500">*</span>
                     </Label>
                     <SelectMenu
@@ -465,7 +465,7 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <Label className="mb-[8px] font-bold text-[16px]">
+                    <Label className="mb-[8px] text-[16px]">
                       Provider County <span className="text-red-500">*</span>
                     </Label>
                     <SelectMenu
@@ -496,7 +496,7 @@ function RegisterTrainer() {
                       disabled={isSubmit}
                     >
                       <SelectGroup>
-                        <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
+                        <SelectLabel className="text-[16px] font-[400] py-0 pb-[9px] mt-0">
                           Foreign Provider
                           <span className="text-red-500">*</span>
                         </SelectLabel>
@@ -537,7 +537,7 @@ function RegisterTrainer() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="col-span-2">
-                          <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
+                          <label className="mb-1  flex items-center leading-5 font-droid sm:text-base text-[15px]">
                             Contact Telephone No.{" "}
                           </label>
                           <PhoneInput

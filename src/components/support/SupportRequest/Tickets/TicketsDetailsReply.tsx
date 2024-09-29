@@ -485,8 +485,8 @@ const TicketsDetailsReply = () => {
                 </SelectGroup>
                 <SelectContent>
                   <SelectItem value="Open">Open</SelectItem>
+                  <SelectItem value="InProcess">In Progress</SelectItem>
                   <SelectItem value="Answered">Answered</SelectItem>
-                  <SelectItem value="InProgress">In Progress</SelectItem>
                 </SelectContent>
               </Select>
               {!errors?.ticketStatus?.ref?.value && (

@@ -7,14 +7,17 @@ export type CourseEnrollmentPayload = {
   trainerId: number;
 };
 
-export const fetchRecommendedCourses = async (params: {
-  user: number;
-  client: number;
-  keyword: string;
-}): Promise<RecommendedCourseResponse> => {
+export const fetchRecommendedCourses = async (
+  params: {
+    user: number;
+    client: number;
+    keyword: string;
+  },
+  signal: AbortSignal
+): Promise<RecommendedCourseResponse> => {
   const url = `/api/v1/course/recommended`;
 
-  const response = await api({ url, params: params });
+  const response = await api({ url, params: params, signal });
   return response.data;
 };
 

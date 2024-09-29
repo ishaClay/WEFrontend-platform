@@ -368,13 +368,15 @@ function CoursesAllocate() {
             >
               <Pencil className="text-gray-200 w-[20px]" />
             </Button>
-            {row.original.status !== "Registered" && <Button
-              onClick={() => setOpenDelete(row?.original)}
-              variant={"ghost"}
-              className="p-0"
-            >
-              <img src={delet} alt="" />
-            </Button>}
+            {row.original.status !== "Registered" && (
+              <Button
+                onClick={() => setOpenDelete(row?.original)}
+                variant={"ghost"}
+                className="p-0"
+              >
+                <img src={delet} alt="" />
+              </Button>
+            )}
           </div>
         );
       },
@@ -392,7 +394,8 @@ function CoursesAllocate() {
 
   const { data, isPending: employeDataPending } = useQuery({
     queryKey: [QUERY_KEYS.MemberList, { page, search }],
-    queryFn: () => getMemberlist(page.toString(), "10", companyId, search),
+    queryFn: ({ signal }) =>
+      getMemberlist(page.toString(), "10", companyId, search, signal),
   });
 
   const { mutate, isPending } = useMutation({
@@ -479,9 +482,10 @@ function CoursesAllocate() {
             <Input
               placeholder={"Search by name, email etc."}
               value={search}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setSearch(e.target.value)
-              }
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
               className="pl-[45px] border sm:w-[550px] w-[290px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
             />
             <img

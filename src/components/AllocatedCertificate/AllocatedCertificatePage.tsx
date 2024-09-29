@@ -34,8 +34,8 @@ const AllocatedCertificatePage = () => {
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
     queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
-    queryFn: () =>
-      IssuedCertificateList({ id: userData?.query?.id, page, search }),
+    queryFn: ({ signal }) =>
+      IssuedCertificateList({ id: userData?.query?.id, page, search }, signal),
   });
 
   const { mutate: deleteCertificate, isPending: deletePending } = useMutation({

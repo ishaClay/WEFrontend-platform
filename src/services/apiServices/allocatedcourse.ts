@@ -7,7 +7,12 @@ export const fetchAllocatedCourseById = async (enrollId: number) => {
   return res.data;
 };
 
-export const fetchAllocatedCourse = async (id: number, filter?: string, client?: string) => {
+export const fetchAllocatedCourse = async (
+  id: number,
+  filter: string,
+  client: string,
+  signal: AbortSignal
+) => {
   const url = `api/v1/course/course-enrollment/${id}`;
   const params: any = {};
   if (filter) {
@@ -16,7 +21,7 @@ export const fetchAllocatedCourse = async (id: number, filter?: string, client?:
   if (client) {
     params["client"] = client;
   }
-  const res = await api({ url, params });
+  const res = await api({ url, params, signal });
   return res.data;
 };
 

@@ -73,14 +73,17 @@ const MyCoursePage = () => {
           selectFilterByCategory === "all" ? "" : selectFilterByCategory,
       },
     ],
-    queryFn: () =>
-      getAllEmployeeCourseList({
-        id: userID,
-        status: selectFilterByStatus === "all" ? "" : selectFilterByStatus,
-        categories:
-          selectFilterByCategory === "all" ? "" : selectFilterByCategory,
-        keyword: keyword,
-      }),
+    queryFn: ({ signal }) =>
+      getAllEmployeeCourseList(
+        {
+          id: userID,
+          status: selectFilterByStatus === "all" ? "" : selectFilterByStatus,
+          categories:
+            selectFilterByCategory === "all" ? "" : selectFilterByCategory,
+          keyword: keyword,
+        },
+        signal
+      ),
   });
 
   useEffect(() => {

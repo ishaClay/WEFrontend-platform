@@ -19,8 +19,8 @@ const SupportRequest = () => {
   const { data: support_request_list, isPending: supportRequestPending } =
     useQuery({
       queryKey: [QUERY_KEYS.supportTicketList, { page, search }],
-      queryFn: () =>
-        fetchSupportTicketList(page.toString(), "10", search, +UserId),
+      queryFn: ({ signal }) =>
+        fetchSupportTicketList(page.toString(), "10", search, +UserId, signal),
     });
 
   return (
