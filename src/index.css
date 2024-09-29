@@ -406,3 +406,10 @@ input[type="radio"] {
 ::-ms-reveal {
   display: none;
 }
+
+.footerText {
+  font-family: "Uni Neue", sans-serif;
+  line-height: 1.44;
+  font-size: 12px;
+  font-weight: 600;
+}
