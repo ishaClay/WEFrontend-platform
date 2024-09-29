@@ -26,9 +26,9 @@ const HomeFooter = () => {
                 className="xl:w-[951px] w-[810px] h-[84px] lg:block hidden"
                 src="../assets/img/network-group.png"
               /> */}
-              <div className="flex lg:flex-row flex-col lg:justify-around justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent xl:gap-3 sm:gap-2 gap-0 xl:w-[951px] lg:w-[850px] w-auto h-auto lg:py-[14px] lg:px-5 px-0">
+              <div className="flex lg:flex-row flex-col lg:justify-around justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent sm:gap-2 gap-0 xl:w-[951px] lg:w-[850px] w-auto h-auto lg:py-[14px] lg:px-5 px-0">
                 <div className="lg:order-1 order-4">
-                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[32px] sm:border-b-0 font-droid border-b border-white">
+                  <p className="lg:w-[340px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[32px] sm:border-b-0 border-b border-white footerText">
                     Skillnet Ireland is funded from the National Training Fund
                     through the Department of Further and Higher Education,
                     Research, Innovation and Science.
