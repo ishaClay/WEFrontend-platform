@@ -34,7 +34,7 @@ function EmployeePermission() {
           : userData?.query?.detailsid,
       },
     ],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       employeeList(
         page.toString(),
         "10",
@@ -42,7 +42,8 @@ function EmployeePermission() {
           ? userData?.query?.companyDetails?.id
           : userData?.query?.detailsid,
         search,
-        "Registered"
+        "Registered",
+        signal
       ),
   });
 
@@ -217,9 +218,10 @@ function EmployeePermission() {
             <Input
               placeholder="Search by Name"
               value={search}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setSearch(e.target.value)
-              }
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
               className="pl-[45px] border sm:w-[550px] w-[290px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[44px] placeholder:font-normal"
             />
             <img

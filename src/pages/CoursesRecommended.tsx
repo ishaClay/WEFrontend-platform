@@ -29,12 +29,15 @@ function CoursesRecommended() {
   const [search, setSearch] = useState("");
   const { data: recommendedcourses, isFetching: pending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
-    queryFn: () =>
-      fetchRecommendedCourses({
-        user: parseInt(userID),
-        client: parseInt(userData?.clientId),
-        keyword: search,
-      }),
+    queryFn: ({ signal }) =>
+      fetchRecommendedCourses(
+        {
+          user: parseInt(userID),
+          client: parseInt(userData?.clientId),
+          keyword: search,
+        },
+        signal
+      ),
   });
 
   const changeRecommendedCourseView = (id: number) => {

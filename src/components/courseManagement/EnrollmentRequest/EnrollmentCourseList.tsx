@@ -13,7 +13,8 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
     isFetching: fetchEnrollRequestPending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
-    queryFn: () => fetchEnrollmentRequest(UserId, statusparams),
+    queryFn: ({ signal }) =>
+      fetchEnrollmentRequest(UserId, statusparams, signal),
   });
   console.log(
     "🚀 ~ EnrollmentCourseList ~ fetchEnrollRequestData:",

@@ -35,13 +35,17 @@ export interface courseRequestTwoPage {
   keys?: string;
 }
 
-export const fetchEnrollmentRequest = (trainerID: string, enroll?: string) => {
+export const fetchEnrollmentRequest = (
+  trainerID: string,
+  enroll: string,
+  signal: AbortSignal
+) => {
   const url = `api/v1/course/course-enrollment-requests/${trainerID}`;
   const params: any = {};
   if (enroll) {
     params["enroll"] = enroll;
   }
-  return api({ url, params });
+  return api({ url, params, signal });
 };
 
 export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
@@ -55,7 +59,8 @@ export const fetchCourseAllCourse = async (
   searchKeyword: string,
   userId?: number,
   status?: string,
-  reddyForPublish?: string
+  reddyForPublish?: string,
+  signal?: AbortSignal
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};
@@ -74,7 +79,7 @@ export const fetchCourseAllCourse = async (
   if (status) {
     params["reddyForPublish"] = status;
   }
-  const res = await api({ url, params });
+  const res = await api({ url, params, signal });
 
   return res.data;
 };
@@ -148,11 +153,12 @@ export const copyCourse = ({ id, userId }: { id: number; userId: number }) => {
 export const getCourseByTrainee = async (
   id: number,
   status?: string,
-  keyword?: string
+  keyword?: string,
+  signal: AbortSignal
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/trainer-company/allcoursebytrainer/${id}?status=${status}&keyword=${keyword}`;
   const method = "get";
-  const res = await api({ url, method });
+  const res = await api({ url, method, signal });
   return res.data;
 };
 
@@ -162,17 +168,20 @@ export const deleteCourse = (id: number) => {
   return api({ url, method });
 };
 
-export const getAllEmployeeCourseList = async ({
-  id,
-  status,
-  categories,
-  keyword,
-}: {
-  id: number;
-  status: string;
-  categories: string;
-  keyword?: string;
-}) => {
+export const getAllEmployeeCourseList = async (
+  {
+    id,
+    status,
+    categories,
+    keyword,
+  }: {
+    id: number;
+    status: string;
+    categories: string;
+    keyword?: string;
+  },
+  signal?: AbortSignal
+) => {
   const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}`;
   const method = "get";
   const params: any = {};
@@ -185,7 +194,7 @@ export const getAllEmployeeCourseList = async ({
   if (categories) {
     params["categories"] = categories;
   }
-  const res = await api({ url, method, params });
+  const res = await api({ url, method, params, signal });
   return res.data;
 };
 export const updateVersion = (data: {

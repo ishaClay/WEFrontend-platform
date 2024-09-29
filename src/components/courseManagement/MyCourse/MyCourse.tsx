@@ -44,11 +44,12 @@ const MyCourse = () => {
     isPending: fetchCourseAllCoursePending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       getCourseByTrainee(
         userData?.query?.detailsid,
         status === "All" ? "" : status,
-        searchKeyword
+        searchKeyword,
+        signal
       ),
   });
 

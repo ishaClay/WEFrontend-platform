@@ -322,7 +322,8 @@ const TrainerManagement = () => {
 
   const { data, isPending } = useQuery({
     queryKey: ["trainer", { page, limit, searchValue, id }],
-    queryFn: () => getTrainer({ page, limit, keyword: searchValue, id }),
+    queryFn: ({ signal }) =>
+      getTrainer({ page, limit, keyword: searchValue, id }, signal),
   });
 
   const { mutate: deleteInvitation, isPending: deletingTrainerInvitation } =

@@ -1,4 +1,10 @@
-import { AgeRangesType, EmployeeCourse, EmploymentStatusType, OccupationalCategoriesType, UnemploymentTimeType } from "@/types/employee";
+import {
+  AgeRangesType,
+  EmployeeCourse,
+  EmploymentStatusType,
+  OccupationalCategoriesType,
+  UnemploymentTimeType,
+} from "@/types/employee";
 import {
   EmployeeDetailsResponse,
   EmployeeResponse,
@@ -33,7 +39,7 @@ export const assignItemForEmployee = async ({
     employeeId: string | null;
     startDate: Date | undefined;
     endDate: Date | undefined;
-    companyId: string | null
+    companyId: string | null;
   };
   masureId: number;
 }) => {
@@ -55,11 +61,12 @@ export const employeeList = async (
   limit: string,
   id: number,
   keyword: string,
-  status: string
+  status: string,
+  signal: AbortSignal
 ) => {
   const url = `api/v1/company/get/${id}/employee`;
   const params = { page, limit, keyword, status };
-  const res = await api({ url, params });
+  const res = await api({ url, params, signal });
   return res.data;
 };
 
@@ -84,7 +91,10 @@ export const deleteEmployee = async (id: string) => {
   return res.data;
 };
 
-export const getEmployeeWiseAction = async (id: number, selectAssessment: string) => {
+export const getEmployeeWiseAction = async (
+  id: number,
+  selectAssessment: string
+) => {
   const url = `api/v1/employee/getActions/${id}?assessmentNumber=${selectAssessment}`;
   const res = await api({ url });
   return res.data;
@@ -94,13 +104,19 @@ export const updateEmployeeEmail = async (data: any) => {
   const url = `api/v1/employee/updateByEmail/${data?.email}`;
   const response = await api({ url, data, method: "put" });
   return response.data;
-}
+};
 
-export const updateEmployee = async ({ id, data }: { id: string, data: any }) => {
+export const updateEmployee = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: any;
+}) => {
   const url = `api/v1/employee/update/${id}`;
   const response = await api({ url, data, method: "put" });
   return response.data;
-}
+};
 
 export const getDashboardEmployeeCourse = async (
   id: number
@@ -114,34 +130,37 @@ export const getEmployeeByCourse = async (id: string) => {
   const url = `api/v1/employee/getCourseEnrollAllEmployee/${id}`;
   const res = await api({ url });
   return res.data;
-}
+};
 
 export const fetchAgeRanges = async (): Promise<AgeRangesType> => {
   const url = `api/v1/employee/getAgeRanges`;
   const res = await api({ url });
   return res.data;
-}
+};
 
-export const fetchEmploymentStatus = async (): Promise<EmploymentStatusType> => {
-  const url = `api/v1/employee/getEmploymentStatus`;
-  const res = await api({ url });
-  return res.data;
-}
+export const fetchEmploymentStatus =
+  async (): Promise<EmploymentStatusType> => {
+    const url = `api/v1/employee/getEmploymentStatus`;
+    const res = await api({ url });
+    return res.data;
+  };
 
-export const fetchOccupationalCategories = async (): Promise<OccupationalCategoriesType> => {
-  const url = `api/v1/employee/getOccupationalCategories`;
-  const res = await api({ url });
-  return res.data;
-}
+export const fetchOccupationalCategories =
+  async (): Promise<OccupationalCategoriesType> => {
+    const url = `api/v1/employee/getOccupationalCategories`;
+    const res = await api({ url });
+    return res.data;
+  };
 
-export const fetchUnemploymentTime = async (): Promise<UnemploymentTimeType> => {
-  const url = `api/v1/employee/getUnemploymentTime`;
-  const res = await api({ url });
-  return res.data;
-}
+export const fetchUnemploymentTime =
+  async (): Promise<UnemploymentTimeType> => {
+    const url = `api/v1/employee/getUnemploymentTime`;
+    const res = await api({ url });
+    return res.data;
+  };
 
 export const employeeRegister = async (email: string) => {
   const url = `api/v1/employee/get-one-employee?email=${email}`;
   const res = await api({ url });
   return res.data;
-}
+};

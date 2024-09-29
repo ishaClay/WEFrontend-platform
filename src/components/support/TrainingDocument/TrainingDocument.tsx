@@ -28,12 +28,15 @@ const TrainingDocument = () => {
       : 4;
   const { data: document, isLoading } = useQuery<TrainingDocumentResponse>({
     queryKey: [QUERY_KEYS.fetchDocument, { page, search, Role }],
-    queryFn: () =>
-      fetchDocument({
-        page,
-        role: Role,
-        keyword: search,
-      }),
+    queryFn: ({ signal }) =>
+      fetchDocument(
+        {
+          page,
+          role: Role,
+          keyword: search,
+        },
+        signal
+      ),
   });
 
   const column: ColumnDef<TrainingDocumentResult>[] = [

@@ -361,9 +361,10 @@ const SupportRequestTable = ({
         <Input
           placeholder={"Search by Requestor, Subject, Assign to etc."}
           value={search}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           className="py-[17px] pl-[39px] border sm:w-[550px] w-full rounded-[6px] sm:mx-[23px] mx-[15px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
         />
         <img
