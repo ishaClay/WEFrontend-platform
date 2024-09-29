@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface SidebarProviderValue {
   selectedRole: null | string;
@@ -21,6 +22,13 @@ export const RegisterProvider = ({
 }) => {
   const [selectedRole, setSelectedRole] = useState<null | string>(null);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setShowRegistrationForm(false);
+    }
+  }, [location]);
 
   const value: SidebarProviderValue = {
     selectedRole,

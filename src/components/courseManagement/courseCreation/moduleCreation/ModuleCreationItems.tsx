@@ -402,86 +402,92 @@ const ModuleCreationItems = ({
                     Duration (Reading or Watching Time)
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                      <Input
-                        type="number"
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.hour`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          type="number"
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.readingTime.hour`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          className="w-full p-3 pr-10 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Hour
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.readingTime?.hour && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              .readingTime?.hour?.message
                           }
-                        )}
-                        className="w-full p-3 pr-10 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Hour
-                      </h6>
+                        />
+                      )}
                     </div>
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                      <Input
-                        type="number"
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.minute`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          type="number"
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.readingTime.minute`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          value={watch("readingTime.minute")}
+                          className="w-full p-3 pr-12 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Minute
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.readingTime?.minute && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              .readingTime?.minute?.message
                           }
-                        )}
-                        value={watch("readingTime.minute")}
-                        className="w-full p-3 pr-12 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Minute
-                      </h6>
+                        />
+                      )}
                     </div>
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                      <Input
-                        type="number"
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.second`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          type="number"
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.readingTime.second`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          className="w-full p-3 pr-12 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Second
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.readingTime?.second && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              .readingTime?.second?.message
                           }
-                        )}
-                        className="w-full p-3 pr-12 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Second
-                      </h6>
+                        />
+                      )}
                     </div>
                   </div>
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
-                    ?.hour && (
-                    <FormError
-                      className="font-droid not-italic"
-                      message={
-                        errors.modules?.[index]?.section?.[sectionindex]
-                          .readingTime?.hour?.message
-                      }
-                    />
-                  )}
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
-                    ?.minute && (
-                    <FormError
-                      className="font-droid not-italic"
-                      message={
-                        errors.modules?.[index]?.section?.[sectionindex]
-                          .readingTime?.minute?.message
-                      }
-                    />
-                  )}
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
-                    ?.second && (
-                    <FormError
-                      className="font-droid not-italic"
-                      message={
-                        errors.modules?.[index]?.section?.[sectionindex]
-                          .readingTime?.second?.message
-                      }
-                    />
-                  )}
                 </div>
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
@@ -504,98 +510,104 @@ const ModuleCreationItems = ({
                     <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Duration (HH)
                     </h6>
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
                       {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
-                      <Input
-                        type="number"
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          type="number"
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          className="w-full p-3 pr-12 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Hours
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.livesessionDuration?.hour && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              ?.livesessionDuration?.hour?.message
                           }
-                        )}
-                        className="w-full p-3 pr-12 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Hours
-                      </h6>
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="">
                     <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Minute (MM)
                     </h6>
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                      <Input
-                        value={sectionItem.livesessionDuration?.minute}
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          value={sectionItem.livesessionDuration?.minute}
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          type="number"
+                          className="w-full p-3 pr-12 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Minute
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.livesessionDuration?.minute && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              ?.livesessionDuration?.minute?.message
                           }
-                        )}
-                        type="number"
-                        className="w-full p-3 pr-12 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Minute
-                      </h6>
+                        />
+                      )}
                     </div>
-                    {errors.modules?.[index]?.section?.[sectionindex]
-                      ?.livesessionDuration?.minute && (
-                      <FormError
-                        className="font-droid not-italic"
-                        message={
-                          errors.modules?.[index]?.section?.[sectionindex]
-                            ?.livesessionDuration?.minute?.message
-                        }
-                      />
-                    )}
                   </div>
                   <div className="">
                     <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Seconds (SS)
                     </h6>
-                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                      <Input
-                        {...register(
-                          `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
-                          {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full">
+                      <div className="flex justify-between items-center relative">
+                        <Input
+                          {...register(
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
+                          )}
+                          type="number"
+                          className="w-full p-3 pr-12 text-sm text-black h-full"
+                        />
+                        <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                          Second
+                        </h6>
+                      </div>
+                      {errors.modules?.[index]?.section?.[sectionindex]
+                        ?.livesessionDuration?.second && (
+                        <FormError
+                          className="font-droid not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              ?.livesessionDuration.second?.message
                           }
-                        )}
-                        type="number"
-                        className="w-full p-3 pr-12 text-sm text-black h-full"
-                      />
-                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                        Second
-                      </h6>
+                        />
+                      )}
                     </div>
-                    {errors.modules?.[index]?.section?.[sectionindex]
-                      ?.livesessionDuration?.second && (
-                      <FormError
-                        className="font-droid not-italic"
-                        message={
-                          errors.modules?.[index]?.section?.[sectionindex]
-                            ?.livesessionDuration.second?.message
-                        }
-                      />
-                    )}
                   </div>
                 </div>
-                {errors.modules?.[index]?.section?.[sectionindex]
-                  ?.livesessionDuration?.hour && (
-                  <FormError
-                    className="font-droid not-italic"
-                    message={
-                      errors.modules?.[index]?.section?.[sectionindex]
-                        ?.livesessionDuration?.hour?.message
-                    }
-                  />
-                )}
               </div>
             )}
           </div>

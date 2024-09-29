@@ -617,11 +617,11 @@ export function getTimeAgo(time: Date | string) {
 export const fetchMessageRoles = (role: number) => {
   let MessageRoles: any = [];
   if (role === UserRole.Trainer) {
-    MessageRoles = ["client", "employee", "company", "trainer"];
+    MessageRoles = ["client", "Trainee", "company", "trainer"];
   } else if (role === UserRole.Company) {
-    MessageRoles = ["client", "employee", "trainer", "trainer Company"];
+    MessageRoles = ["client", "Trainee", "trainer", "trainer Company"];
   } else if (role === UserRole.Trainee) {
-    MessageRoles = ["admin", "trainee", "company"];
+    MessageRoles = ["admin", "Trainee  ", "company"];
   } else if (role === UserRole.Employee) {
     MessageRoles = ["company", "trainer", "trainer Company"];
   }

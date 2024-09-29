@@ -152,8 +152,8 @@ export const copyCourse = ({ id, userId }: { id: number; userId: number }) => {
 
 export const getCourseByTrainee = async (
   id: number,
-  status?: string,
-  keyword?: string,
+  status: string,
+  keyword: string,
   signal: AbortSignal
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/trainer-company/allcoursebytrainer/${id}?status=${status}&keyword=${keyword}`;

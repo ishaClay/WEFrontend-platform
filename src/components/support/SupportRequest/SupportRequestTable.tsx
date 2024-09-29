@@ -191,7 +191,7 @@ const SupportRequestTable = ({
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="px-0 justify-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -215,15 +215,18 @@ const SupportRequestTable = ({
               row.original.status === "Answered"
                 ? "text-[#58BA66]"
                 : row.original.status === "InProcess"
-                ? "text-[#58BA66]"
-                : "text-[#FFD56A]"
+                ? "text-[#FFD56A]"
+                : "text-[#000]"
             } w-25 h-8 font-bold px-3 flex items-center justify-center`}
           >
             {row.original.status === "InProcess"
-              ? "In Process"
+              ? "In Progress"
               : row.original.status}
           </p>
         );
+      },
+      meta: {
+        className: "text-center",
       },
     },
     {

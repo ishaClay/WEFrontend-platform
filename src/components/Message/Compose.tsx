@@ -78,14 +78,15 @@ const Compose = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
   const dispatch = useAppDispatch();
+  console.log("🚀 ~ Compose ~ isActive:", isActive);
   useEffect(() => {
     if (role === UserRole?.Trainer) {
       setSelectTab(
         isActive === "client"
           ? MessageUserRole?.Client
-          : isActive === "employee"
-          ? MessageUserRole.Employee
           : isActive === "trainee"
+          ? MessageUserRole.Employee
+          : isActive === "trainer"
           ? MessageUserRole.Trainee
           : MessageUserRole.Company
       );
@@ -93,9 +94,9 @@ const Compose = () => {
       setSelectTab(
         isActive === "client"
           ? MessageUserRole?.Client
-          : isActive === "employee"
+          : isActive === "Trainee"
           ? MessageUserRole.Employee
-          : isActive === "trainee"
+          : isActive === "trainer"
           ? MessageUserRole.Trainee
           : MessageUserRole.Trainer
       );
@@ -111,7 +112,7 @@ const Compose = () => {
       setSelectTab(
         isActive === "company"
           ? MessageUserRole?.Company
-          : isActive === "trainee"
+          : isActive === "trainer"
           ? MessageUserRole?.Trainee
           : MessageUserRole?.Trainer
       );
@@ -123,11 +124,19 @@ const Compose = () => {
     queryFn: () => getTargetUserby(userID as string),
   });
 
-  console.log("images", images);
+  console.log("selectToValue++++++++++++++", selectToValue);
 
   const fetchAssignToList = (selectType: string) => {
     const selectedType =
-      selectType === "client" ? "admin" : selectType.replace(/ /g, "");
+      selectType === "client"
+        ? "admin"
+        : selectType === "trainer"
+        ? "trainee"
+        : selectType === "Trainee"
+        ? "employee"
+        : selectType === "Trainer Company"
+        ? "trainer"
+        : selectType.replace(/ /g, "");
 
     if (role === UserRole?.Trainer) {
       // setSelectToValue(
@@ -141,10 +150,13 @@ const Compose = () => {
         ]
       );
     } else if (role === UserRole?.Company) {
+      console.log("role", role);
+      console.log("selectedType", selectedType);
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectedType]
       );
     } else if (role === UserRole?.Trainee) {
+      console.log("role11", role);
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectedType]
       );
@@ -305,7 +317,7 @@ const Compose = () => {
                     </Avatar>
                     <div className="ml-3">
                       <h6 className="leading-[19.53px] mb-px text-[black] capitalize">
-                        {item}
+                        {item === "client" ? "Admin" : item}
                       </h6>
                       {/* <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
                         {item} Name

@@ -121,7 +121,6 @@ const SectionForm = ({
 
   console.log("watchwatch", watch());
   console.log("errors.readingTime", errors.readingTime);
-  
 
   return (
     <div className="p-5 border-t border-[#D9D9D9]">
@@ -288,67 +287,73 @@ const SectionForm = ({
               Duration (Reading or Watching Time)
             </h5>
             <div className="flex sm:flex-row flex-col gap-5">
-              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
-                <Input
-                  type="number"
-                  {...register(`readingTime.hour`, {
-                    setValueAs: (value: string) =>
-                      value === "" ? undefined : Number(value),
-                  })}
-                  defaultValue={watch("readingTime.hour")}
-                  className="w-full p-3 pr-10 text-sm text-black h-full"
-                />
-                <h6 className="text-[10px] text-[#515151] font-droid absolute right-0 pr-3">
-                  Hour
-                </h6>
+              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full">
+                <div className="flex justify-between items-center relative">
+                  <Input
+                    type="number"
+                    {...register(`readingTime.hour`, {
+                      setValueAs: (value: string) =>
+                        value === "" ? undefined : Number(value),
+                    })}
+                    defaultValue={watch("readingTime.hour")}
+                    className="w-full p-3 pr-10 text-sm text-black h-full"
+                  />
+                  <h6 className="text-[10px] text-[#515151] font-droid absolute right-0 pr-3">
+                    Hour
+                  </h6>
+                </div>
+                {errors.readingTime?.hour && (
+                  <FormError
+                    className="font-droid not-italic"
+                    message={errors.readingTime?.hour?.message}
+                  />
+                )}
               </div>
-              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
-                <Input
-                  type="number"
-                  {...register(`readingTime.minute`, {
-                    setValueAs: (value: string) =>
-                      value === "" ? undefined : Number(value),
-                  })}
-                  defaultValue={watch("readingTime.minute")}
-                  className="p-3 w-full pr-12 text-sm text-black h-full"
-                />
-                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                  Minute
-                </h6>
+              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full">
+                <div className="flex justify-between items-center relative">
+                  <Input
+                    type="number"
+                    {...register(`readingTime.minute`, {
+                      setValueAs: (value: string) =>
+                        value === "" ? undefined : Number(value),
+                    })}
+                    defaultValue={watch("readingTime.minute")}
+                    className="p-3 w-full pr-12 text-sm text-black h-full"
+                  />
+                  <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                    Minute
+                  </h6>
+                </div>
+                {errors?.readingTime?.minute && (
+                  <FormError
+                    className="font-droid not-italic"
+                    message={errors.readingTime?.minute?.message}
+                  />
+                )}
               </div>
-              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
-                <Input
-                  type="number"
-                  {...register("readingTime.second", {
-                    setValueAs: (value: string) =>
-                      value === "" ? undefined : Number(value),
-                  })}
-                  defaultValue={watch("readingTime.second")}
-                  className="p-3 w-full pr-12 text-sm text-black h-full"
-                />
-                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
-                  Second
-                </h6>
+              <div className="sm:w-[145px] sm:h-[46px] h-9 w-full">
+                <div className="flex justify-between items-center relative">
+                  <Input
+                    type="number"
+                    {...register("readingTime.second", {
+                      setValueAs: (value: string) =>
+                        value === "" ? undefined : Number(value),
+                    })}
+                    defaultValue={watch("readingTime.second")}
+                    className="p-3 w-full pr-12 text-sm text-black h-full"
+                  />
+                  <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
+                    Second
+                  </h6>
+                </div>
+                {errors?.readingTime?.second && (
+                  <FormError
+                    className="font-droid not-italic"
+                    message={errors.readingTime?.second?.message}
+                  />
+                )}
               </div>
             </div>
-            {errors.readingTime?.hour && (
-              <FormError
-                className="font-droid not-italic"
-                message={errors.readingTime?.hour?.message}
-              />
-            )}
-            {errors?.readingTime?.minute && (
-              <FormError
-                className="font-droid not-italic"
-                message={errors.readingTime?.minute?.message}
-              />
-            )}
-            {errors?.readingTime?.second && (
-              <FormError
-                className="font-droid not-italic"
-                message={errors.readingTime?.second?.message}
-              />
-            )}
           </div>
           {errors.youtubeUrl &&
             !section.youtubeUrl &&
