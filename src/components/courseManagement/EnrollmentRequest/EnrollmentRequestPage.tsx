@@ -19,7 +19,7 @@ const EnrollmentRequestPage = () => {
             Enrollment Requests
           </h6>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[15px]">
-            Here are all the company requests to enroll in your courses
+            All the requests by registered companies to enroll in your course(s)
           </p>
         </div>
         <div className="flex items-center">

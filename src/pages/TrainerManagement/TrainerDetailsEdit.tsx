@@ -43,20 +43,20 @@ const TrainerEditDetails = () => {
   });
 
   useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL)
-  }, [])
-  
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+  }, []);
+
   const { mutate, isPending: isMutating } = useMutation({
     mutationFn: updateEmployee,
     onSuccess: (data) => {
-      if(data?.data?.employeeStatus === "Inactive"){
+      if (data?.data?.employeeStatus === "Inactive") {
         socket.emit("employeeStatus", data?.data?.userDetails?.id);
       }
 
       dispatch(
         setPath([
           {
-            label: "Trainee Management",
+            label: "Team Management",
             link: null,
           },
           {
@@ -139,9 +139,7 @@ const TrainerEditDetails = () => {
   return (
     <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-droidSans overflow-auto">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
-        <h2 className="text-base font-bold font-droid pb-1">
-          Trainee Details
-        </h2>
+        <h2 className="text-base font-bold font-droid pb-1">Trainee Details</h2>
         <Button
           variant={"ghost"}
           className="p-0 text-base font-droid font-bold"

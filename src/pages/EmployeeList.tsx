@@ -421,7 +421,7 @@ function CoursesAllocate() {
     dispatch(
       setPath([
         {
-          label: "Trainee Management",
+          label: "Team Management",
           link: null,
         },
         {
@@ -472,7 +472,7 @@ function CoursesAllocate() {
               }}
               className="p-[10px] bg-primary-button text-color font-font-droid text-sm rounded-sm"
             >
-              Invite Team-members
+              Invite team members
             </Button>
           </div>
         </div>

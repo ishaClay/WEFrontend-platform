@@ -578,24 +578,28 @@ const ScheduleLiveSessionPage = () => {
             </div>
             <div className="grid grid-cols-12 md:gap-7 sm:gap-4 gap-3">
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-medium font-font-droid">
+                <Label
+                  htmlFor="sessionDate"
+                  className="text-base text-black font-medium font-font-droid"
+                >
                   Session Date
                 </Label>
                 <Input
-                  placeholder="Enter Date"
-                  className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                  type="date"
                   min={
-                    // @ts-ignore
                     cohortStartDate
-                      ? new Date(cohortStartDate)?.toISOString()?.split("T")[0]
-                      : new Date().toISOString().split("T")[0]
+                      ? moment(new Date(cohortStartDate)).format("YYYY-MM-DD")
+                      : ""
                   }
                   max={
-                    cohortEndDate &&
-                    new Date(cohortEndDate).toISOString().split("T")[0]
+                    cohortEndDate
+                      ? moment(new Date(cohortEndDate)).format("YYYY-MM-DD")
+                      : ""
                   }
+                  className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  type="date"
+                  id="sessionDate"
                   {...register("sessionDate")}
+                  value={watch("sessionDate")}
                 />
                 {errors.sessionDate && (
                   <span className="text-red-500 text-sm">

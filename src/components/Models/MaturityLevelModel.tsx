@@ -117,13 +117,9 @@ const MaturityLevelModel = ({
             })}
           </div>
         </div>
-        <div className="md:h-[105px] ">
-          <div className="md:ml-3 mt-2 h-[25px]">
-            <h2 className=" text-xm text-[#1D2026] font-font-droid text-lg font-semibold">
-              Where your answers put you
-            </h2>
-          </div>
-        </div>
+        <h2 className="self-start md:ml-3 mt-2 text-xm text-[#1D2026] font-font-droid text-lg font-semibold">
+          Here’s where you stand based on your self-assessment
+        </h2>
       </div>
 
       {isPending ? (

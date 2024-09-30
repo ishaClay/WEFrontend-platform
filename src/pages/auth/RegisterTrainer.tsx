@@ -277,15 +277,19 @@ function RegisterTrainer() {
   const { mutate: createtrainer, isPending: createPending } = useMutation({
     mutationFn: (question) => registerTrainer(question),
     onSuccess: async (data) => {
-      await queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
       console.log("data++++++++++++", data);
 
       reset();
+
       toast({
         variant: "success",
-        title: data.data.message,
+        title: "Thanks for registering as a training provider!",
+        description:
+          "Hang on a little…and you’ll get an email once you’re approved.",
+        duration: 5000,
         // title:
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
@@ -389,7 +393,9 @@ function RegisterTrainer() {
             {/* max-w-[707px]  */}
             <div className={type !== "trainee" ? "mt-[30px]" : ""}>
               <div className="flex gap-x-[8px] items-end">
-                <h3 className="text-[24px]">Complete your registration</h3>
+                <h3 className="text-[24px]">
+                  Fill in a few details to get registered…
+                </h3>
                 <img
                   className="mb-[10px]"
                   src="../assets/img/Group 1000001825.png"

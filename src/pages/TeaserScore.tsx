@@ -196,7 +196,7 @@ const TeaserScore = () => {
                       journey!🌿
                     </CardDescription> */}
                     <p className="font-bold font-font-droid text-[#002A3A] mt-[28px] mb-[12px]">
-                      Nice work completing this.
+                      Here’s a snapshot of your score. But there’s even more…
                     </p>
                     <p className="text-sm font-font-droid text-[#002A3A]">
                       To see the full breakdown of your score and start building

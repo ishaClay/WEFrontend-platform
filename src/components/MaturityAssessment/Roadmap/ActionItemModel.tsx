@@ -243,7 +243,7 @@ const ActionItemModel = ({
           </div>
           <div>
             <h2 className="text-base font-droid font-bold text-[#1D2026]">
-              Have you identified actionable items on provided measures?
+              Enter the action(s) you plan to take for the measures below.
             </h2>
           </div>
         </div>
@@ -253,11 +253,12 @@ const ActionItemModel = ({
           </div>
           <div className="sm:mt-0 mt-3">
             <h6 className="text-[#606060] font-extrabold text-base pb-1">
-              Nothing’s set in stone here!
+              Not sure?
             </h6>
             <p className="text-[#606060] text-base lg:w-[65%] md:w-[80%] w-full font-font-droid font-semibold">
-              Discuss sustainability initiatives or action items with your
-              colleagues. And come back to edit them anytime.
+              Save “Exploring recommended training” as an action item, then
+              visit ‘Recommended Courses’ on your dashboard to see what training
+              is recommended for you.
             </p>
           </div>
         </div>

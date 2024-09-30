@@ -349,9 +349,9 @@ function CompanyRegister() {
           </div> */}
           <div className="mt-[20px] ">
             <div>
-              <h2 className="text-[25px] font-font-droid">Got it! </h2>
+              {/* <h2 className="text-[25px] font-font-droid">Got it! </h2> */}
               <h2 className="text-[25px] font-font-droid">
-                Let’s get your
+                Let’s get your full
                 <span className="text-[#64A70B] ml-1">
                   Sustainability Score
                 </span>{" "}
@@ -359,7 +359,8 @@ function CompanyRegister() {
               </h2>
 
               <p className="font-font-droid mt-[10px] text-[#000]">
-                Fill in your details to start your self-assessment in a jiff.
+                Fill in your details to get the full breakdown of your
+                self-assessment results.
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
