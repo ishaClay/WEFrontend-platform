@@ -286,9 +286,7 @@ function Auth() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
-                <p className="text-[24px] font-[700] mb-5">
-                  You’re most welcome in...
-                </p>
+                <p className="text-[24px] font-[700] mb-5">One step away…</p>
                 <InputWithLable
                   className="w-full h-[52px] mt-2"
                   placeholder="Enter Email"

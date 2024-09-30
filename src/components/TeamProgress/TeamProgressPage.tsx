@@ -42,7 +42,7 @@ const TeamProgressPage = () => {
     dispatch(
       setPath([
         {
-          label: "Trainee Management",
+          label: "Team Management",
           link: null,
         },
         {
@@ -56,9 +56,12 @@ const TeamProgressPage = () => {
   return (
     <div className="bg-white rounded-xl sm:mt-5 mt-0">
       <div className="p-4 border-b border-[#D9D9D9]">
-        <h4 className="text-[16px] text-[#000000] font-droid font-semibold">
+        <h4 className="mb-2 text-[16px] text-[#000000] font-droid font-semibold">
           Team Progress
         </h4>
+        <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
+          An overview of your team’s progress so far
+        </p>
       </div>
       <div className="flex flex-col p-5 gap-5">
         <div className="relative flex items-center gap-2 md:w-[550px] sm:w-[450px] w-[290px] rounded-lg sm:h-[52px] h-[46px]">

@@ -163,7 +163,7 @@ const InviteMember = ({
           <div className="mt-[33px]">
             <TextAreaWithLabel
               className=" text-base font-droid"
-              label="Invitation Details"
+              label="Write your invitation message"
               labelClassName="font-droid font-semibold !text-base"
               {...register("invitiondetail")}
               placeholder="Enter Details"

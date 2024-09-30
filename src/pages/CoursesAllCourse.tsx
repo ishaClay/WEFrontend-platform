@@ -90,9 +90,14 @@ function CoursesAllCourse() {
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="md:flex block items-center justify-between bg-white border-b border-[#D9D9D9] rounded-t-[10px] p-[14px]">
           <div className="flex items-center justify-between md:pb-0 pb-3">
-            <h4 className="text-[16px] text-[#000000] font-droid font-semibold">
-              All Courses
-            </h4>
+            <div>
+              <h4 className="text-[16px] mb-2 text-[#000000] font-droid font-semibold">
+                All Courses
+              </h4>
+              <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
+                Browse all the courses available on Going Green
+              </p>
+            </div>
             <div className="sm:hidden block">
               <div className="flex">
                 <Button

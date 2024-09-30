@@ -32,7 +32,7 @@ const SupportRequest = () => {
           </h6>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             {+userData?.query?.role === 2
-              ? "Here are all the support requests opened by your trainers or trainees "
+              ? "View all the support requests opened by your trainers & trainees"
               : "See what your trainees need help with—or ask something of your training provider"}{" "}
           </p>
         </div>

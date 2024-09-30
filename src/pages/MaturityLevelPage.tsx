@@ -223,7 +223,8 @@ const MaturityLevelPage = () => {
           <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5 xl:px-0 px-5">
             <div className="lg:col-span-8 col-span-12 lg:mb-0 mb-10">
               <h3 className="lg:text-2xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative mb-4 max-w-[600px] line-clamp-2">
-                Where {userData?.query?.name}'s <br /> Green Feet are now...
+                Here's {userData?.query?.name}'s <br /> Full Sustainability
+                Score
                 <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0 lg:mt-4 mt-1"></div>
               </h3>
               <div className="max-w-[602.78px]">
@@ -236,13 +237,14 @@ const MaturityLevelPage = () => {
                     But what does your score really mean?{" "}
                   </h6>
                   <h6 className="lg:text-base sm:text-sm font-font-droid text-[#64A70B] font-semibold">
-                    This is where your journey starts. 
+                    This is where you stand now—where your ‘green feet’ are—and
+                    it’s where your journey starts.
                   </h6>
                 </div>
                 <p className="text-[#3A3A3A] font-droid leading-[20px] lg:text-base text-sm">
-                  Now that you know where you are, it’s time to get an action
-                  plan built from personalised insights to advance your company
-                  to its next green stage.
+                  To take the next step: start building your action plan from
+                  the personalised insights below—to advance your company to its
+                  next green stage.
                 </p>
               </div>
               <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-7 gap-4 lg:mt-10 mt-5">

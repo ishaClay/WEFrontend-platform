@@ -50,9 +50,15 @@ function CoursesRecommended() {
         <div className="h-full">
           <div className="bg-[#FFFFFF] rounded-xl">
             <div className="border-b border-[#D9D9D9] p-5 flex justify-between items-center">
-              <p className="text-[16px] text-[#000000] font-droid font-semibold">
-                Recommended Courses
-              </p>
+              <div>
+                <h3 className="text-[16px] mb-2 text-[#000000] font-droid font-semibold">
+                  Recommended Courses
+                </h3>
+                <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
+                  Explore courses that help you progress on your sustainability
+                  journey
+                </p>
+              </div>
               <div className="flex gap-2 sm:hidden">
                 <Button
                   type="button"

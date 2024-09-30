@@ -158,11 +158,11 @@ function SelectLevel() {
         </div>
         <div className="mb-6 mt-4">
           <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-droid">
-            Select the sustainability pillars you want to progress on most—then
-            choose an action item(s) for each of them.{" "}
+            Select the most important sustainability pillars for you now.
+            <br /> Then choose an action item(s) for each of them.
           </h1>
           <span className="text-[18px] leading-4 font-droid">
-            (Not sure what actions to take? Head to your dashboard and view ‘{" "}
+            Not sure what actions to take? Head to ‘
             <Button
               variant={"ghost"}
               className="p-0 h-auto text-[18px] hover:bg-transparent"
@@ -174,18 +174,18 @@ function SelectLevel() {
                       link: null,
                     },
                     {
-                      label: "All Courses",
-                      link: `/company/allcourses`,
+                      label: "Recommended Courses",
+                      link: `/company/coursesrecommended`,
                     },
                   ])
                 );
-                navigate("/company/allcourses");
+                navigate("/company/coursesrecommended");
               }}
             >
-              All Courses
+              Recommended Courses
             </Button>{" "}
-            ’ to see what training is available to specifically help you advance
-            your green.)
+            ’ on your dashboard to see the available training curated for your
+            company.
           </span>
         </div>
         {isPending || isPendingPillar ? (

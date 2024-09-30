@@ -114,7 +114,7 @@ const TrainingDocument = () => {
           Training Document
         </h6>
         <p className="text-[#606060] text-[15px] font-font-droid sm:leading-[16px] leading-5">
-          Here’s the full list of training documents related to all your courses
+          The full list of training manuals on how to use the platform.
         </p>
       </div>
       <div className="p-5">

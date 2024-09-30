@@ -85,9 +85,17 @@ function CoursesAllocate() {
     <div className="bg-[#f5f3ff]">
       <div className="">
         <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
-          <div className="pt-[10px] sm:pl-[30px] pl-[15px] sm:h-[60px] h-auto bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+          <div className="py-[10px] sm:pl-[30px] pl-[15px] sm:h-[70px] h-auto bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
             <div className="sm:flex block items-center justify-between ">
-              <h1 className="text-[16px] font-semibold">Course Allocation</h1>
+              <div>
+                <h1 className="text-[16px] font-semibold mb-2">
+                  Course Allocation
+                </h1>
+                <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
+                  All the courses you’ve been enrolled in, or waiting on for
+                  approval
+                </p>
+              </div>
               <div className="flex items-center">
                 <label htmlFor="filter" className="mr-2">
                   Filter by:

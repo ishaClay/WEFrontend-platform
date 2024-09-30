@@ -21,7 +21,7 @@ const CertificateTemplete = () => {
             All Certificate
           </h6>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] mt-1">
-            All your created certificate templates
+            All your certificate templates—edit them or allocate to trainees.
           </p>
         </div>
       </div>

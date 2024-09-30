@@ -108,7 +108,8 @@ const AssignModel = ({
         Assign Action Item
       </h5>
       <p className="text-[15px] text-[#606060] font-font-droid font-bold pb-2.5">
-        Get a team member roll their sleeves up for your initiative!{" "}
+        Get a team member involved in your initiative—and give them a rough
+        timeline.
       </p>
       <div className="pb-2.5">
         <Label className="text-base font-font-droid font-semibold text-[#000]">
