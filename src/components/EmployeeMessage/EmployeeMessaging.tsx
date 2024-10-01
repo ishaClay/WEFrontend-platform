@@ -1,9 +1,9 @@
+import { useChatBotContext } from "@/context/chatBotContext";
 import { AccordionOption } from "@/types";
 import Accordions from "../comman/Accordions";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import EmployeeMessagView from "./EmployeeMessagView";
 import EmployeeMessagViewList from "./EmployeeMessagViewList";
-import { useChatBotContext } from "@/context/chatBotContext";
 
 const EmployeeMessaging = () => {
   const { open } = useChatBotContext();
@@ -25,6 +25,7 @@ const EmployeeMessaging = () => {
           className="mt-0"
           itemsClass="p-0"
           contentClassName="p-0"
+          isChangeIcon={true}
           value={open ? "message__chat" : undefined}
         />
       </div>

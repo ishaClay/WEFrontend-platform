@@ -1,3 +1,4 @@
+import { SidebarContext } from "@/context/Sidebarcontext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { sidebarLayout } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -25,7 +26,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-import { SidebarContext } from "@/context/Sidebarcontext";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -177,7 +177,7 @@ const EmployeeHeader = () => {
                       <h6 className="xl:text-sm text-xs font-droid leading-1 text-black">
                         {+userRole === 4 && "Employee"}
                       </h6>
-                      <p className="xl:text-sm text-xs max-w-[150px] truncate">
+                      <p className="xl:text-sm text-xs max-w-[150px] truncate capitalize">
                         {userData?.company?.userDetails?.name}
                       </p>
                     </div>

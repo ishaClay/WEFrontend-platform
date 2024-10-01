@@ -398,6 +398,11 @@ const ScheduleLiveSessionPage = () => {
     return <Loader />;
   }
 
+  // console.log(
+  //   "check Diff::::",
+  //   moment(new Date()).diff(moment(new Date(cohortStartDate)))
+  // );
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -588,7 +593,7 @@ const ScheduleLiveSessionPage = () => {
                   min={
                     cohortStartDate
                       ? moment(new Date(cohortStartDate)).format("YYYY-MM-DD")
-                      : ""
+                      : moment(new Date()).format("YYYY-MM-DD")
                   }
                   max={
                     cohortEndDate

@@ -228,26 +228,26 @@ const EmployeeBasicCourse = () => {
                     className="md:flex hidden pr-5 cursor-pointer text-black"
                     onClick={() => {
                       const newpath = paths.slice(0, paths.length - 1);
-                      pathName !== "employee"
-                        ? pathName === "company"
-                          ? dispatch(setPath(newpath))
-                          : dispatch(
-                              setPath([
-                                { label: "Course Management", link: null },
-                                {
-                                  label: "All Courses",
-                                  link: `/${pathName}/allcourse`,
-                                },
-                              ])
-                            )
-                        : dispatch(
-                            setPath([
-                              {
-                                label: "My course",
-                                link: `/${pathName}/mycourses`,
-                              },
-                            ])
-                          );
+                      dispatch(setPath(newpath));
+                      // pathName !== "employee"
+                      //   ? pathName === "company"
+                      //     : dispatch(
+                      //         setPath([
+                      //           { label: "Course Management", link: null },
+                      //           {
+                      //             label: "All Courses",
+                      //             link: `/${pathName}/allcourse`,
+                      //           },
+                      //         ])
+                      //       )
+                      //   : dispatch(
+                      //       setPath([
+                      //         {
+                      //           label: "My course",
+                      //           link: `/${pathName}/mycourses`,
+                      //         },
+                      //       ])
+                      //     );
                     }}
                   >
                     <MoveLeft />

@@ -4,10 +4,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useChatBotContext } from "@/context/chatBotContext";
 import { cn } from "@/lib/utils";
 import { AccordionOption } from "@/types";
 import { Separator } from "../ui/separator";
-import { useChatBotContext } from "@/context/chatBotContext";
 
 type AccordionsProps = {
   type?: "single" | "multiple";
@@ -24,6 +24,7 @@ type AccordionsProps = {
   customIconClassName?: string;
   contentClassName?: string;
   value?: string | undefined;
+  isChangeIcon?: boolean;
 };
 
 const Accordions = ({
@@ -40,6 +41,7 @@ const Accordions = ({
   isPlusIcon,
   customIconClassName,
   contentClassName,
+  isChangeIcon,
   value,
 }: AccordionsProps) => {
   const { setOpen } = useChatBotContext();
@@ -72,6 +74,7 @@ const Accordions = ({
                 )}
                 customIconClassName={customIconClassName}
                 isPlusIcon={isPlusIcon}
+                isChangeIcon={isChangeIcon}
               >
                 {item.title}
               </AccordionTrigger>
