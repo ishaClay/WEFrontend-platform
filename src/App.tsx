@@ -25,7 +25,6 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
 import { useToast } from "./components/ui/use-toast";
-import { getDeviceToken } from "./firebaseConfig";
 import { useAppDispatch, useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
