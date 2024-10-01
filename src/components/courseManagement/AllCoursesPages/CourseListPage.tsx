@@ -22,11 +22,9 @@ import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  selectedCourse: any;
 };
 
-const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
-  console.log("🚀 ~ CourseListPage ~ selectedCourse:", selectedCourse);
+const CourseListPage = ({ data }: dataGridProps) => {
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
   >();

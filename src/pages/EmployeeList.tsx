@@ -51,7 +51,6 @@ function CoursesAllocate() {
   } = useMutation({
     mutationFn: emploteeResendInvitation,
     onSuccess: (data) => {
-      console.log("data123123", data);
       setRowId(null);
       toast({
         description: data?.message,

@@ -65,10 +65,6 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   const paramsType = new URLSearchParams(search).get("type");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-  console.log(
-    "🚀 ~ CourseAffiliations ~ location:",
-    location?.pathname?.split("/")
-  );
   const [selectAffiliations, setSelectAffiliations] =
     useState<SelectAffiliationsTypr>({
       instituteOther: "",
@@ -80,7 +76,6 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
-      console.log("🚀 ~ CourseAffiliations ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,

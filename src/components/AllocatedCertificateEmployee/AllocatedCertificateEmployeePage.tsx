@@ -34,7 +34,6 @@ const AllocatedCertificateEmployeePage = () => {
   const courseName = searchParams?.get("courseName");
   const [selectTrainee, setSelectTrainee] = useState("");
   const [body, setBody] = useState("");
-  console.log("selectTrainee+++", selectTrainee);
 
   const { data: fetchCourseAllCourseData } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { UserId: userData?.query?.id }],
@@ -101,10 +100,6 @@ const AllocatedCertificateEmployeePage = () => {
       value: item?.id?.toString(),
     };
   });
-  console.log(
-    "fetchCourseAllCourseDatafetchCourseAllCourseData",
-    fetchCourseAllCourseData
-  );
 
   const courseOptions = fetchCourseAllCourseData?.data
     ? fetchCourseAllCourseData?.data
@@ -133,7 +128,6 @@ const AllocatedCertificateEmployeePage = () => {
       value: item?.id?.toString(),
     };
   });
-  console.log("employeeOptions++++", employeeOptions);
 
   const handleIssue = async () => {
     setLoading(true);
@@ -179,10 +173,6 @@ const AllocatedCertificateEmployeePage = () => {
                   employee: +selectTrainee,
                   certificatePdf: result?.data,
                 };
-                console.log(
-                  "🚀 ~ .then ~ payload.selectCourseData:",
-                  selectCourseData
-                );
 
                 allocate(payload);
               } else {

@@ -252,8 +252,6 @@ const ModuleCreationPage = () => {
       changeModulePostion(data, courseEditId || courseID),
   });
 
-  console.log("courseEditId || courseID", courseEditId, courseID);
-
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
     queryKey: [
       QUERY_KEYS.fetchAllCourseModule,
@@ -288,8 +286,6 @@ const ModuleCreationPage = () => {
                 item?.uploadContentType && +item?.uploadContentType > 0
                   ? ""
                   : item?.youtubeUrl;
-
-              console.log("itemitemitem", item);
               // const documentType = +item?.uploadDocument === 0 ? null : item?.uploadDocument;
               return uploadContentType === 0
                 ? { ...rest, youtubeUrl: youtubeUrl, uploadContentType: null }

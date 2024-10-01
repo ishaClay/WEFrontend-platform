@@ -15,7 +15,6 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
     queryFn: () => getSingleLiveSession(id.toString() || "0"),
     enabled: !!id,
   });
-  console.log("🚀 ~ SessionModalDetails ~ data:", data);
 
   const differenceInMillis = moment(data?.data?.startTime)
     .add(data?.data?.sessionDuration, "minutes")

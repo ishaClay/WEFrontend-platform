@@ -70,7 +70,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   });
   const queryClient = useQueryClient();
 
-  console.log("🚀 ~ CourseSpecifications ~ selectBoxValue:", selectBoxValue);
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
     queryFn: () => certificateCourseList(),
@@ -91,7 +90,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
-      console.log("🚀 ~ CourseSpecifications ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -125,8 +123,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       };
     });
 
-  console.log("data?.data", data?.data);
-
   const nfqlLevelOption =
     nfql?.data?.length &&
     nfql?.data?.map((item) => {
@@ -139,7 +135,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData = getSingleCourse?.data?.course;
-      console.log("🚀 ~ useEffect ~ data:", data);
       setValue("nfqLeval", data?.nfqLeval?.id?.toString() || "");
       setValue("ectsCredits", data?.ectsCredits || "");
       setValue("fetCredits", data?.fetCredits || "");
@@ -255,8 +250,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               // {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => {
-                console.log("Hello I am Called !");
-
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}

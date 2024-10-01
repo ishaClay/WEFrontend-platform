@@ -51,7 +51,6 @@ export function AllocatedCertificateModal({
 }: CourseViewAllocatePopupProps) {
   const [isInvite, setIsInvite] = useState(false);
   const [selectFilter, setSelectFilter] = useState<number[]>([]);
-  console.log("🚀 ~ selectFilter:", selectFilter);
   const {
     register,
     handleSubmit,

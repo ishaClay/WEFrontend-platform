@@ -51,8 +51,6 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
     .add(data.sessionDuration, "minutes")
     .isBefore(new Date());
 
-  console.log("isCompleted0", isCompleted);
-
   return (
     <div
       className={`border ${

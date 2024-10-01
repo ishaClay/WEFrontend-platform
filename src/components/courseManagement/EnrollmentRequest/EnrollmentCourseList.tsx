@@ -16,10 +16,6 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
     queryFn: ({ signal }) =>
       fetchEnrollmentRequest(UserId, statusparams, signal),
   });
-  console.log(
-    "🚀 ~ EnrollmentCourseList ~ fetchEnrollRequestData:",
-    fetchEnrollRequestData
-  );
 
   return (
     <>

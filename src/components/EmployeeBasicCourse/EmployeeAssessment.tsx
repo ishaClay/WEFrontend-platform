@@ -50,7 +50,6 @@ const EmployeeAssessment = () => {
   const moduleId = new URLSearchParams(search).get("moduleId");
   const [showAssessmentScore, setShowAssessmentScore] = useState(false);
   const location = useLocation();
-  console.log("location", location);
 
   useEffect(() => {
     if (location.state?.isCompleted) {
@@ -204,8 +203,6 @@ const EmployeeAssessment = () => {
     createEvaluteFun(payload);
   };
 
-  console.log("error::", errors);
-
   return getAssessmentSingleQuestionPending || getAssessmentQuestionPending ? (
     <span className="flex items-center justify-center py-10">
       <Loader2 className="w-5 h-5 animate-spin" />
@@ -311,8 +308,6 @@ const EmployeeAssessment = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               {assessmentQuestion?.map((data, index) => {
-                console.log("data++++", data.option);
-
                 return (
                   <Fragment key={index}>
                     {data?.assessmentType === "Single Choice Question" &&

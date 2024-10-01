@@ -24,7 +24,6 @@ interface SectionFormProps {
   isLoading: boolean;
   urlError: string;
   setUrlError: (e: any) => void;
-  informationError: string;
   setInformationError: (e: any) => void;
 }
 
@@ -38,14 +37,11 @@ const SectionForm = ({
   urlError,
   setUrlError,
   setErrors,
-  informationError,
   setInformationError,
   handleRemoveSection,
 }: SectionFormProps) => {
   const [attechmentName, setAttechment] = useState("");
   const [charCount, setCharCount] = useState(0);
-  const [isUpload, setIsUploading] = useState(false);
-  console.log("isUpload", informationError, isUpload);
 
   const section = watch();
   useEffect(() => {
@@ -119,9 +115,6 @@ const SectionForm = ({
     return tempDiv.textContent || tempDiv.innerText || "";
   };
 
-  console.log("watchwatch", watch());
-  console.log("errors.readingTime", errors.readingTime);
-
   return (
     <div className="p-5 border-t border-[#D9D9D9]">
       <div className="pb-5">
@@ -171,10 +164,9 @@ const SectionForm = ({
           <CKEditorComponent
             value={watch("information")}
             {...register("information")}
-            onChange={(event, editor) => {
+            onChange={(_, editor) => {
               const data = editor.getData();
               const plainText = stripHtmlTags(data);
-              console.log("event", event);
 
               if (plainText.length > 5000) {
                 setCharCount(5000);
@@ -207,7 +199,6 @@ const SectionForm = ({
             setValue={setValue}
             data={section}
             setUrlError={setUrlError}
-            setIsUploading={setIsUploading}
           />
           <div className="pb-5">
             <h6 className="text-base font-droid text-[#515151] pb-2">

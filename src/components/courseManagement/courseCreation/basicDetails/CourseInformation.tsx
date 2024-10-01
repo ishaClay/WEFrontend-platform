@@ -91,7 +91,6 @@ const schema = zod
         path: ["discountProvider"],
       });
     }
-    console.log("data.freeCourse", !data.freeCourse);
 
     if (!data.freeCourse) {
       if (data.price === undefined || data.price === "") {
@@ -106,15 +105,10 @@ const schema = zod
 
 type FormData = zod.infer<typeof schema>;
 interface CourseInformationProps {
-  courseById: number | null;
   setCourseById: (e: number) => void;
 }
 
-const CourseInformation = ({
-  courseById,
-  setCourseById,
-}: CourseInformationProps) => {
-  console.log("courseById", courseById);
+const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -140,7 +134,6 @@ const CourseInformation = ({
       freeCourse: false,
     },
   });
-  console.log("errors", errors);
 
   const search = window.location.search;
   const paramsId = new URLSearchParams(search).get("id");
@@ -158,7 +151,6 @@ const CourseInformation = ({
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
     onSuccess: (data) => {
-      console.log("🚀 CourseInformation ~ data:", data?.data?.data?.course);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -198,8 +190,6 @@ const CourseInformation = ({
       setDiscountProvider(data?.data?.id?.toString());
     }
   }, [isFreeCourse, data]);
-
-  console.log("discountApplicable", discountProvider);
 
   useEffect(() => {
     if (userData) {
@@ -245,7 +235,6 @@ const CourseInformation = ({
       queryFn: () => fetchSingleCourseById(String(paramsVersion)),
       enabled: !!paramsVersion,
     });
-  console.log("🚀 ~ paramsVersion:", paramsVersion);
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -259,7 +248,6 @@ const CourseInformation = ({
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
       setDiscountProvider(data?.providerName?.id?.toString());
-      console.log("🚀 ~ useEffect ~ data:", data);
     } else {
       setDiscountProvider(data?.data?.id?.toString() || "");
       setValue("discountProvider", data?.data?.id?.toString() || "");
@@ -428,7 +416,6 @@ const CourseInformation = ({
                     const { value } = e.target;
                     const regex = /^[0-9]*\.?[0-9]*$/;
                     // const regex = /^([0-9]*)?(\.*[0-9]+)*$/;
-                    console.log("🚀 ~ regex:", regex.test(value));
 
                     if (
                       value === "" ||

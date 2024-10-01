@@ -3,7 +3,6 @@ import Ellipse_two from "@/assets/images/Ellipse2.png";
 import Ellipse_three from "@/assets/images/Ellipse3.png";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
-import { useState } from "react";
 
 import { DataTable } from "@/components/comman/DataTable";
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
@@ -88,9 +87,7 @@ const employeeData = [
 ];
 
 const DashboardTrainee = () => {
-  const [page, setPage] = useState(0);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  console.log("+++", page);
   const column1: ColumnDef<any>[] = [
     {
       accessorKey: "ID",
@@ -144,10 +141,6 @@ const DashboardTrainee = () => {
       cell: ({ row }) => {
         const startDate =
           row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate;
-        console.log(
-          "rowrowrowrow",
-          row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate
-        );
 
         return (
           <h6 className="text-xs font-droid text-black">
@@ -357,10 +350,6 @@ const DashboardTrainee = () => {
       </TooltipProvider>
     );
   };
-  console.log(
-    "smeDashboardData?.trainerUpcommingCourse",
-    smeDashboardData?.trainerUpcommingCourse
-  );
 
   return (
     <div className="rounded-xl">
@@ -419,7 +408,6 @@ const DashboardTrainee = () => {
                     smeDashboardData?.trainerEnrollCourse?.slice(0, 5) || []
                   }
                   totalPages={employeeData?.length}
-                  setPage={setPage}
                   rounded={false}
                 />
               </div>
@@ -449,7 +437,6 @@ const DashboardTrainee = () => {
                     smeDashboardData?.trainerUpcommingCourse?.slice(0, 5) || []
                   }
                   totalPages={employeeData?.length}
-                  setPage={setPage}
                   rounded={false}
                 />
               </div>

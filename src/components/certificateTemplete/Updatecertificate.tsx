@@ -207,11 +207,9 @@ const Addcertificate = () => {
           logging: true,
         }).then(async (canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          console.log("imgData", imgData);
 
           if (imgData) {
             const result = await Uploads3imagesBase64(imgData);
-            console.log("result", result);
 
             if (result.status === 200) {
               const payload = {

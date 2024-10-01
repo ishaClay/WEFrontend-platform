@@ -87,7 +87,6 @@ const RecommendedCoursesModel = ({
       );
     }
   };
-  console.log("index === selectCourseByIndex", itemList);
 
   // Function to convert date object from the array to a Date object
   function parseDate(year: string, month: string, date: string) {
@@ -163,8 +162,6 @@ const RecommendedCoursesModel = ({
       setSelectCourse("0");
     }
   }, [data]);
-
-  console.log("filterOption", data);
 
   return isLoading ? (
     <span className="h-full flex items-center justify-center">

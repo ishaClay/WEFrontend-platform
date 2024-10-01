@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 let socket: any;
 
 const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
-  console.log("🚀 ~ EnrollmentCourseListCard ~ data:", data);
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();

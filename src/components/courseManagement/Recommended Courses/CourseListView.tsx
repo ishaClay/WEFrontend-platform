@@ -122,8 +122,6 @@ function CourseListView({
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
-      console.log("data", data);
-
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatList],
       });

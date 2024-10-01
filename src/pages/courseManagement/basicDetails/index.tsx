@@ -24,7 +24,6 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
   //   }
   // }, [courseData])
 
-
   // useEffect(() => {
   //   if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
   //     navigate(
@@ -90,10 +89,7 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
         />
       </div>
       {params === "0" ? (
-        <CourseInformation
-          courseById={courseById}
-          setCourseById={setCourseById}
-        />
+        <CourseInformation setCourseById={setCourseById} />
       ) : params === "1" ? (
         <CourseSpecifications courseById={courseById} />
       ) : params === "2" ? (

@@ -33,7 +33,10 @@ const EmployeeMessagViewList = () => {
     queryKey: [QUERY_KEYS.chatUserList],
     queryFn: () => fetchChatUserList(userID.toString() as string),
   });
-  const filterChatList = chatUserList?.data?.data?.filter((item) => item?.name?.toLowerCase()?.includes(searchChat?.toLowerCase())) || [];
+  const filterChatList =
+    chatUserList?.data?.data?.filter((item) =>
+      item?.name?.toLowerCase()?.includes(searchChat?.toLowerCase())
+    ) || [];
 
   const { mutate: updatemessage } = useMutation({
     mutationFn: (data: {
@@ -51,8 +54,6 @@ const EmployeeMessagViewList = () => {
       setEmpId(group);
     }
   }, [group]);
-
-  console.log("empIdempId", empId);
 
   return (
     <div className="lg:border-t border-t-none border-[#E5E5E5] pt-4 lg:min-h-[500px] flex flex-col gap-4 p-[15px]">
@@ -78,8 +79,8 @@ const EmployeeMessagViewList = () => {
             <div className="flex flex-col gap-3">
               {userListPending ? (
                 <Loader />
-              ) : (
-                filterChatList?.length > 0 ? filterChatList?.map((data, index: number) => {
+              ) : filterChatList?.length > 0 ? (
+                filterChatList?.map((data, index: number) => {
                   return (
                     <div
                       className="flex items-start justify-between cursor-pointer gap-2 pb-3 last:pb-0 border-b last:border-none border-[#E5E5E5]"
@@ -136,7 +137,11 @@ const EmployeeMessagViewList = () => {
                       </div>
                     </div>
                   );
-                }) : <span className="block text-center pt-20">No records found</span>
+                })
+              ) : (
+                <span className="block text-center pt-20">
+                  No records found
+                </span>
               )}
             </div>
           </ScrollArea>

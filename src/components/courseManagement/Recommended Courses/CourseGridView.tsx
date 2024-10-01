@@ -112,7 +112,6 @@ const CourseGridView = ({
       Inquiry(payload);
 
       navigate(`/${pathName}/message?chatId=${data?.data?.receiverId}`);
-      console.log("payload", data);
 
       socket.emit("new message", data?.data);
     },
@@ -136,8 +135,6 @@ const CourseGridView = ({
     };
     handleSend(payload);
   };
-
-  console.log("recommendeddata", recommendeddata);
 
   return (
     <>

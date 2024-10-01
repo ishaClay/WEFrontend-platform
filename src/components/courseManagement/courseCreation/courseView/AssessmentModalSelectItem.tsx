@@ -9,22 +9,18 @@ interface ModalItemProps {
   setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
   moduleId?: string;
   data: any[];
-  sectionID?: number;
 }
 
 const AssessmentModalSelectItem = ({
   data,
   moduleId,
   setIsOpenAssessmentModal,
-  sectionID,
 }: ModalItemProps) => {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const { courseId, assId } = useParams();
   const { assesment, setAssesment } = useContext(AssesmentContext);
-
-  console.log("sectionIDsectionIDsectionID", sectionID);
 
   // const { mutate, isPending } = useMutation({
   //   mutationFn: createAssessment,

@@ -15,10 +15,6 @@ const EnrollCourseEmployeeDetailsList = ({
   course,
 }: EnrollCourseEmployeeDetailsListProps) => {
   const [isOpen, setIsOpen] = useState<number | null>(null);
-  console.log(
-    "🚀 ~ {data?.moduleLiveSection?.map ~ data?.moduleLiveSection:",
-    data?.moduleLiveSection
-  );
   return (
     <div>
       <div className="">

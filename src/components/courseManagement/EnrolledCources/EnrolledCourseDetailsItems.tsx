@@ -45,7 +45,6 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
     mutationFn: createCohortGroupUser,
     onSuccess: (data) => {
       const userRole = pathname.split("/")[1];
-      console.log(data);
       navigate(
         `/${userRole}/message?chatId=${data?.data?.id}&messageType=group`
       );
@@ -61,12 +60,6 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
 
   const messageRedirect = (id: number) => {
     const userRole = pathname.split("/")[1];
-    console.log(
-      pathname?.split("/")[1],
-      "/${userRole}/message?chatId=${id}",
-      `/${userRole}/message?chatId=${id}&messageType=group`
-    );
-
     navigate(`/${userRole}/message?chatId=${id}&messageType=group`);
   };
 
@@ -83,8 +76,6 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
       });
     }
   };
-
-  console.log("data", data);
 
   return (
     <div className="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 gap-2 w-full items-center">

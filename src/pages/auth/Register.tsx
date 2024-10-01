@@ -287,15 +287,11 @@ function Register() {
     getToken();
   }, []);
 
-  console.log(deviceToken, "deviceToken++++++++++++++++++++");
-
   const handleVerifyOtp = async (e: any) => {
     e.preventDefault();
     e.stopPropagation();
     const getData = getValues();
-    console.log("I am Called................");
     if (searchParams.get("email") || searchParams.get("type")) {
-      console.log(getData, "getData+++++++++++++++++02");
       const payload = {
         name: getData?.name,
         email:
@@ -308,8 +304,6 @@ function Register() {
       // @ts-ignore
       registerEmployee(payload);
     } else {
-      console.log(getData, "getData");
-
       const payload = {
         ...getData,
         otp,
@@ -433,7 +427,9 @@ function Register() {
                       <div className="mb-2">
                         <InputWithLable
                           label="Registered Company Name"
-                          hyperText={"(Enter your name if you are a Sole-Trader)"}
+                          hyperText={
+                            "(Enter your name if you are a Sole-Trader)"
+                          }
                           className="h-[46px] border solid 1.5px"
                           placeholder="Enter Company Name"
                           {...register("name")}
@@ -617,7 +613,6 @@ function Register() {
               isLoading={registerPending}
               className="text-white w-[181px] text-base font-normal p-3 bg-[#64A70B] h-[48px] rounded-[9px]"
               onClick={(e) => {
-                console.log("Called");
                 handleVerifyOtp(e);
               }}
             >

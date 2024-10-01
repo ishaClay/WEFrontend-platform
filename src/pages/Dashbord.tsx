@@ -27,7 +27,6 @@ Chart.register(
 
 import couse_total from "@/assets/images/couse_total.png";
 import usersIcon from "@/assets/images/users-icon.png";
-import { useState } from "react";
 
 function Dashbord() {
   const employeeData = [
@@ -191,19 +190,10 @@ function Dashbord() {
     },
   };
 
-  const [activeButton, setActiveButton] = useState(null);
-  console.log(activeButton);
-  const handleClick = (buttonName: any) => {
-    setActiveButton(buttonName);
-  };
-
   return (
     <div className="bg-[#F5F7FF] p-5">
       <div className="flex gap-6 mb-5">
-        <button
-          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
-          onClick={() => handleClick("companies")}
-        >
+        <button className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid">
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
             <img
               src={usersIcon}
@@ -215,10 +205,7 @@ function Dashbord() {
           <p className="text-[16px] mt-[4px]">Enrolled Employees</p>
         </button>
 
-        <button
-          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
-          onClick={() => handleClick("companies")}
-        >
+        <button className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid">
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
             <img
               src={couse_total}
@@ -230,10 +217,7 @@ function Dashbord() {
           <p className="text-[16px] mt-[4px]">Total Employee</p>
         </button>
 
-        <button
-          className="py-[21px]  w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
-          onClick={() => handleClick("companies")}
-        >
+        <button className="py-[21px]  w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid">
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
             <img
               src={couse_total}

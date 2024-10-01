@@ -42,7 +42,6 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     setValue,
     reset,
   } = useForm<ValidationSchema>({
@@ -97,10 +96,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
   };
 
   const onSubmit = (data: FieldValues) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
-    const title = watch("moduleTitle");
-
-    UpdateModule(title);
+    UpdateModule(data.title);
     setIsEdit(false);
   };
   const handleDelete = () => {

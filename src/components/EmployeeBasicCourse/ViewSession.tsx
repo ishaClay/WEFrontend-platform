@@ -149,8 +149,6 @@ const ViewSession = ({
     }
   };
 
-  console.log("🚀 ~ documentFile:", data?.course);
-
   const handleDownload = () => {
     const pdfUrl = list?.attachment;
     const anchor = document.createElement("a");

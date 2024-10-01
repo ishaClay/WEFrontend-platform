@@ -20,7 +20,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
-  fetchAssigToUser,
   getSingleSupportTicket,
   updateSupportTicket,
 } from "@/services/apiServices/supportRequestServices";
@@ -54,19 +53,6 @@ const TicketsDetailsReply = () => {
   const [file, setFile] = useState("");
   const [video, setVideo] = useState<any>(undefined);
 
-  const { data: fetchAssigToUserList } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAssigToUserList],
-    queryFn: () => fetchAssigToUser(userID),
-    enabled: !!userID,
-  });
-
-  const assigToUserList = fetchAssigToUserList?.data?.filter(
-    (item) => item !== null
-  );
-  console.log(
-    "🚀 ~ TicketsDetailsReply ~ fetchAssigToUserList:",
-    fetchAssigToUserList
-  );
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select this field" }),
     ticketStatus: z.string({ required_error: "Please enter ticket status" }),
@@ -92,16 +78,8 @@ const TicketsDetailsReply = () => {
     mode: "all",
   });
 
-  console.log("++++++++++++++++++++++", selectAssingValue);
-
   useEffect(() => {
     if (data?.data?.data) {
-      console.log(
-        " data?.data?.data?.openBy.id === userID",
-        data?.data?.data,
-        userID
-      );
-
       setValue(
         "assignTo",
         data?.data?.data?.openBy?.id === userID
@@ -182,8 +160,6 @@ const TicketsDetailsReply = () => {
     };
     updateTicket(payload);
   };
-
-  console.log("assigToUserList", assigToUserList);
 
   return (
     <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-droidSans ">

@@ -46,7 +46,6 @@ const CourseViewCardInner = ({
 
   useEffect(() => {
     if (CourseCardList?.length > 0) {
-      console.log("🚀 ~ useEffect ~ CourseCardList:", CourseCardList);
       const updateCouresListSection = [...CourseCardList];
 
       CourseCardList?.map((item: any) => {
@@ -188,7 +187,6 @@ const CourseViewCardInner = ({
     },
   });
 
-  console.log("🚀 ~ errors:", errors);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
 
   const { mutate: ChangeSectionPosition } = useMutation({
@@ -322,13 +320,6 @@ const CourseViewCardInner = ({
         "readingTime",
         data.readingTime || { hour: 0, minute: 0, second: 0 }
       );
-      console.log(
-        "data?.attachment",
-        data.url,
-        data?.attachment,
-        data?.uploadContent,
-        !data.documentType
-      );
 
       setValue("youtubeUrl", data.isLive ? "" : data.url);
       setValue("uploadDocument", data?.attachment || "");
@@ -359,7 +350,6 @@ const CourseViewCardInner = ({
       uploadContentType:
         data.uploadContentType === 0 ? null : data.uploadContentType,
     });
-    console.log("payload", payload);
 
     if (payload.length > 0) {
       CreateSection(payload);
@@ -389,8 +379,6 @@ const CourseViewCardInner = ({
       });
     }
   };
-
-  console.log("getCourseCardList", getCourseCardList);
 
   return (
     <div
@@ -426,7 +414,6 @@ const CourseViewCardInner = ({
                     urlError={urlError}
                     setUrlError={setUrlError}
                     setErrors={setError}
-                    informationError={informationError}
                     setInformationError={(e: string) => setInformationError(e)}
                   />
                 </form>
@@ -462,7 +449,6 @@ const CourseViewCardInner = ({
               urlError={urlError}
               setErrors={setError}
               setUrlError={setUrlError}
-              informationError={informationError}
               setInformationError={(e: string) => setInformationError(e)}
             />
           )}
@@ -524,7 +510,6 @@ const CourseViewCardInner = ({
         <AssessmentModal
           setIsOpenAssessmentModal={setIsOpenAssessmentModal}
           moduleId={moduleId}
-          sectionID={0}
         />
       </Modal>
     </div>

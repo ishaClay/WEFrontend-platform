@@ -21,7 +21,6 @@ const CourseViewCardInnerList = ({
   data: any;
   handelEditSection: (data: any) => void;
 }) => {
-  console.log("🚀 ~ data:", data);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDelete, setIsDelete] = useState(false);
@@ -110,7 +109,6 @@ const CourseViewCardInnerList = ({
       DeleteLiveSection(sectionID);
     }
   };
-  console.log("datadata", data);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">

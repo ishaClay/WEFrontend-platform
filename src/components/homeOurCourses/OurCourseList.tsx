@@ -24,7 +24,6 @@ type OurCoursrseListProps = {
 };
 
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
-  console.log("🚀 ~ OurCourseList ~ data:", data);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { setSelectedRole, setShowRegistrationForm } =
     useContext(RegisterContext);

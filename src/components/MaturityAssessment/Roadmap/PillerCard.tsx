@@ -46,7 +46,6 @@ const PillerCard = ({
   setCheckedStates,
   selectAssessment = "1",
 }: PillerItemProps) => {
-  console.log("🚀 ~ item:", item);
   const [view, setView] = useState<View[] | null>(null);
   const [selectmaturity, setselectMaturity] = useState("");
   const [pid, setPId] = useState<string | null>("");
@@ -173,8 +172,6 @@ const PillerCard = ({
   };
 
   const levels = ["Introductory", "Intermediate", "Advanced"];
-
-  // console.log("item", currentLevel, currentRecommendedLevel);
 
   return (
     <div className="pb-0 flex w-full">

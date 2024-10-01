@@ -15,17 +15,11 @@ import { Progress } from "../ui/progress";
 
 type myPagesListProps = {
   list: CourseAllotedEntity;
-  selectFilterByCategory: string;
 };
 
-const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
-  console.log(
-    "🚀 ~ MyCourseList ~ selectFilterByCategory:",
-    selectFilterByCategory
-  );
+const MyCourseList = ({ list }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
-  console.log("listlist", list);
 
   return (
     <Link

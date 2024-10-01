@@ -181,13 +181,7 @@ const MyCoursePage = () => {
             <Loader containerClassName="col-span-full" />
           ) : data?.data?.courseAlloted?.length ? (
             data?.data?.courseAlloted?.map((grid, index) => {
-              return (
-                <MyCourseGrid
-                  key={index}
-                  grid={grid}
-                  selectFilterByCategory={selectFilterByCategory}
-                />
-              );
+              return <MyCourseGrid key={index} grid={grid} />;
             })
           ) : (
             <p className="col-span-full h-[300px] text-[16px] text-[#A3A3A3] flex items-center justify-center">
@@ -202,13 +196,7 @@ const MyCoursePage = () => {
               <Loader containerClassName="col-span-full" />
             ) : data?.data?.courseAlloted?.length ? (
               data?.data?.courseAlloted.map((list, index) => {
-                return (
-                  <MyCourseList
-                    key={index}
-                    list={list}
-                    selectFilterByCategory={selectFilterByCategory}
-                  />
-                );
+                return <MyCourseList key={index} list={list} />;
               })
             ) : (
               <p className="col-span-full h-[300px] text-[16px] text-[#A3A3A3] flex items-center justify-center">

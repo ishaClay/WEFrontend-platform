@@ -24,47 +24,6 @@ const CoursePathwayPageItems = ({
           {data?.pillarName}
         </h4>
       </div>
-      {/* <div className="col-span-9 flex items-center">
-        <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#FF5252] text-white text-base font-droid">
-            <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
-            Introductory
-          </Button>
-        </div>
-        <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#FFD56A] text-black text-base font-droid hover:text-white">
-            <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
-            Intermediate
-          </Button>
-        </div>
-        <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#D6F5AC] text-black text-base font-droid hover:text-white">
-            <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
-            Advance
-          </Button>
-        </div>
-      </div> */}
-      {/* {lavelData?.map((item: MaturityLevelResult) => {
-          return (
-            <Label
-              htmlFor={`r1_${item.id}-${data.id}`}
-              className={`flex items-center space-x-2 py-[10px] px-3 rounded-full  bg-[${
-                item.color
-              }] ${
-                item?.color === "#FF5252" ? "text-white" : "text-black"
-              } text-base font-droid`}
-            >
-              <Checkbox
-                // onChange={() => handleSelected(item?.id.toString())}
-                value={item?.id.toString()}
-                onChange={(e:any) => console.log("eeeee++", e)}
-              />
-              <span className="text-base font-droid">
-                {item?.maturityLevelName}
-              </span>
-            </Label>
-          );
-        })} */}
       <div className="md:col-span-9 col-span-12 flex sm:flex-row flex-col xl:gap-[50px] sm:gap-6 gap-4 xl:ml-[50px] md:ml-6 ml-2.5 md:mt-0 mt-4 md:mx-0 mx-2.5 md:mb-0 mb-4">
         {lavelData?.map((item: MaturityLevelResult) => {
           return (

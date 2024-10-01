@@ -93,14 +93,11 @@ const AssignModel = ({
       userId: userData?.id,
       companyId: selectAsignModel === "Self" ? companyId : null,
     };
-    console.log("🚀 ~ handleSubmit ~ userData?.query?.detailsid:", companyId);
     if (id) {
       // @ts-ignore
       mutate({ data: payload, masureId: +id });
     }
   };
-
-  console.log("date?.startDate", moment(date?.startDate).toString());
 
   return (
     <div className="">
@@ -131,7 +128,6 @@ const AssignModel = ({
         fromDate={new Date()}
         setDate={(e) => {
           setDate((prev) => ({ ...prev, startDate: e }));
-          console.log("Data+++++++++++++", e);
         }}
         buttonClassName="text-base font-font-droid font-medium w-[363px] h-[52px] xl:mb-7 mb-6"
         labelClassName="text-base font-font-droid font-semibold text-[#000] pb-1"

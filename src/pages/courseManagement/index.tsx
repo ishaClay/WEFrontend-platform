@@ -30,7 +30,6 @@ const CourseManagement = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [currentTab, setCurrentTab] = React.useState<string>("0");
   const { paths } = useAppSelector((state) => state.path);
-  console.log("🚀 ~ CourseManagement ~ paths:", paths);
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -118,8 +117,6 @@ const CourseManagement = () => {
       }
     }
   }, [paramsTab, selectTargetPillarLimit?.data?.LMSaccess]);
-
-  console.log("errors+++", +selectTargetPillarLimit?.data?.LMSaccess === 0);
 
   return (
     <div className="bg-white p-0">

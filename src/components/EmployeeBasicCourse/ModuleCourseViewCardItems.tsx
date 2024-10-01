@@ -28,7 +28,6 @@ const ModuleCourseViewCardItems = ({
   data,
   enrollData,
 }: moduleCourseCardListProps | any) => {
-  console.log("🚀 ~ list:", list);
   const queryclient = useQueryClient();
   const [viewDocument, setViewDocument] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);

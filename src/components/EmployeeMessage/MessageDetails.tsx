@@ -38,7 +38,6 @@ let socket: any;
 const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   const queryClient = useQueryClient();
   const [allMsg, setAllMsg] = useState<ChatDetailsList[]>([]);
-  console.log("🚀 ~ MessageDetails ~ allMsg:", allMsg);
   const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { group } = useChatBotContext();
@@ -81,8 +80,6 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     };
   }, [empId, UserId]);
 
-  console.log("group", group);
-
   const { data: chatList, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.chatList, { id: empId?.id, group: !empId?.group }],
     queryFn: () => fetchChat(userID, empId.id),
@@ -95,7 +92,6 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     enabled: !!empId?.group || !!group,
   });
 
-  console.log("🚀 ~ MessageDetails ~ groupChat:", groupChat);
   const { mutate: Send, isPending: sendPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
@@ -107,19 +103,22 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     },
   });
 
-  const { mutate: sendMessageMutation, isPending: sendMessagePending } = useMutation({
-    mutationFn: sendGroupMessage,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
-      reset();
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  const { mutate: sendMessageMutation, isPending: sendMessagePending } =
+    useMutation({
+      mutationFn: sendGroupMessage,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchGroupChat],
+        });
+        reset();
+      },
+      onError: (error: ErrorType) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
 
   const handleSend = (data: FieldValues) => {
     if (group || empId?.group) {
@@ -263,8 +262,15 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
               mainClassName="w-full"
               {...register("message")}
             />
-            <Button disabled={!isValid || sendMessagePending || sendPending} className="h-[36px] py-2 bg-[#76BC41]">
-              {sendPending || sendPending ? <Loader /> : <SendHorizontal className="w-5" />}
+            <Button
+              disabled={!isValid || sendMessagePending || sendPending}
+              className="h-[36px] py-2 bg-[#76BC41]"
+            >
+              {sendPending || sendPending ? (
+                <Loader />
+              ) : (
+                <SendHorizontal className="w-5" />
+              )}
             </Button>
           </div>
         </form>

@@ -45,7 +45,6 @@ const MaturityAssessment = () => {
   const [selectAssessment, setSelectAssessment] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { empPermissions } = useContext(PermissionContext);
-  console.log("🚀 ~ MaturityAssessment ~ empPermissions:", empPermissions);
   const [isEdit, setIsEdit] = useState(false);
   const [assessmentPercentage, setAssessmentPercentage] = useState(0);
   const [activeTab, setActiveTab] =
@@ -62,7 +61,6 @@ const MaturityAssessment = () => {
   const [searchParams] = useSearchParams();
 
   const selectPillar = searchParams.get("actionItem");
-  console.log("🚀 ~ MaturityAssessment ~ selectPillar:", selectPillar);
 
   useEffect(() => {
     if (selectPillar === "2") {
@@ -84,10 +82,6 @@ const MaturityAssessment = () => {
       }),
   });
 
-  console.log(
-    "🚀 ~ MaturityAssessment ~ getCheckedmeasures:",
-    getCheckedmeasures
-  );
   // @ts-ignore
   const pillarCompleted = useMemo(() => {
     return getCheckedmeasures?.data?.data?.find(
@@ -118,7 +112,6 @@ const MaturityAssessment = () => {
   const assesmentOption = assessmentQuestionScoreLIST?.data?.filter(
     (item: any) => !!item?.completedAssessmentDate
   );
-  console.log("🚀 ~ MaturityAssessment ~ assesmentOption:", assesmentOption);
 
   const reTakeOption = assessmentQuestionScoreLIST?.data?.find(
     (item: any) => !item?.completedAssessmentDate
@@ -131,10 +124,6 @@ const MaturityAssessment = () => {
       const lastAssessmentNumber = assesmentOption.filter(
         (a: any) => a.completedAssessmentDate
       ); // Filter out assessments with no completed date
-      console.log(
-        "🚀 ~ useEffect ~ lastAssessmentNumber:",
-        lastAssessmentNumber
-      );
       setSelectAssessment(
         lastAssessmentNumber?.at(-1)?.assessmentNumber?.toString()
       );
@@ -259,9 +248,7 @@ const MaturityAssessment = () => {
                       )?.completedAssessmentDate;
 
                 setSelectAssessment(e);
-                if (find) {
-                  console.log("e", find);
-                } else {
+                if (!find) {
                   navigate(`/question`);
                 }
               }}

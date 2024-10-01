@@ -131,8 +131,6 @@ const RegisterTraineeForm = () => {
     mode: "all",
   });
 
-  console.log("+++++++", errors);
-
   const { data: getAgeRangesList, isPending: isAgeRangesPending } = useQuery({
     queryKey: [QUERY_KEYS.fetchAgeRanges],
     queryFn: fetchAgeRanges,

@@ -45,7 +45,6 @@ const GridViewTrainee = ({
 }) => {
   const dispatch = useAppDispatch();
   const { permissions } = useContext(PermissionContext);
-  console.log("🚀 ~ permissions:", permissions);
   const { toast } = useToast();
   const { UserId } = useAppSelector((state) => state.user);
   const { paths } = useAppSelector((state) => state.path);
@@ -200,8 +199,6 @@ const GridViewTrainee = ({
     };
     updateVersionFun(payload);
   };
-
-  console.log(list);
 
   const handlePublish = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

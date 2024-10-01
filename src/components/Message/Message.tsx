@@ -80,8 +80,6 @@ const Message = () => {
       (item) => item?.id === +chatId && item.group === chatType
     );
   }, [chatUserList, chatId, chatType]);
-  console.log("🚀 ~ currentChat ~ currentChat:", currentChat);
-
   const updatemessageData = (chatId: string) => {
     updatemessage({
       userId1: userID,
@@ -113,8 +111,6 @@ const Message = () => {
     queryFn: () => fetchGroupChat(chatId),
     enabled: !!chatId && (!!messageType || currentChat?.group),
   });
-
-  console.log("🚀 ~ Message ~ groupChat:", groupChat, currentChat);
   const { mutate: sendMessageMutation } = useMutation({
     mutationFn: sendGroupMessage,
     onSuccess: (data) => {
@@ -141,8 +137,6 @@ const Message = () => {
 
   useEffect(() => {
     if (messageType === "group" || currentChat?.group) {
-      console.log("Heelo", groupChat);
-
       // @ts-ignore
       setAllMsg(groupChat?.data?.groupMessages || []);
     } else {
@@ -314,8 +308,6 @@ const Message = () => {
       setOpenDrawer(false);
     }
   }, [viewType]);
-
-  console.log("chatUserList?.data?.data", chatUserList?.data?.data);
 
   return (
     <Fragment>
@@ -621,14 +613,6 @@ const Message = () => {
               chatUserList?.data?.data
                 ?.filter(filterByName)
                 ?.map((item: GetChatUserList | any) => {
-                  console.log(
-                    "currentChat?.group === item?.group",
-                    chatId,
-                    item?.id,
-                    currentChat?.group,
-                    item?.group
-                  );
-
                   return (
                     <div
                       key={item.id}

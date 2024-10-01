@@ -121,14 +121,6 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
       }
     };
 
-    console.log(
-      "+++++++++++++",
-      typeof assesment?.find(
-        // @ts-ignore
-        (item) => +item.ids === +assecessmentQuestion?.ids
-      )?.answer === "string"
-    );
-
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">

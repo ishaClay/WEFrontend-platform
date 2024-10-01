@@ -63,7 +63,6 @@ function CompanyRegister() {
   const [companyData, setCompanyData] = useState<any | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isCompanyVerified, setIsCompanyVerified] = useState(false);
-  console.log("🚀 ~ CompanyRegister ~ isCompanyVerified:", isCompanyVerified);
   const userID = UserId
     ? UserId
     : userData?.query
@@ -169,8 +168,6 @@ function CompanyRegister() {
       isRegister: false,
     },
   });
-  console.log("🚀 ~ CompanyRegister ~ errors:", errors);
-
   useEffect(() => {
     if (userData) {
       const userEmail = userData?.query
@@ -296,7 +293,6 @@ function CompanyRegister() {
     ].filter((part) => part != null && part.trim() !== "");
 
     const add = addressParts.join(", ");
-    console.log("++++++++++++++++", add);
 
     setValue("address", add);
     setValue("name", getData?.company_name);
@@ -407,10 +403,6 @@ function CompanyRegister() {
                       id="isRegister"
                       onChange={(e) => {
                         setValue("isRegister", e.target.checked);
-                        console.log(
-                          "🚀 ~ CompanyRegister ~ e.target.checked:",
-                          e.target.checked
-                        );
                         if (e.target.checked) {
                           setIsCompanyVerified(false);
                         } else {

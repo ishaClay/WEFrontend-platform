@@ -168,7 +168,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       handleClose();
     },
     onError: (error: ErrorType) => {
-      console.log("🚀 ~ CohortModal ~ error.data.message:", error.data.message);
       toast({
         variant: "destructive",
         title: error.data.message,
@@ -243,7 +242,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       };
     });
 
-    console.log("🚀 ~ newData ~ newData:", { newData, dataNew });
     const filteredData = dataNew.filter(
       (item) => item !== null && item !== undefined
     );
@@ -259,7 +257,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
         const checkDate = cohortData.filter(
           (item) => item.startDate === undefined || item.endDate === undefined
         );
-        console.log("🚀 ~ handleSubmit ~ checkData:", checkData);
 
         if (checkData?.length === 0 && checkDate?.length === 0) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -377,7 +374,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                 </TableHeader>
                 <TableBody>
                   {cohortData?.map((item, _, arr) => {
-                    console.log("🚀 ~ {cohortData?.map ~ item:", item);
                     const isEditeble = isDateBetween(item?.startDate);
 
                     return (

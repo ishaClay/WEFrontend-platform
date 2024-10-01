@@ -123,10 +123,8 @@ function Auth() {
     onSuccess: (data) => {
       const user = data?.data?.data?.query;
       const role = trackUserLogin(+user?.role);
-      console.log("🚀 ~ Auth ~ role:", role);
 
       if (role !== "SuperAdmin" && role !== "Client") {
-        console.log(role, user?.role, "rolerolerolerolerole");
         if ((window as any).gtag) {
           (window as any).gtag("event", "login", {
             user_id: user?.id,
