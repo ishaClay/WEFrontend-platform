@@ -31,14 +31,14 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="">
+        <div className="max-h-[650px] h-full overflow-y-auto">
           <h3 className="text-2xl font-droid font-bold pb-5">Live Session</h3>
           <h5 className="pb-2.5 font-droid text-base font-bold">
             {data?.data?.subtitle}
           </h5>
-          <h6 className="pb-2.5 font-droid text-base">
+          <div className="pb-2.5 font-droid text-base">
             {data?.data?.description}
-          </h6>
+          </div>
           <h6 className="pb-2.5 font-droid text-base">
             Trainer :{" "}
             {data?.data?.trainerOrganization
