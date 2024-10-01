@@ -42,10 +42,6 @@ const TrainerEditDetails = () => {
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
 
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
-  }, []);
-
   const { mutate, isPending: isMutating } = useMutation({
     mutationFn: updateEmployee,
     onSuccess: (data) => {

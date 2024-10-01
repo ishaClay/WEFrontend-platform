@@ -217,29 +217,6 @@ const Message = () => {
     });
   };
 
-  // useEffect(() => {
-  //   socket = io(import.meta.env.VITE_SOCKET_URL);
-  //   socket.on("message recieved", (newMessageReceived: any) => {
-  //     setAllMsg((prevMsgs: any) => {
-  //       const isDuplicate = prevMsgs.some(
-  //         (msg: any) => msg.id === newMessageReceived.id
-  //       );
-
-  //       if (!isDuplicate) {
-  //         return [...prevMsgs, newMessageReceived];
-  //       }
-  //       return prevMsgs;
-  //     });
-
-  //     // !!UserId && !!chatId && (await refetchChat());
-  //     // await refetchUserList();
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [chatId, refetchChat, refetchUserList, UserId]);
-
   const { mutate: handleSend, isPending: sendPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
