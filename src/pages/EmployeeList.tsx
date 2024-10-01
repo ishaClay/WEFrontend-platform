@@ -1,6 +1,5 @@
 import delet from "@/assets/images/delet.svg";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
-import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -322,7 +321,7 @@ function CoursesAllocate() {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainee Management",
+                      label: "Team Management",
                       link: null,
                     },
                     {
@@ -330,7 +329,7 @@ function CoursesAllocate() {
                       link: `/${Role}/employeelist`,
                     },
                     {
-                      label: "View Trainer Detail",
+                      label: "View Trainee Detail",
                       link: null,
                     },
                   ])
@@ -347,7 +346,7 @@ function CoursesAllocate() {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainee Management",
+                      label: "Team Management",
                       link: null,
                     },
                     {
@@ -449,7 +448,8 @@ function CoursesAllocate() {
               type="button"
               disabled={
                 data?.data?.length ===
-                selectTargetPillarLimitData?.data?.maxEmployeeLimit
+                  selectTargetPillarLimitData?.data?.maxEmployeeLimit ||
+                isLoading
               }
               onClick={() => {
                 dispatch(
@@ -517,7 +517,7 @@ function CoursesAllocate() {
         value={openDelete?.name || ""}
         isLoading={isPending}
       />
-      <Loading isLoading={isLoading} />
+      {/* <Loading isLoading={isLoading} /> */}
     </div>
   );
 }

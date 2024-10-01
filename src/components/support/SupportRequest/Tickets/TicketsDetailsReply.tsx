@@ -254,7 +254,7 @@ const TicketsDetailsReply = () => {
                     }`}
                   >
                     {data?.data?.data?.status === "InProcess"
-                      ? "In Process"
+                      ? "In Progress"
                       : data?.data?.data?.status}
                   </Button>
                 )}
@@ -360,7 +360,7 @@ const TicketsDetailsReply = () => {
                       <p className="text-[#A3A3A3] text-[12px]">
                         Reply By:{" "}
                         {itm?.status === "InProcess"
-                          ? itm?.status?.split("P").join(" P")
+                          ? "In Progress"
                           : itm?.status}
                       </p>
                     </div>
