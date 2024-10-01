@@ -152,12 +152,6 @@ function App() {
     themes?.data?.data?.textColor
   );
 
-  const handleGetToken = async () => {
-    const token = await getDeviceToken();
-    console.log("token", token);
-  };
-  handleGetToken();
-
   const { mutate } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
@@ -189,9 +183,7 @@ function App() {
       });
     });
 
-    socket.on("new trainer recieved", (data: any) => {
-      console.log("+++++++++++++++Hello+++++", data);
-
+    socket.on("new trainer recieved", () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.notificationCount],
       });

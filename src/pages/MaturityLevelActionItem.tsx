@@ -173,7 +173,7 @@ function MaturityLevelActionItem() {
               type="button"
               isLoading={isLoading}
               onClick={handlematurityAction}
-              className="bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center text-base font-font-droid"
+              className="bg-[#64A70B] text-[white] h-[40px] rounded text-center text-base font-font-droid"
             >
               See Recommended Courses
             </Button>

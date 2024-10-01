@@ -107,7 +107,7 @@ const Assign = ({
                   );
                   navigate("/company/coursesrecommended");
                 }}
-                className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+                className="bg-[#002A3A] text-white rounded-sm  h-12 lg:text-base text-sm"
               >
                 View Recommended Courses
               </Button>
