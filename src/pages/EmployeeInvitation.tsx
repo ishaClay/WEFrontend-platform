@@ -104,8 +104,6 @@ const EmployeeInvitation = () => {
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
     );
 
-    console.log("isEmailCheck", isEmailCheck);
-
     if (isCheckInvalid) {
       setError("Please fill all the fields");
       return;

@@ -31,34 +31,6 @@ const TrainerDetails = () => {
     queryFn: () => getTrainerById({ id: params.id || "" }),
   });
 
-  console.log("🚀 ~ TrainerDetails ~ clientDetails:", clientDetails);
-  // const { mutate, isPending: isPendingUpdate } = useMutation({
-  //   mutationFn: updateTrainerStatusById,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["trainer"],
-  //     });
-  //     dispatch(
-  //       setPath([
-  //         {
-  //           label: "Trainer Management",
-  //           link: `/${Role}/trainer-management`,
-  //         },
-  //       ])
-  //     );
-  //     toast({
-  //       variant: "success",
-  //       description: "Trainer status updated successfully",
-  //     });
-  //   },
-  //   onError: (error: AxiosError) => {
-  //     toast({
-  //       variant: "destructive",
-  //       description: error.message,
-  //     });
-  //   },
-  // });
-
   useEffect(() => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
@@ -67,16 +39,6 @@ const TrainerDetails = () => {
       setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
     }
   }, [clientDetails]);
-
-  // const handleSubmit = () => {
-  //   const data = {
-  //     status: trainerStatus.toString(),
-  //     approved: trainerPermission.toString(),
-  //     editCourses: trainerEditPermission.toString(),
-  //   };
-
-  //   mutate({ id: params.id || "", data });
-  // };
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">

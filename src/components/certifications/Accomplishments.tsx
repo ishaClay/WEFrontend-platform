@@ -36,7 +36,6 @@ const Accomplishments = () => {
     getEnrolledCourse?.data?.course?.courseEmployeeStatus?.courseCompletionDate;
   const dispatch = useAppDispatch();
   const pathName = location?.pathname?.split("/")[1];
-  console.log("🚀 getEnrolledCourse?.data?.cohortGroup", getEnrolledCourse);
 
   const handleDownload = () => {
     const imageUrl = getEnrolledCourse?.data?.certificate?.certificatePdf;
@@ -121,13 +120,21 @@ const Accomplishments = () => {
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Started : </p>
                     <span>
-                      {sData ? moment(new Date(sData)).format("DD MMM, YYYY") : <span className="ml-1">-</span>}
+                      {sData ? (
+                        moment(new Date(sData)).format("DD MMM, YYYY")
+                      ) : (
+                        <span className="ml-1">-</span>
+                      )}
                     </span>
                   </div>
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Completed : </p>
                     <span>
-                      {eData ? moment(new Date(eData)).format("DD MMM, YYYY") : <span className="ml-1">-</span>}
+                      {eData ? (
+                        moment(new Date(eData)).format("DD MMM, YYYY")
+                      ) : (
+                        <span className="ml-1">-</span>
+                      )}
                     </span>
                   </div>
                   <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">

@@ -117,10 +117,7 @@ function RegisterTrainer() {
         path: ["foreignProvider"],
       }),
   });
-  const pathName = location?.pathname?.split("/");
   const dispatch = useDispatch();
-
-  console.log("+++++++++++", !pathName?.includes("trainer-regestration"));
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
     mutationFn: registerTrainee,
@@ -175,7 +172,6 @@ function RegisterTrainer() {
     resolver: zodResolver(schema),
     mode: "all",
   });
-  console.log("🚀 ~ RegisterTrainer ~ errors:", errors);
   const email = watch("email");
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
@@ -280,7 +276,6 @@ function RegisterTrainer() {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
-      console.log("data++++++++++++", data);
 
       reset();
 

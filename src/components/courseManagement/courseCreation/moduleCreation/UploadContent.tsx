@@ -49,7 +49,6 @@ const UploadContent = ({
       setUploadProgress(100);
     }
   }, [data]);
-  console.log("data++++", data);
 
   const onSelectedDocumentType = (type: number) => {
     setIsOpenUploadDocumnet(false);
@@ -119,7 +118,6 @@ const UploadContent = ({
     setFileName("");
     setUploadProgress(0);
   };
-  console.log("data1234", data);
 
   const handleDropEvent = (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -152,7 +150,6 @@ const UploadContent = ({
 
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
-    console.log("file", file);
 
     if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
@@ -183,16 +180,11 @@ const UploadContent = ({
   let errorkey;
   if (moduleIndex !== undefined && sectionIndex !== undefined) {
     errorkey = errors.modules?.[moduleIndex]?.section?.[sectionIndex];
-    console.log("🚀 ~ errorkey:", errorkey);
   } else {
     errorkey = errors;
   }
 
   const removeUploadContent = () => {
-    console.log(
-      "setIsOpenUploadDocumnet",
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`
-    );
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
         `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
@@ -210,9 +202,6 @@ const UploadContent = ({
     setUploadProgress(0);
     setFileName("");
   };
-
-  console.log("data+++", data);
-  console.log("FileType", FileType);
 
   return (
     <div className="">

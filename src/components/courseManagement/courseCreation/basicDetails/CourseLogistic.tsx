@@ -155,7 +155,6 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
-      console.log("🚀 ~ CourseLogistic ~ data:", data?.data?.data);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -292,8 +291,6 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       );
     }
   };
-
-  console.log("selectBoxValue+++", selectBoxValue);
 
   return (
     <>

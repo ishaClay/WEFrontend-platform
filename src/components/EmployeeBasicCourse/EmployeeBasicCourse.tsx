@@ -50,8 +50,6 @@ const EmployeeBasicCourse = () => {
     enabled: !!courseById,
   });
 
-  console.log("userData", userData);
-
   const {
     data: fetchEmployeeSingeCourse,
     isLoading: fetchEmployeeSingeCourseLoading,
@@ -75,10 +73,6 @@ const EmployeeBasicCourse = () => {
       getOneFeedback(course?.data?.course?.id, userData?.query?.id),
     enabled: !!course?.data?.course?.id || !!userData?.query?.id,
   });
-  console.log(
-    "🚀 ~ EmployeeBasicCourse ~ checkFeedback:",
-    !!checkFeedback?.data
-  );
 
   const { data: getModule } = useQuery<ModuleStatusResponse>({
     queryKey: [QUERY_KEYS.getSingleCourse, { mainCourseId, userData }],
@@ -114,7 +108,6 @@ const EmployeeBasicCourse = () => {
       const isFeedback = course?.data?.course?.feedBack?.find(
         (item: any) => item?.user?.id === userData?.query?.id
       );
-      console.log("check", !isFeedback);
 
       // @ts-ignore
       if (check && checkAssesment && !isFeedback && !checkFeedback?.data) {
@@ -129,7 +122,6 @@ const EmployeeBasicCourse = () => {
     userData?.query?.role,
   ]);
 
-  console.log("🚀 ~ useEffect ~ getModule:", getModule);
   return (
     <>
       <Modal

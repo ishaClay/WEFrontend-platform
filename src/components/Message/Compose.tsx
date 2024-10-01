@@ -78,7 +78,6 @@ const Compose = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
   const dispatch = useAppDispatch();
-  console.log("🚀 ~ Compose ~ isActive:", isActive);
   useEffect(() => {
     if (role === UserRole?.Trainer) {
       setSelectTab(
@@ -124,8 +123,6 @@ const Compose = () => {
     queryFn: () => getTargetUserby(userID as string),
   });
 
-  console.log("selectToValue++++++++++++++", selectToValue);
-
   const fetchAssignToList = (selectType: string) => {
     const selectedType =
       selectType === "client"
@@ -150,13 +147,10 @@ const Compose = () => {
         ]
       );
     } else if (role === UserRole?.Company) {
-      console.log("role", role);
-      console.log("selectedType", selectedType);
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectedType]
       );
     } else if (role === UserRole?.Trainee) {
-      console.log("role11", role);
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectedType]
       );
@@ -166,7 +160,6 @@ const Compose = () => {
       );
     }
   };
-  console.log("isActive", fetchTargetUserbyList, isActive);
 
   useEffect(() => {
     fetchAssignToList(isActive);
@@ -177,7 +170,6 @@ const Compose = () => {
     queryFn: () => fetchEmails(selectTab),
   });
 
-  console.log("🚀 ~ Compose ~ emailtemplateList:", emailtemplateList);
   const schema = z.object({
     to: z
       .string({ required_error: "Please select this field" })
@@ -294,8 +286,6 @@ const Compose = () => {
     });
   };
 
-  console.log("selectToValue", selectToValue);
-
   return (
     <>
       <Card className="border-0 shadow-none rounded-lg bg-white">
@@ -380,10 +370,6 @@ const Compose = () => {
                         <SelectItem
                           value={String(selectToValue?.userDetails?.id)}
                         >
-                          {console.log(
-                            "selectToValue?.userDetailsselectToValue?.userDetails",
-                            selectToValue?.userDetails
-                          )}
                           {selectToValue?.userDetails?.name ||
                             selectToValue?.userDetails?.email?.split("@")[0]}
                         </SelectItem>

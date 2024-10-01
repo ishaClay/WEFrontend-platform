@@ -50,8 +50,6 @@ const DashboardLayout = () => {
         );
   }, [selectTargetPillarLimit]);
 
-  console.log("userData", user?.query?.lastlogout, user?.query?.givefeedback);
-
   useEffect(() => {
     if (+user?.query?.loginTime === 10 && !user?.query?.feedback) {
       setIsFeedbackModelOpen(true);

@@ -30,7 +30,6 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   inputbox?: boolean;
-  pagenationbox?: boolean;
   pagination?: PaginationState;
   totalPages?: number;
   border?: boolean;
@@ -48,7 +47,6 @@ export function NewDataTable<TData, TValue>({
   inputbox = true,
   border = true,
   itemClassName,
-  pagenationbox = true,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
   totalPages = 0,
@@ -57,8 +55,6 @@ export function NewDataTable<TData, TValue>({
   isLoading,
   searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
-  console.log("pagination", pagenationbox);
-
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -98,9 +94,7 @@ export function NewDataTable<TData, TValue>({
   };
 
   return (
-    <div
-      className={`w-full`}
-    >
+    <div className={`w-full`}>
       {!!inputbox && (
         <div className="flex items-center py-4 relative">
           <Input

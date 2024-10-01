@@ -49,11 +49,6 @@ const AssecessmentTypeTwoOptions = ({
 
   const handleRemove = () => {
     const optionToRemove = data.option;
-    console.log(
-      "🚀 ~ handleRemove ~ optionToRemove:",
-      optionToRemove,
-      assesment
-    );
     setAssesment((prev: any) => {
       return prev.map((item: any) => {
         if (item?.ids === id) {

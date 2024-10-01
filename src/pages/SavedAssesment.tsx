@@ -51,8 +51,6 @@ function SavedAssesment() {
 
   const handleAssesment = () => {
     const pathStatus = enums?.data.data.pathStatus;
-    console.log("🚀 ~ handleAssesment ~ pathStatus:", pathStatus);
-
     switch (pathStatus) {
       case 1:
         navigate("/question");
@@ -77,16 +75,12 @@ function SavedAssesment() {
         break;
     }
   };
-
-  console.log("🚀 ~ SavedAssesment ~ enums:", enums);
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, []);
-
-  console.log("data?.data", data?.data);
 
   return (
     <>
@@ -114,8 +108,9 @@ function SavedAssesment() {
               </div>
 
               <p className="mt-[20px] w-[430px]">
-                There's just some questions left to get your Sustainability Score, Build your Action Plan and Enrol Courses. 
-                But you're merrily on the way there...
+                There's just some questions left to get your Sustainability
+                Score, Build your Action Plan and Enrol Courses. But you're
+                merrily on the way there...
               </p>
               <p className="text-[Calibri] font-font-droid text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
                 {" "}

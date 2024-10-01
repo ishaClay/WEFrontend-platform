@@ -30,10 +30,6 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
 
   const filteredSessions =
     allLiveSession?.filter((session) => {
-      console.log(
-        "🚀 ~ allLiveSession?.filter ~ session:",
-        isSessionOngoingAtTime(session.startTime, session?.sessionDuration)
-      );
       const now = new Date();
 
       switch (selectFilter) {

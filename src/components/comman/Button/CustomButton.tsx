@@ -8,7 +8,6 @@ interface InputProps {
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean;
   isLink?: boolean;
-  auth?: boolean;
   href?: string;
 }
 
@@ -18,11 +17,8 @@ export const PrimaryButton: React.FC<InputProps> = ({
   className,
   symbol,
   onClick,
-  auth = false,
   disabled = false,
 }) => {
-  console.log("auth", auth);
-
   return (
     <button
       className={`button-color top-94 left-823 text-color rounded hover:bg-[#489db0] !font-font-droid ${

@@ -31,11 +31,8 @@ function HomeHeader(props: headerProps) {
     useContext(RegisterContext);
 
   const userData = localStorage?.getItem("user");
-  const userToken = Cookies.get("accessToken") || "";
   const path = JSON.parse(localStorage?.getItem("path") as string);
   const dispatch = useAppDispatch();
-
-  console.log("userToken", userToken, userData);
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,

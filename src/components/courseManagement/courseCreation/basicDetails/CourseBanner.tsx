@@ -199,7 +199,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     }
     createImageBitmap(file).then((imageBitmap) => {
       const { width, height } = imageBitmap;
-      console.log("width, height ,", width, height);
       if (width > 1025 || height > 769) {
         toast({
           variant: "destructive",
@@ -254,7 +253,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       );
     }
   };
-  console.log("editorData", editorData);
 
   return (
     <>

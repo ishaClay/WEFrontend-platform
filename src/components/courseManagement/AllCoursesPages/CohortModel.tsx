@@ -28,8 +28,6 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
       <>
         {upcomingData?.length > 0 ? (
           upcomingData?.map((item, i) => {
-            console.log("itemitem", item);
-
             return (
               <div key={i}>
                 <div className="rounded-[6px] py-[7px] px-[15px] my-[18px] border border-[#B6D8DF] bg-[#E4FBFF]">

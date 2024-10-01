@@ -77,8 +77,6 @@ const TrainerInvitation = () => {
         );
       } else {
         if (data?.data?.trainerExist?.length > 0) {
-          console.log("+++++++++++++", data?.data);
-
           toast({
             title: "Error",
             description: "Trainer already existing.",

@@ -63,7 +63,6 @@ const HistoryModel = ({
             ) : (
               <div className="flex flex-col gap-5 h-full">
                 {data?.data?.map((items, index: number) => {
-                  console.log("items.createdBy", items);
                   return (
                     <div className="flex items-center gap-2" key={index}>
                       <div>

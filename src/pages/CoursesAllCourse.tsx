@@ -231,10 +231,7 @@ function CoursesAllCourse() {
                 </div>
               ) : (
                 <div className="md:p-5 p-4 flex flex-col gap-6">
-                  <CourseListPage
-                    data={allcourse?.data?.data}
-                    selectedCourse={selectedCourse}
-                  />
+                  <CourseListPage data={allcourse?.data?.data} />
                 </div>
               )}
             </>

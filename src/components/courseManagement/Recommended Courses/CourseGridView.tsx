@@ -23,7 +23,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 let socket: any;
 
@@ -84,14 +83,6 @@ const CourseGridView = ({
     },
   });
 
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
@@ -112,7 +103,6 @@ const CourseGridView = ({
       Inquiry(payload);
 
       navigate(`/${pathName}/message?chatId=${data?.data?.receiverId}`);
-      console.log("payload", data);
 
       socket.emit("new message", data?.data);
     },
@@ -136,8 +126,6 @@ const CourseGridView = ({
     };
     handleSend(payload);
   };
-
-  console.log("recommendeddata", recommendeddata);
 
   return (
     <>

@@ -298,8 +298,6 @@ const ScheduleLiveSessionPage = () => {
           moduleSection,
         } = fetchLiveSessionData;
 
-        console.log("+++++++++++++", moduleSection?.id?.toString());
-
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
         setValue("sessionDate", date?.split("T")[0]);
@@ -397,11 +395,6 @@ const ScheduleLiveSessionPage = () => {
   ) {
     return <Loader />;
   }
-
-  // console.log(
-  //   "check Diff::::",
-  //   moment(new Date()).diff(moment(new Date(cohortStartDate)))
-  // );
 
   return (
     <>

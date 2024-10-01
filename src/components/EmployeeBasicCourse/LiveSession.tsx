@@ -67,9 +67,6 @@ const LiveSession = ({
       liveSessionData?.startTime,
       liveSessionData?.sessionDuration
     );
-  console.log("🚀 ~ joinButtonPermission:", joinButtonPermission);
-
-  console.log("🚀 ~ list?.liveSection:", list?.liveSection);
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
     onSuccess: async () => {

@@ -10,18 +10,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const user = userData ? JSON.parse(userData) : null;
   const userToken = Cookies.get("accessToken") || "";
 
-  console.log(
-    "UserRole[+user?.query?.role]",
-    UserRole[+user?.query?.role]?.toLowerCase()
-  );
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }, []);
-
-  console.log("+++++++++++++++++", UserRole[+user?.query?.role]);
 
   useEffect(() => {
     if (userToken) {

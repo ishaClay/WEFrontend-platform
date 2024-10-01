@@ -107,7 +107,6 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     queryFn: () => fetchChatUserList(userID as string),
   });
   const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
-  console.log("isOpenisOpen", isOpen);
 
   return (
     <div

@@ -6,13 +6,11 @@ import AssessmentModalSelectItem from "./AssessmentModalSelectItem";
 interface AssessmentModalProps {
   moduleId?: string;
   setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
-  sectionID?: number;
 }
 
 const AssessmentModal = ({
   moduleId,
   setIsOpenAssessmentModal,
-  sectionID,
 }: AssessmentModalProps) => {
   const { data: assessmentOptions } = useQuery({
     queryKey: [QUERY_KEYS.assessmentOptions],
@@ -38,7 +36,6 @@ const AssessmentModal = ({
                 key={index}
                 data={data}
                 moduleId={moduleId}
-                sectionID={sectionID}
               />
             );
           })}

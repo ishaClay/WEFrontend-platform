@@ -185,8 +185,6 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
               }
             };
 
-            console.log("item", item);
-
             return (
               <>
                 <div className="sm:flex block items-center sm:px-5 p-3 sm:py-2.5 justify-between w-full border-t border-[#D9D9D9]">

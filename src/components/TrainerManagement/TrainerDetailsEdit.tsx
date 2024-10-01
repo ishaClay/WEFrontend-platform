@@ -140,11 +140,6 @@ const TrainerDetailsEdit = () => {
     },
   });
 
-  console.log(
-    "🚀 ~ useEffect ~ clientDetails:",
-    watch("providerCounty"),
-    clientDetails?.data
-  );
   useEffect(() => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");

@@ -126,10 +126,6 @@ const DashboardTrainer = () => {
           enrollmentFiguresFilter
         ),
     });
-  console.log(
-    "🚀 ~ DashboardTrainer ~ enrollmentFiguresData:",
-    enrollmentFiguresData
-  );
 
   const column: ColumnDef<any>[] = [
     {

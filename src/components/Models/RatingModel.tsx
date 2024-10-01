@@ -30,8 +30,6 @@ const RatingModel = ({
         variant: "success",
       });
 
-      console.log("data++++", data);
-
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -42,8 +40,6 @@ const RatingModel = ({
       setIsOpen(false);
     },
     onError: (error: ErrorResponse) => {
-      console.log("data++++", error);
-
       toast({
         title: "Error",
         description: error?.data?.message || "Internal server error",
@@ -94,7 +90,6 @@ const RatingModel = ({
       userId: userData?.query?.id,
       feedback: rating,
     };
-    console.log("payload", payload);
     addFeedbackFun(payload);
   };
 

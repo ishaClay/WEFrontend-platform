@@ -144,7 +144,6 @@ const ModuleCreationItems = ({
     tempDiv.innerHTML = html;
     return tempDiv.textContent || tempDiv.innerText || "";
   };
-  console.log("watch+++++", watch(`modules.${index}.section`));
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
@@ -250,10 +249,9 @@ const ModuleCreationItems = ({
                   {...register(
                     `modules.${index}.section.${sectionindex}.information`
                   )}
-                  onChange={(event, editor) => {
+                  onChange={(_, editor) => {
                     const data = editor.getData();
                     const plainText = stripHtmlTags(data);
-                    console.log("event", event);
 
                     if (plainText.length > 5000) {
                       setInformationError(

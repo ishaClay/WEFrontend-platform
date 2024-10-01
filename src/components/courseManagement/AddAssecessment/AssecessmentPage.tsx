@@ -4,9 +4,7 @@ import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { AssesmentContext } from "@/context/assesmentContext";
-import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { RootState } from "@/redux/store";
 import {
   createAssessment,
   createAssessmentQuestion,
@@ -14,7 +12,6 @@ import {
   getModuleSection,
   updateAssessment,
 } from "@/services/apiServices/assessment";
-import { QuestionCreation } from "@/types/assecessment";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
@@ -27,18 +24,6 @@ import AssecessmentFreeText from "./AssecessmentType/AssecessmentFreeText/Assece
 import AssecessmentTrueFalse from "./AssecessmentType/AssecessmentTrueFalse/AssecessmentTrueFalse";
 import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
 import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
-
-export const intialSectionCreation: QuestionCreation = {
-  question: "",
-  point: 0,
-  options: [
-    {
-      option: "",
-    },
-  ],
-  assessmentType: "",
-  answer: [],
-};
 
 type Validatable = () => boolean;
 
@@ -58,10 +43,6 @@ const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
   const pathName = window.location.pathname.split("/")[1];
-
-  const assecessmentQuestion = useAppSelector(
-    (state: RootState) => state.assessment
-  );
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
   const [createAssecessment, setCreateAssecessment] = useState<{
     title: string;
@@ -116,10 +97,9 @@ const AssecessmentPage = () => {
 
       const responseData = getAssessmentByIdData?.data?.AssessmentQuestion?.map(
         (item) => {
-          const { option, ...rest } = item;
+          const { option } = item;
 
           const isMCQ = option.filter((i: any) => i.option !== "").length > 0;
-          console.log("rest", rest);
 
           return {
             ...item,
@@ -195,7 +175,6 @@ const AssecessmentPage = () => {
               rest?.assessmentType !== "Multiple Choice"
             ) {
               const arr = [];
-              console.log("item", item?.answer);
 
               // If there are options, at least one non-empty option, and the assessment type is not "Multiple Choice"
               arr.push(item?.answer);
@@ -255,7 +234,6 @@ const AssecessmentPage = () => {
             rest?.assessmentType !== "Multiple Choice"
           ) {
             const arr = [];
-            console.log("item", item?.answer);
 
             // If there are options, at least one non-empty option, and the assessment type is not "Multiple Choice"
             arr.push(item?.answer);
@@ -280,12 +258,9 @@ const AssecessmentPage = () => {
         };
       });
 
-      console.log("assecessmentQue+++++++++++++++++++", assecessmentQue);
-
       createAssessmentQuestionFun(assecessmentQue);
     },
     onError: (error: ResponseError) => {
-      console.log("error", error);
       toast({
         title: "Error",
         description: error?.data?.message || "Internal server error",
@@ -301,8 +276,6 @@ const AssecessmentPage = () => {
     timeBound: "",
     timeDuration: "",
   });
-
-  console.log("createAssecessment++++++++++++++++++++++++++", assesment);
 
   const validateAssecessmentModule = () => {
     let valid = true;
@@ -427,8 +400,6 @@ const AssecessmentPage = () => {
       );
     }
   };
-
-  console.log("assecessmentQuestion", assecessmentQuestion);
 
   return (
     <div className="bg-white rounded-lg">

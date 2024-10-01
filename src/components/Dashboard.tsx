@@ -2,7 +2,7 @@
 import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 
 import Arrow_Right from "@/assets/images/Arrow_Right.png";
@@ -21,7 +21,6 @@ import {
   getCourseCompletionData,
   getDashbooardSme3,
   getEnrolledCourses,
-  getFirstInfirgraphicChart,
   getSmeDashboardData,
   getSmeUpcomingLiveSession,
 } from "@/services/apiServices/dashboard";
@@ -31,7 +30,6 @@ import {
   getCheckedMeasuresByAssessment,
 } from "@/services/apiServices/pillar";
 import {
-  AssesmentDashboardData,
   DashboardData,
   SMEDashboard3Response,
   SMEEnrollDashboardResponse,
@@ -78,7 +76,6 @@ Chart.register(
 );
 
 const Dashboard = () => {
-  const [page, setPage] = useState(0);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userID =
@@ -89,7 +86,6 @@ const Dashboard = () => {
       : userData?.query
       ? userData?.query?.id
       : userData?.id;
-  console.log("+++", page);
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "ID",
@@ -173,20 +169,6 @@ const Dashboard = () => {
     },
   ];
 
-  const { data: firstInfirgraphicChart, isLoading } =
-    useQuery<AssesmentDashboardData>({
-      queryKey: ["getFirstInfirgraphicChart"],
-      queryFn: () =>
-        getFirstInfirgraphicChart({
-          userId: userData?.query?.id,
-          clientId: clientId,
-        }),
-    });
-
-  console.log(
-    "🚀 ~ Dashboard ~ firstInfirgraphicChart:",
-    firstInfirgraphicChart
-  );
   const { data: smeDashboardData, isLoading: smeLoading } =
     useQuery<DashboardData>({
       queryKey: ["getSmeDashboardData"],
@@ -196,7 +178,7 @@ const Dashboard = () => {
         }),
     });
 
-  const { data: smeUpcomingLiveSession } =
+  const { data: smeUpcomingLiveSession, isLoading } =
     useQuery<UpcommingLiveSessionResponse>({
       queryKey: ["getSmeUpcomingLiveSession"],
       queryFn: () =>
@@ -204,8 +186,6 @@ const Dashboard = () => {
           userId: userData?.query?.detailsid || userData?.company?.id,
         }),
     });
-
-  console.log("smeUpcomingLiveSession", smeUpcomingLiveSession);
 
   const {
     data: fetchCourseCompletionData,
@@ -247,7 +227,6 @@ const Dashboard = () => {
     ?.filter((item) => item.month.startsWith(currentYear.toString()))
     .map((item) => item.enrollmentsCount);
 
-  console.log("smeDashboardData", currentYearData);
   const months = [
     "January",
     "February",
@@ -826,7 +805,9 @@ const Dashboard = () => {
                 isLoading={smeLoading}
                 icon={Total_courses}
                 title="Open"
-                value={smeDashboardData?.data?.totalActionItems?.report?.open || 0}
+                value={
+                  smeDashboardData?.data?.totalActionItems?.report?.open || 0
+                }
               />
               <DashboardCard
                 isLoading={smeLoading}
@@ -883,7 +864,10 @@ const Dashboard = () => {
               </span>
             ) : smeUpcomingLiveSession?.upcomingSessions &&
               smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
-              <CustomCarousel className="xl:basis-1/2 md:basis-1/2" dots={false}>
+              <CustomCarousel
+                className="xl:basis-1/2 md:basis-1/2"
+                dots={false}
+              >
                 {smeUpcomingLiveSession?.upcomingSessions?.map(
                   (data, index) => {
                     return <LiveSessionsItems data={data} key={index} />;
@@ -989,7 +973,6 @@ const Dashboard = () => {
                 <DataTable
                   columns={column}
                   data={getTopCourseList?.data || []}
-                  setPage={setPage}
                   rounded={false}
                 />
               </div>

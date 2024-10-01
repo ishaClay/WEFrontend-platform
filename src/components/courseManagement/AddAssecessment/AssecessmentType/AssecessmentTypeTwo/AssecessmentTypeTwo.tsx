@@ -108,7 +108,6 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
       const answerValue = assesment
         // @ts-ignore
         ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
-      console.log("+++++++++++++++answerValue", answerValue);
 
       if (!answerValue?.length) {
         newErrors.answer = "Answer is required";
@@ -172,7 +171,6 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
     };
 
     const handleRemoveQuestion = (id: number) => {
-      console.log("🚀 ~ handleRemoveQuestion ~ id:", id);
       setAssesment((prev: any) => {
         return prev.filter((item: any) => +item.ids !== +id);
       });

@@ -120,8 +120,6 @@ export const getTraineeCompany = async (
   courseId: number,
   sessionId: string
 ) => {
-  console.log("courseId", courseId);
-
   const url = `api/v1/livesessions/company-trainerCompany/${id}`,
     method = "get";
   const params: any = {};

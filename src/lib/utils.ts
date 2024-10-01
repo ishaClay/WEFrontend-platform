@@ -506,11 +506,9 @@ export const calculateTotalReadingTime = (sections: any) => {
   let totalHours = 0;
   let totalMinutes = 0;
   let totalSeconds = 0;
-  console.log("sectionssections", sections);
 
   sections.forEach((section: any) => {
     const time = section.readingTime;
-    console.log("timetimetime", time, section.isLive || section.isLive === 0);
 
     const assessmentTime =
       section?.module?.assessment?.length > 0 &&
@@ -519,7 +517,6 @@ export const calculateTotalReadingTime = (sections: any) => {
     totalMinutes += time?.minute || assessmentTime?.minutes + time?.minute || 0;
     totalSeconds += time?.second || assessmentTime?.seconds + time?.second || 0;
   });
-  console.log("sectionssections", totalHours, totalMinutes, totalSeconds);
 
   // Convert total seconds to minutes and hours if necessary
   totalMinutes += Math.floor(totalSeconds / 60);
@@ -578,13 +575,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-      +readingTime?.hour * 3600 +
-      +readingTime?.minute * 60 +
-      +readingTime?.second
+          +readingTime?.hour * 3600 +
+          +readingTime?.minute * 60 +
+          +readingTime?.second
       : +totalSeconds +
-      +readingTime?.hours * 3600 +
-      +readingTime?.minutes * 60 +
-      +readingTime?.seconds;
+          +readingTime?.hours * 3600 +
+          +readingTime?.minutes * 60 +
+          +readingTime?.seconds;
   }, 0);
 };
 
@@ -667,7 +664,6 @@ export const isSessionOngoingAtTime = (
   const targetDate = moment();
   const sessionStart = moment(startTime);
   const sessionEnd = sessionStart.clone().add(sessionDuration, "minutes");
-  console.log("🚀 ~ targetDate:", { targetDate, sessionStart, sessionEnd });
   return targetDate.isBetween(sessionStart, sessionEnd, null, "[)");
 };
 

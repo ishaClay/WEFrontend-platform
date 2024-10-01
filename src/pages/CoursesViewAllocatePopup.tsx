@@ -127,8 +127,6 @@ function CourseViewAllocatePopup({
     setIsInvite(true);
   };
 
-  console.log("isReadOnly", isReadOnly);
-
   function mergeArraysWithUniqueness(
     arr1: EmployeeEntity[],
     arr2: EmployeeEntity[]

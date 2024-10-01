@@ -23,8 +23,6 @@ const FeaturedCourses = () => {
     enabled: !!clientId,
   });
 
-  console.log("clientwiseCourseslider?.data", clientwiseCourseslider?.data);
-
   const settings = {
     dots: true,
     infinite: true,

@@ -34,7 +34,6 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
     queryFn: () => getOneFeedback(course?.course?.id, userData?.query?.id),
     enabled: !!course?.course?.id || !!userData?.query?.id,
   });
-  console.log("data", data);
 
   useEffect(() => {
     if (data) {

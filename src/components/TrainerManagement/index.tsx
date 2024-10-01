@@ -34,13 +34,10 @@ const TrainerManagement = () => {
   const [rowId, setRowId] = useState<number | null>(null);
   const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
   const queryClient = useQueryClient();
-  console.log("🚀 ~ TrainerManagement ~ openDelete:", openDelete);
-
   const { mutate: resendInvitationFun, isPending: resendInvitationPending } =
     useMutation({
       mutationFn: resendInvitation,
       onSuccess: (data) => {
-        console.log("data123123", data);
         setRowId(null);
         toast({
           description: data?.message,
@@ -329,8 +326,7 @@ const TrainerManagement = () => {
   const { mutate: deleteInvitation, isPending: deletingTrainerInvitation } =
     useMutation({
       mutationFn: deleteTrainerInvitation,
-      onSuccess: (res) => {
-        console.log("🚀 ~ TrainerManagement ~ res:", res);
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["trainer"] });
         setOpenDelete(null);
         toast({
@@ -339,7 +335,6 @@ const TrainerManagement = () => {
         });
       },
       onError: (error: any) => {
-        console.log("🚀 ~ TrainerManagement ~ error:", error);
         toast({
           variant: "destructive",
           title: "Error",
@@ -352,8 +347,6 @@ const TrainerManagement = () => {
       deleteInvitation(openDelete?.id);
     }
   };
-  console.log("🚀 ~ handleDelete ~ openDelete:", openDelete);
-
   const { data: selectTargetPillarLimit } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
@@ -363,10 +356,6 @@ const TrainerManagement = () => {
   const invitePermission =
     +data?.data?.length === +selectTargetPillarLimit?.data?.maxTrainerLimit;
 
-  console.log(
-    "selectTargetPillarLimit",
-    +selectTargetPillarLimit?.data?.maxTrainerLimit === +data?.data?.length
-  );
   return (
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">

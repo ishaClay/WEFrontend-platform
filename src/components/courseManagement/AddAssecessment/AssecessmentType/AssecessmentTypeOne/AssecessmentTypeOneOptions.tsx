@@ -83,11 +83,6 @@ const AssecessmentTypeOneOptions = ({
     });
   };
 
-  console.log(
-    "assesment?.[id]?.options?.[iIndex]?.option",
-    typeof assesment?.find((item: any) => item?.ids === id)?.answer
-  );
-
   return (
     <div>
       <div className="">

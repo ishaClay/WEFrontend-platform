@@ -49,7 +49,6 @@ const GridView = ({
 }) => {
   const dispatch = useAppDispatch();
   const { permissions } = useContext(PermissionContext);
-  console.log("🚀 ~ permissions:", permissions);
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -224,8 +223,6 @@ const GridView = ({
     };
     updateVersionFun(payload);
   };
-
-  console.log(list);
 
   const handlePublish = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

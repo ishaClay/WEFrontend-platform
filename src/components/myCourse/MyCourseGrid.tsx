@@ -16,18 +16,12 @@ import { Progress } from "../ui/progress";
 
 type myPagesListProps = {
   grid: CourseAllotedEntity;
-  selectFilterByCategory: string;
 };
 
-const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
-  console.log(
-    "🚀 ~ MyCourseGrid ~ selectFilterByCategory:",
-    selectFilterByCategory
-  );
+const MyCourseGrid = ({ grid }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const Role = location.pathname.split("/")[1];
-  console.log("listlist", grid);
 
   return (
     <Link

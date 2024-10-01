@@ -50,7 +50,6 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const events = allLiveSession?.map((session) => {
-    console.log("🚀 ~ events ~ session:", session);
     const sessionDurationMinutes = session?.sessionDuration;
 
     const eventStart = moment(session.startTime, "YYYY-MM-DD hh:mm A").toDate();
