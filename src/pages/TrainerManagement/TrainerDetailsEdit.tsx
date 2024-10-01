@@ -21,7 +21,6 @@ import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 
 let socket: any;
 const TrainerEditDetails = () => {
