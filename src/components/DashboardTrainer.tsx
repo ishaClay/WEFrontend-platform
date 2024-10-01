@@ -230,22 +230,6 @@ const DashboardTrainer = () => {
     },
   ];
 
-  // const openSupportTicket =
-  //   smeDashboardData?.data?.supportTicketsCount?.open &&
-  //   Object.values(smeDashboardData?.data?.supportTicketsCount?.open).reduce(
-  //     // @ts-ignore
-  //     (a: number, b: number) => a + b,
-  //     0
-  //   );
-
-  // const resolveSupportTicket =
-  //   smeDashboardData?.data?.supportTicketsCount?.resolved &&
-  //   Object.values(smeDashboardData?.data?.supportTicketsCount?.resolved).reduce(
-  //     // @ts-ignore
-  //     (a: number, b: number) => a + b,
-  //     0
-  //   );
-
   const handleExport = () => {
     const formattedData: any =
       enrollmentFiguresData?.data?.enrollmentsRequestsFigures?.map(
@@ -314,7 +298,10 @@ const DashboardTrainer = () => {
     {
       icon: Companies,
       title: "Pending",
-      value: enrollmentRequestData?.data?.pendingRequest || 0,
+      value: enrollmentRequestData?.data
+        ? +enrollmentRequestData?.data?.pendingRequest +
+          +enrollmentRequestData?.data?.enquireRequests
+        : 0,
     },
   ];
 

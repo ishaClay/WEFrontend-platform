@@ -84,7 +84,7 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
             onClick={handleAllocate}
             className="bg-[#58BA66] xl:text-sm text-xs w-[90px] h-[32px] font-droid leading-1 p-0 leading-0"
           >
-            ALLOCATE
+            Issue
           </Button>
         </div>
         <div>

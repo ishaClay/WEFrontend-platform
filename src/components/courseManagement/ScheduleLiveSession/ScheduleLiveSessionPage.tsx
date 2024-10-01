@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -86,11 +85,13 @@ const ScheduleLiveSessionPage = () => {
       selectLiveSession: z.string({
         required_error: "Please select live session",
       }),
-      sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
-      sessionDescription: z
+      // sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
+      // sessionDescription: z
+      //   .string()
+      //   .nonempty("Please enter session description"),
+      sessionDate: z
         .string()
-        .nonempty("Please enter session description"),
-      sessionDate: z.string().nonempty("Please enter session date"),
+        .nonempty("Select session date between cohort start date and end date"),
       sessionTime: z.string().min(1, "Time format is required"),
       selectDurationInHours: z.string({
         required_error: "Please select duration in hours",
@@ -286,8 +287,6 @@ const ScheduleLiveSessionPage = () => {
     if (id) {
       if (fetchLiveSessionData) {
         const {
-          subtitle,
-          description,
           date,
           sessionDuration,
           course,
@@ -297,9 +296,6 @@ const ScheduleLiveSessionPage = () => {
           cohortGroup,
           moduleSection,
         } = fetchLiveSessionData;
-
-        setValue("sessionSubtitle", subtitle);
-        setValue("sessionDescription", description);
         setValue("sessionDate", date?.split("T")[0]);
         setValue(
           "selectDurationInHours",
@@ -331,10 +327,19 @@ const ScheduleLiveSessionPage = () => {
       (item: any) => +item?.value === +data?.selectLiveSession
     );
 
+    const session = getLiveSessionData?.data?.find(
+      (item) => item.id?.toString() === selectLiveSession?.toString()
+    );
+
+    const htmlString = new DOMParser().parseFromString(
+      session?.information || "",
+      "text/html"
+    );
+
     const transformedData = {
       course: data?.selectCourse,
-      subtitle: data.sessionSubtitle,
-      description: data?.sessionDescription,
+      subtitle: session?.title,
+      description: htmlString?.body?.innerText,
       sessionDuration:
         +data.selectDurationInHours * 60 +
         +data.selectDurationInMinute?.toString(),
@@ -368,23 +373,6 @@ const ScheduleLiveSessionPage = () => {
       });
     }
   };
-
-  useEffect(() => {
-    if (getLiveSessionData?.data && selectLiveSession) {
-      const session = getLiveSessionData?.data?.find(
-        (item) => item.id?.toString() === selectLiveSession?.toString()
-      );
-      if (session) {
-        const htmlString = new DOMParser().parseFromString(
-          session?.information || "",
-          "text/html"
-        );
-
-        setValue("sessionSubtitle", session?.title || "");
-        setValue("sessionDescription", htmlString?.body?.innerText || "");
-      }
-    }
-  }, [selectLiveSession, getLiveSessionData?.data, setValue]);
 
   if (
     (fetchZoomSettingLoading ||
@@ -543,7 +531,7 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
             )}
-            <div className="flex flex-col gap-1">
+            {/* <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-medium font-font-droid">
                 Session Subtitle
               </Label>
@@ -573,7 +561,7 @@ const ScheduleLiveSessionPage = () => {
                   {errors.sessionDescription.message}
                 </span>
               )}
-            </div>
+            </div> */}
             <div className="grid grid-cols-12 md:gap-7 sm:gap-4 gap-3">
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
                 <Label
@@ -585,7 +573,12 @@ const ScheduleLiveSessionPage = () => {
                 <Input
                   min={
                     cohortStartDate
-                      ? moment(new Date(cohortStartDate)).format("YYYY-MM-DD")
+                      ? moment(new Date(cohortStartDate)).diff(
+                          moment(new Date()).format("YYYY-MM-DD"),
+                          "days"
+                        ) < 0
+                        ? moment(new Date()).format("YYYY-MM-DD")
+                        : moment(new Date(cohortStartDate)).format("YYYY-MM-DD")
                       : moment(new Date()).format("YYYY-MM-DD")
                   }
                   max={
@@ -607,7 +600,7 @@ const ScheduleLiveSessionPage = () => {
               </div>
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-medium font-font-droid">
-                  Session Time
+                  Start Time
                 </Label>
                 <Input
                   className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
@@ -646,7 +639,7 @@ const ScheduleLiveSessionPage = () => {
               </div>
               <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-medium font-font-droid">
-                  Duration in Minute
+                  Duration in Minutes
                 </Label>
                 <SelectMenu
                   option={durationInMinute}

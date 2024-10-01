@@ -25,6 +25,9 @@ export interface EmployeeDetails {
   lastLogout?: null;
   pathStatus: number;
   deletedAt?: null;
+  fname: string;
+  lname: string;
+  phone: string;
   createdAt: string;
   updatedAt: string;
 }

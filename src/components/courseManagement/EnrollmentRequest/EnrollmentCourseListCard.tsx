@@ -72,12 +72,6 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       navigate(`/${pathName}/message?chatId=${res?.data?.receiverId}`);
       socket.emit("new message", res?.data);
     },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error?.data?.message,
-      });
-    },
   });
 
   const handleInquire = (data: Data[] | any) => {

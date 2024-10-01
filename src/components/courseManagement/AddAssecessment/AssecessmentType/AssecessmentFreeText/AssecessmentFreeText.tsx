@@ -48,8 +48,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       // Validate question
       const questionValue =
         assesment
-          // @ts-ignore
-          ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+          ?.find((item: any) => +item.ids === +assecessmentQuestion?.ids)
           ?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
@@ -62,9 +61,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate points
-      const pointValue = assesment
-        // @ts-ignore
-        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.point;
+      const pointValue = assesment?.find(
+        (item: any) => +item.ids === +assecessmentQuestion?.ids
+      )?.point;
 
       if (!pointValue || pointValue <= 0) {
         newErrors.point = "Points must be a positive integer";
@@ -72,9 +71,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate Answer
-      const answerValue = assesment
-        // @ts-ignore
-        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
+      const answerValue = assesment?.find(
+        (item: any) => +item.ids === +assecessmentQuestion?.ids
+      )?.answer;
 
       if (answerValue?.length === 0) {
         newErrors.answer = "Answer is required";
@@ -119,8 +118,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
     ) => {
       const { name, value } = e.target;
       setAssesment((prev) => {
-        return prev.map((item) => {
-          // @ts-ignore
+        return prev.map((item: any) => {
           if (+item.ids === +assecessmentQuestion?.ids) {
             return {
               ...item,
@@ -165,10 +163,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
                 }}
                 name="point"
                 value={
-                  assesment
-                    // @ts-ignore
-                    ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
-                    ?.point || ""
+                  assesment?.find(
+                    (item: any) => +item.ids === +assecessmentQuestion?.ids
+                  )?.point || ""
                 }
                 min={0}
                 max={100}
@@ -196,10 +193,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
               }}
               name="question"
               value={
-                assesment
-                  // @ts-ignore
-                  ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
-                  ?.question || ""
+                assesment?.find(
+                  (item: any) => +item.ids === +assecessmentQuestion?.ids
+                )?.question || ""
               }
             />
           </div>
@@ -220,10 +216,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
               name="answer"
               // @ts-ignore
               value={
-                assesment
-                  // @ts-ignore
-                  ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
-                  ?.answer || ""
+                assesment?.find(
+                  (item: any) => +item.ids === +assecessmentQuestion?.ids
+                )?.answer || ""
               }
             />
             {errors.answer && (

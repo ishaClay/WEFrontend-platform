@@ -89,7 +89,7 @@ const AssecessmentPage = () => {
       //   seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
       // },
 
-      const a = {
+      const a: { [key: string]: string } = {
         "Single Choice Question": "MCQ",
         ["Free Text Response"]: "Free Text Response",
         ["Multiple Choice Question"]: "Multiple Choice",
@@ -103,12 +103,10 @@ const AssecessmentPage = () => {
 
           return {
             ...item,
-            // @ts-ignore
             assessmentType:
               item.assessmentType === "Single Choice Question" && !isMCQ
                 ? "True & False"
-                : // @ts-ignore
-                  a[item.assessmentType],
+                : a[item.assessmentType],
             ids: item?.id,
             options: item?.option,
           };
@@ -158,7 +156,7 @@ const AssecessmentPage = () => {
     useMutation({
       mutationFn: createAssessment,
       onSuccess: (res) => {
-        const a = {
+        const a: { [key: string]: string } = {
           MCQ: "Single Choice Question",
           ["Free Text Response"]: "Free Text Response",
           ["True & False"]: "Single Choice Question",
@@ -188,9 +186,7 @@ const AssecessmentPage = () => {
           const answer = getAnswer();
           return {
             ...rest,
-            // @ts-ignore
             assessment: res?.data?.data?.id,
-            // @ts-ignore
             assessmentType: a[item.assessmentType],
             option: item?.options,
             answer: answer,
@@ -217,7 +213,7 @@ const AssecessmentPage = () => {
   const { mutate: updateAssessmentFun, isPending } = useMutation({
     mutationFn: updateAssessment,
     onSuccess: (res) => {
-      const a = {
+      const a: { [key: string]: string } = {
         MCQ: "Single Choice Question",
         ["Free Text Response"]: "Free Text Response",
         ["True & False"]: "Single Choice Question",
@@ -248,10 +244,8 @@ const AssecessmentPage = () => {
 
         return {
           ...rest,
-          // @ts-ignore
           assessment: res?.data?.id,
           id: item?.id as number,
-          // @ts-ignore
           assessmentType: a[item.assessmentType],
           option: item?.options,
           answer: answer,

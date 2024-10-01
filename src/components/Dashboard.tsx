@@ -494,10 +494,8 @@ const Dashboard = () => {
     }
   };
 
-  // @ts-ignore
-  const { data: getCheckedmeasures, isFetching } = useQuery({
+  const { data: getCheckedmeasures } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
-    // @ts-ignore
     queryFn: () =>
       getCheckedMeasuresByAssessment({
         userId: userID,
@@ -506,7 +504,6 @@ const Dashboard = () => {
       }),
   });
 
-  // @ts-ignore
   const pillarCompleted = useMemo(() => {
     return getCheckedmeasures?.data?.data?.find(
       (item: any) => +item?.progressPR === 100
