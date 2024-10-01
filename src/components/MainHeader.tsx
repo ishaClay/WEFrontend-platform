@@ -205,7 +205,7 @@ const MainHeader = () => {
                             ? "SME Company"
                             : "Trainer"}
                         </h6>
-                        <p className="max-w-[150px] xl:text-[14px] text-[13px] leading-4 truncate">
+                        <p className="max-w-[150px] xl:text-[14px] text-[13px] leading-4 truncate capitalize">
                           {+userRole === 1
                             ? userData?.query?.name
                             : +userRole === 2

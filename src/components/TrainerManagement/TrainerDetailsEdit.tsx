@@ -39,7 +39,8 @@ import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
 
 const schema = zod.object({
-  name: zod.string(),
+  fname: zod.string(),
+  lname: zod.string(),
   number: zod.string().optional(),
   email: zod.string().email({ message: "Please enter valid email" }),
   providerName: zod.string(),
@@ -150,7 +151,10 @@ const TrainerDetailsEdit = () => {
       setTrainerPermission(clientDetails?.data?.approved);
       setTrainerEditPermission(clientDetails?.data?.editCourses);
       setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
-      setValue("name", clientDetails?.data?.name || "");
+      // @ts-ignore
+      setValue("fname", clientDetails?.data?.contactFirstName || "");
+      // @ts-ignore
+      setValue("lname", clientDetails?.data?.contactSurname || "");
       setValue("number", clientDetails?.data?.phone || "");
       setValue("email", clientDetails?.data?.email);
       setValue("providerName", clientDetails?.data?.providerName || "");
@@ -165,7 +169,9 @@ const TrainerDetailsEdit = () => {
 
   const handleUpdate = (data: FieldValues) => {
     const payload = {
-      name: data?.name,
+      name: data?.fname + " " + data?.lname,
+      contactSurname: data?.lname,
+      contactFirstName: data?.fname,
       phone: data?.number,
       email: data?.email,
       providerName: data?.providerName,
@@ -303,19 +309,31 @@ const TrainerDetailsEdit = () => {
                     </AvatarFallback>
                   </Avatar> */}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
-                  <InputWithLable
-                    placeholder="John"
-                    className="h-[46px]"
-                    label="Name"
-                    {...register("name")}
-                  />
-                  {errors.name && (
-                    <ErrorMessage message={errors.name.message as string} />
-                  )}
-                </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
-                  {/* <InputWithLable
+                <div className="col-span-3 grid grid-cols-4 gap-4">
+                  <div className="sm:col-span-2 col-span-4 font-droid w-full">
+                    <InputWithLable
+                      placeholder="John"
+                      className="h-[46px]"
+                      label="Contact Firstname"
+                      {...register("fname")}
+                    />
+                    {errors.fname && (
+                      <ErrorMessage message={errors.fname.message as string} />
+                    )}
+                  </div>
+                  <div className="sm:col-span-2 col-span-4 font-droid w-full">
+                    <InputWithLable
+                      placeholder="John"
+                      className="h-[46px]"
+                      label="Contact Lastname"
+                      {...register("lname")}
+                    />
+                    {errors.lname && (
+                      <ErrorMessage message={errors.lname.message as string} />
+                    )}
+                  </div>
+                  <div className="sm:col-span-2 col-span-4 font-droid w-full">
+                    {/* <InputWithLable
                     placeholder="0044 1234 1234567"
                     className="h-[46px]"
                     label="Mobile No."
@@ -329,44 +347,52 @@ const TrainerDetailsEdit = () => {
                     // value={watch("number") || ""}
                     {...register("number")}
                   /> */}
-                  <div className="flex flex-col gap-1">
-                    <label className="mb-[8px]  font-bold text-[16px]">
-                      Phone No.
-                    </label>
-                    <PhoneInputWithCountrySelect
-                      placeholder="Enter phone number"
-                      international
-                      onChange={(e: any) => {
-                        setValue("number", e);
-                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
-                          setError("number", {
-                            message: "Please enter valid phone number",
-                          });
-                        } else {
-                          setError("number", {
-                            message: "",
-                          });
-                        }
-                      }}
-                      value={watch("number") || ""}
-                      className="phone-input"
+                    <div className="flex flex-col gap-1">
+                      <label className="mb-[8px]  font-bold text-[16px]">
+                        Phone No.
+                      </label>
+                      <PhoneInputWithCountrySelect
+                        placeholder="Enter phone number"
+                        international
+                        onChange={(e: any) => {
+                          setValue("number", e);
+                          if (
+                            e?.trim()?.length < 10 ||
+                            e?.trim()?.length > 15
+                          ) {
+                            setError("number", {
+                              message: "Please enter valid phone number",
+                            });
+                          } else {
+                            setError("number", {
+                              message: "",
+                            });
+                          }
+                        }}
+                        value={watch("number") || ""}
+                        className="phone-input"
+                      />
+                      {errors.number && (
+                        <ErrorMessage
+                          message={errors.number.message as string}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2 col-span-4 font-droid w-full">
+                    <InputWithLable
+                      placeholder="john.sample@emailsample.com"
+                      className="h-[46px]"
+                      disabled={
+                        clientDetails?.data?.status === 2 ? false : true
+                      }
+                      label="Email"
+                      {...register("email")}
                     />
-                    {errors.number && (
-                      <ErrorMessage message={errors.number.message as string} />
+                    {errors.email && (
+                      <ErrorMessage message={errors.email.message as string} />
                     )}
                   </div>
-                </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
-                  <InputWithLable
-                    placeholder="john.sample@emailsample.com"
-                    className="h-[46px]"
-                    disabled={clientDetails?.data?.status === 2 ? false : true}
-                    label="Email"
-                    {...register("email")}
-                  />
-                  {errors.email && (
-                    <ErrorMessage message={errors.email.message as string} />
-                  )}
                 </div>
               </div>
               <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 sm:px-6 px-[15px] py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">

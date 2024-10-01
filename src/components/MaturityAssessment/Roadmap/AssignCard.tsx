@@ -241,7 +241,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                     )}
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-0 gap-2.5 sm:items-end items-center">
-                    {item.employeeId !== null &&
+                    {(item.employeeId !== null || item.companyId !== null) &&
                       item.iscompleted !== 1 &&
                       status() && (
                         <Button
@@ -264,7 +264,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                       >
                         History
                       </Button>
-                      {item.employeeId === null && (
+                      {item.employeeId === null && item.companyId === null && (
                         <div className="flex items-center gap-4">
                           <Button
                             className="bg-[#00778B] text-white rounded-md text-sm h-[32px] px-2 flex items-center w-[75px]"
@@ -293,19 +293,21 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                           </Button>
                         </div>
                       )}
-                      {item.iscompleted === 0 && item.employeeId !== null && (
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            setIsOpenDelayModel(true);
-                            setUploadData(item);
-                          }}
-                          className="bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
-                        >
-                          <BsPencilFill />
-                          Edit
-                        </Button>
-                      )}
+                      {item.iscompleted === 0 &&
+                        (item.employeeId !== null ||
+                          item.companyId !== null) && (
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              setIsOpenDelayModel(true);
+                              setUploadData(item);
+                            }}
+                            className="bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
+                          >
+                            <BsPencilFill />
+                            Edit
+                          </Button>
+                        )}
                     </div>
                   </div>
                 </div>

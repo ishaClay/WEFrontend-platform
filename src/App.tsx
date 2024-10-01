@@ -455,6 +455,7 @@ function App() {
             element={<CourseManagement />}
           />
           <Route path="add_assessment" element={<AssecessmentPage />} />
+          <Route path="add_assessment/:assId" element={<AssecessmentPage />} />
           <Route
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}

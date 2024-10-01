@@ -400,7 +400,7 @@ const CourseInformation = ({
                   Discount provided?
                 </span>
                 <Switch
-                  disabled={isFreeCourse}
+                  disabled={isFreeCourse || !watch("price")}
                   checked={provideDisc}
                   onCheckedChange={(e) => {
                     setProvideDisc(!provideDisc);

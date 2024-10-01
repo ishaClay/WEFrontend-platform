@@ -22,7 +22,7 @@ const PasswordInput: React.FC<InputProps> = ({
   };
   return (
     <div className="">
-      <label className="font-bold text-[16px]">{label}</label>
+      <label className="font-normal text-[16px]">{label}</label>
       <div className="relative">
         <input
           type={showPassword ? "text" : "password"}

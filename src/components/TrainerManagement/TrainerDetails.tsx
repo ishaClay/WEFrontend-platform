@@ -1,13 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import starImage from "@/assets/images/Vector.png";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
-import {
-  getTrainerById,
-  updateTrainerStatusById,
-} from "@/services/apiServices/trainer";
+import { getTrainerById } from "@/services/apiServices/trainer";
 import { TrainerStatus, TrainersByIdResponse } from "@/types/Trainer";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,13 +14,12 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Switch } from "../ui/switch";
-import { toast } from "../ui/use-toast";
 
 const TrainerDetails = () => {
   const params = useParams();
   const Role = location.pathname.split("/")[1];
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [trainerStatus, setTrainerStatus] = useState<string>("");
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
   const [trainerEditPermission, setTrainerEditPermission] =
@@ -35,32 +31,33 @@ const TrainerDetails = () => {
     queryFn: () => getTrainerById({ id: params.id || "" }),
   });
 
-  const { mutate, isPending: isPendingUpdate } = useMutation({
-    mutationFn: updateTrainerStatusById,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["trainer"],
-      });
-      dispatch(
-        setPath([
-          {
-            label: "Trainer Management",
-            link: `/${Role}/trainer-management`,
-          },
-        ])
-      );
-      toast({
-        variant: "success",
-        description: "Trainer status updated successfully",
-      });
-    },
-    onError: (error: AxiosError) => {
-      toast({
-        variant: "destructive",
-        description: error.message,
-      });
-    },
-  });
+  console.log("🚀 ~ TrainerDetails ~ clientDetails:", clientDetails);
+  // const { mutate, isPending: isPendingUpdate } = useMutation({
+  //   mutationFn: updateTrainerStatusById,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["trainer"],
+  //     });
+  //     dispatch(
+  //       setPath([
+  //         {
+  //           label: "Trainer Management",
+  //           link: `/${Role}/trainer-management`,
+  //         },
+  //       ])
+  //     );
+  //     toast({
+  //       variant: "success",
+  //       description: "Trainer status updated successfully",
+  //     });
+  //   },
+  //   onError: (error: AxiosError) => {
+  //     toast({
+  //       variant: "destructive",
+  //       description: error.message,
+  //     });
+  //   },
+  // });
 
   useEffect(() => {
     if (clientDetails?.data) {
@@ -71,15 +68,15 @@ const TrainerDetails = () => {
     }
   }, [clientDetails]);
 
-  const handleSubmit = () => {
-    const data = {
-      status: trainerStatus.toString(),
-      approved: trainerPermission.toString(),
-      editCourses: trainerEditPermission.toString(),
-    };
+  // const handleSubmit = () => {
+  //   const data = {
+  //     status: trainerStatus.toString(),
+  //     approved: trainerPermission.toString(),
+  //     editCourses: trainerEditPermission.toString(),
+  //   };
 
-    mutate({ id: params.id || "", data });
-  };
+  //   mutate({ id: params.id || "", data });
+  // };
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
@@ -138,7 +135,7 @@ const TrainerDetails = () => {
           <Loader />
         ) : (
           <div className="px-[15px] sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
-            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-9 px-6 py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
+            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-10 px-6 py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                 Trainer personal information
               </h2>
@@ -153,11 +150,27 @@ const TrainerDetails = () => {
               </div>
               <div className="xl:col-span-2 col-span-5 flex items-center font-droid w-full">
                 <div>
-                  <h3 className="text-[#A3A3A3]">Trainer name</h3>
+                  <h3 className="text-[#A3A3A3]">Trainer contact firstname</h3>
                   <p className="text-[#000]">
-                    {clientDetails?.data?.name ||
-                      clientDetails?.data?.email?.split("@")?.[0] ||
-                      "--"}
+                    {
+                      // @ts-ignore
+                      clientDetails?.data?.contactFirstName ||
+                        clientDetails?.data?.email?.split("@")?.[0] ||
+                        "--"
+                    }
+                  </p>
+                </div>
+              </div>
+              <div className="xl:col-span-2 col-span-5 flex items-center font-droid w-full">
+                <div>
+                  <h3 className="text-[#A3A3A3]">Trainer contact lastname</h3>
+                  <p className="text-[#000]">
+                    {
+                      // @ts-ignore
+                      clientDetails?.data?.contactSurname ||
+                        clientDetails?.data?.email?.split("@")?.[0] ||
+                        "--"
+                    }
                   </p>
                 </div>
               </div>
@@ -214,6 +227,7 @@ const TrainerDetails = () => {
               <RadioGroup
                 defaultValue={trainerStatus}
                 value={trainerStatus}
+                disabled
                 onValueChange={(data) => setTrainerStatus(data)}
                 className="flex items-center gap-[34px]"
               >
@@ -269,6 +283,7 @@ const TrainerDetails = () => {
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="airplane-mode"
+                    disabled
                     defaultChecked={trainerPermission}
                     checked={trainerPermission}
                     onCheckedChange={() =>
@@ -289,6 +304,7 @@ const TrainerDetails = () => {
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="airplane-mode"
+                    disabled
                     defaultChecked={trainerEditPermission}
                     checked={trainerEditPermission}
                     onCheckedChange={() =>
@@ -309,6 +325,7 @@ const TrainerDetails = () => {
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="airplane-mode"
+                    disabled
                     defaultChecked={assignCertificatePermission}
                     checked={assignCertificatePermission}
                     onCheckedChange={() =>
@@ -330,7 +347,7 @@ const TrainerDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="text-right">
+            {/* <div className="text-right">
               <Button
                 type="button"
                 onClick={handleSubmit}
@@ -342,7 +359,7 @@ const TrainerDetails = () => {
                   "Update"
                 )}
               </Button>
-            </div>
+            </div> */}
             <div>
               <h4 className="text-[16px] font-font-droid font-semibold mb-[14px]">
                 Created Courses
@@ -360,7 +377,7 @@ const TrainerDetails = () => {
                           <img
                             src={course?.bannerImage}
                             alt="bannerImage"
-                            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
+                            className="object-cover w-[300px] h-full static align-middle max-w-full inline-block"
                           />
                         </div>
                         <div>
