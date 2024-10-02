@@ -14,7 +14,9 @@ import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 
 const schema = z.object({
-  invitiondetail: z.string().min(1, { message: "Email address is required" }),
+  invitiondetail: z
+    .string()
+    .min(1, { message: "Invitation Details is required" }),
 });
 const InviteMember = ({
   isOpen,
