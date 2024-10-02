@@ -18,7 +18,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import * as zod from "zod";
 
-const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
+const ProfileSetting = () => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   const [hasChange, setHasChange] = useState(false);
@@ -65,7 +65,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     setError,
     watch,
     handleSubmit,
-    reset,
+    // reset,
   } = useForm({
     resolver: zodResolver(schema),
     mode: "all",
@@ -88,9 +88,6 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
         },
       };
       localStorage.setItem("user", JSON.stringify(newUser));
-
-      reset();
-      handleClose();
       toast({ title: "Profile updated successfully", variant: "success" });
     },
   });

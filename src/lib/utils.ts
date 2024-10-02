@@ -575,13 +575,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-      +readingTime?.hour * 3600 +
-      +readingTime?.minute * 60 +
-      +readingTime?.second
+          +readingTime?.hour * 3600 +
+          +readingTime?.minute * 60 +
+          +readingTime?.second
       : +totalSeconds +
-      +readingTime?.hours * 3600 +
-      +readingTime?.minutes * 60 +
-      +readingTime?.seconds;
+          +readingTime?.hours * 3600 +
+          +readingTime?.minutes * 60 +
+          +readingTime?.seconds;
   }, 0);
 };
 
@@ -618,11 +618,45 @@ export const fetchMessageRoles = (role: number) => {
   } else if (role === UserRole.Company) {
     MessageRoles = ["client", "Trainee", "trainer", "trainer Company"];
   } else if (role === UserRole.Trainee) {
-    MessageRoles = ["admin", "Trainee  ", "company"];
+    MessageRoles = ["client", "Trainee", "company"];
   } else if (role === UserRole.Employee) {
     MessageRoles = ["company", "trainer", "trainer Company"];
   }
   return MessageRoles;
+};
+
+export const composeLabels = (label: string, role: number) => {
+  if (role === UserRole.Trainer) {
+    switch (label) {
+      case "client":
+        return "Skillnet Admin";
+      case "company":
+        return "Company Admin";
+      default:
+        return label;
+    }
+  }
+  if (role === UserRole.Company) {
+    switch (label) {
+      case "client":
+        return "Skillnet Admin";
+      case "trainer Company":
+        return "Trainer Admin";
+      default:
+        return label;
+    }
+  }
+  if (role === UserRole.Trainee) {
+    switch (label) {
+      case "client":
+        return "Trainer Admin";
+      case "company":
+        return "Company Admin";
+      default:
+        return label;
+    }
+  }
+  return label;
 };
 
 export const documentType = (type: string) => {

@@ -93,7 +93,7 @@ const AssecessmentModuleSection = ({
               <Input
                 className="w-full text-sm text-black p-3 me-5 h-auto"
                 value={createAssecessment?.passingPercentage}
-                placeholder="passing percentage"
+                placeholder="Passing percentage"
                 type="text"
                 min={0}
                 onChange={(e) => {
