@@ -176,7 +176,7 @@ const EmployeeAssessment = () => {
     mode: "all",
     defaultValues: {
       assesdmentAnswer: assessmentQuestion?.map(() => ({
-        answer: [] || "",
+        answer: [],
       })),
     },
   });

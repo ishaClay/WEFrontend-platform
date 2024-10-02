@@ -28,7 +28,8 @@ const TrainerEditDetails = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [trainerDetails, setTrainerDetails] = useState({
-    name: "",
+    fname: "",
+    lname: "",
     contact: "",
     image: "",
   });
@@ -40,7 +41,6 @@ const TrainerEditDetails = () => {
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
-
   const { mutate, isPending: isMutating } = useMutation({
     mutationFn: updateEmployee,
     onSuccess: (data) => {
@@ -89,8 +89,8 @@ const TrainerEditDetails = () => {
     if (data) {
       setTrainerStatus(data?.employeeStatus === "Active" ? 1 : 0);
       setTrainerDetails({
-        name: data?.name,
-        // @ts-ignore
+        fname: data?.employeeDetails?.fname,
+        lname: data?.employeeDetails?.lname,
         contact: data?.phone,
         image: data?.profileImage || "",
       });
@@ -123,7 +123,8 @@ const TrainerEditDetails = () => {
   const handleSubmit = () => {
     if (phoneError) return;
     const payload = {
-      name: trainerDetails?.name,
+      fname: trainerDetails?.fname,
+      lname: trainerDetails?.lname,
       phone: trainerDetails?.contact,
       profileImage: trainerDetails?.image,
       employeeStatus: +trainerStatus === 1 ? "Active" : "Inactive",
@@ -210,96 +211,87 @@ const TrainerEditDetails = () => {
                       onChange={handleUpload}
                     />
                   </div>
-                  <div className="text-base xl:col-span-2 col-span-5 gap-4 sm:ps-0 ps-3">
-                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
-                      Trainee name
-                    </h6>
-                    <InputWithLabel
-                      placeholder="John"
-                      className="h-[46px]"
-                      name="name"
-                      onChange={handleChanges}
-                      value={trainerDetails?.name || ""}
-                    />
-                    {/* <p className="text-base font-droid">{data?.name || "-"}</p> */}
-                  </div>
-                  <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
-                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
-                      Contact number
-                    </h6>
-                    {/* <InputWithLabel
+                  <div className="col-span-7 grid grid-cols-4 gap-4">
+                    <div className="text-base xl:col-span-2 col-span-5 gap-4 sm:ps-0 ps-3">
+                      <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
+                        Trainee contact firstname
+                      </h6>
+                      <InputWithLabel
+                        placeholder="John"
+                        className="h-[46px]"
+                        name="fname"
+                        onChange={handleChanges}
+                        value={trainerDetails?.fname || ""}
+                      />
+                      {/* <p className="text-base font-droid">{data?.name || "-"}</p> */}
+                    </div>
+                    <div className="text-base xl:col-span-2 col-span-5 gap-4 sm:ps-0 ps-3">
+                      <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
+                        Trainee contact lastname
+                      </h6>
+                      <InputWithLabel
+                        placeholder="John"
+                        className="h-[46px]"
+                        name="lname"
+                        onChange={handleChanges}
+                        value={trainerDetails?.lname || ""}
+                      />
+                      {/* <p className="text-base font-droid">{data?.name || "-"}</p> */}
+                    </div>
+                    <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
+                      <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
+                        Contact number
+                      </h6>
+                      {/* <InputWithLabel
                       placeholder="Contact Number"
                       className="h-[46px]"
                       name="contact"
                       onChange={handleChanges}
                       value={trainerDetails?.contact || ""}
                     /> */}
-                    <PhoneInputWithCountrySelect
-                      placeholder="Enter phone number"
-                      value={trainerDetails?.contact || ""}
-                      international
-                      onChange={(e: any) => {
-                        setTrainerDetails((prev) => ({ ...prev, contact: e }));
-                        if (
-                          e &&
-                          (e?.trim()?.length < 10 || e?.trim()?.length > 15)
-                        ) {
-                          setPhoneError("Please enter valid phone number");
-                        } else {
-                          setPhoneError("");
-                        }
-                      }}
-                      className="phone-input font-normal"
-                    />
-                    {phoneError && <ErrorMessage message={phoneError} />}
-                    {/* <p className="text-base font-droid">{"-"}</p> */}
-                  </div>
-                  <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
-                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
-                      Email address
-                    </h6>
-                    <p className="text-base font-droid">{data?.email || "-"}</p>
+                      <PhoneInputWithCountrySelect
+                        placeholder="Enter phone number"
+                        value={trainerDetails?.contact || ""}
+                        international
+                        onChange={(e: any) => {
+                          setTrainerDetails((prev) => ({
+                            ...prev,
+                            contact: e,
+                          }));
+                          if (
+                            e &&
+                            (e?.trim()?.length < 10 || e?.trim()?.length > 15)
+                          ) {
+                            setPhoneError("Please enter valid phone number");
+                          } else {
+                            setPhoneError("");
+                          }
+                        }}
+                        className="phone-input font-normal"
+                      />
+                      {phoneError && <ErrorMessage message={phoneError} />}
+                      {/* <p className="text-base font-droid">{"-"}</p> */}
+                    </div>
+                    <div className="text-base xl:col-span-2 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
+                      <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
+                        Email address
+                      </h6>
+                      {/* <p className="text-base font-droid">
+                        {data?.email || "-"}
+                      </p> */}
+                      <InputWithLabel
+                        placeholder="John"
+                        className="h-[42px] disabled:opacity-80 "
+                        name="fname"
+                        disabled
+                        onChange={handleChanges}
+                        value={data?.email || ""}
+                      />
+                    </div>
                   </div>
                 </div>
               </fieldset>
             </div>
-            {/* <div className="mt-[40px]">
-            <fieldset className="border rounded-[10px]">
-              <legend className="mx-[35px] text-base">
-                <h2>Provider information</h2>
-              </legend>
-              <div className="pl-[25px] pb-[29px]">
-                <div className="grid grid-cols-4 items-center pt-[21px]">
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider name</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider type</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Country</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">City / Town</h6>
-                    <p>{"-"}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-4 items-center pt-[32px]">
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Foreign provider</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider note</h6>
-                    <p>{"-"}</p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div> */}
             <div className="xl:mt-[27px] mt-[22px]">
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">

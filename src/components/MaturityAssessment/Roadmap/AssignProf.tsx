@@ -82,10 +82,10 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
             <Button
               className={`${
                 data?.userMaturityLevel?.[0]?.level === "Advanced"
-                  ? "bg-[#258483]"
+                  ? "bg-advanced_pillar"
                   : data?.userMaturityLevel?.[0]?.level === "Introductory"
-                  ? "bg-[#C92C35]"
-                  : "bg-[#FFD56A]"
+                  ? "bg-introductory_pillar"
+                  : "bg-intermediate_pillar"
               } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
             >
               {data?.userMaturityLevel?.[0]?.level}
@@ -100,10 +100,10 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
             <Button
               className={`text-black sm:text-base text-xs rounded-full xl:px-4 xl:py-2 p-2.5 ${
                 data?.userMaturityLevel?.[0]?.nextLevel === "Advanced"
-                  ? "bg-[#258483]"
+                  ? "bg-advanced_pillar"
                   : data?.userMaturityLevel?.[0]?.nextLevel === "Introductory"
-                  ? "bg-[#C92C35]"
-                  : "bg-[#FFD56A]"
+                  ? "bg-introductory_pillar"
+                  : "bg-intermediate_pillar"
               } h-[30px]`}
             >
               {data?.userMaturityLevel?.[0]?.nextLevel}

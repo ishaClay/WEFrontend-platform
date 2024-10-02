@@ -494,10 +494,8 @@ const Dashboard = () => {
     }
   };
 
-  // @ts-ignore
-  const { data: getCheckedmeasures, isFetching } = useQuery({
+  const { data: getCheckedmeasures } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
-    // @ts-ignore
     queryFn: () =>
       getCheckedMeasuresByAssessment({
         userId: userID,
@@ -506,7 +504,6 @@ const Dashboard = () => {
       }),
   });
 
-  // @ts-ignore
   const pillarCompleted = useMemo(() => {
     return getCheckedmeasures?.data?.data?.find(
       (item: any) => +item?.progressPR === 100
@@ -556,10 +553,10 @@ const Dashboard = () => {
                     <Button
                       className={`${
                         currentLavel?.maturityLevelName === "Advanced"
-                          ? "bg-[#258483]"
+                          ? "bg-advanced_pillar"
                           : currentLavel?.maturityLevelName === "Introductory"
-                          ? "bg-[#C92C35]"
-                          : "bg-[#FFD56A]"
+                          ? "bg-introductory_pillar"
+                          : "bg-intermediate_pillar"
                       } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
                     >
                       {currentLavel?.maturityLevelName}
@@ -581,11 +578,11 @@ const Dashboard = () => {
                         currentLavel?.maturityLevelName &&
                         getNextLevel(currentLavel?.maturityLevelName) ===
                           "Advanced"
-                          ? "bg-[#258483]"
+                          ? "bg-advanced_pillar"
                           : getNextLevel(currentLavel?.maturityLevelName) ===
                             "Introductory"
-                          ? "bg-[#C92C35]"
-                          : "bg-[#FFD56A]"
+                          ? "bg-introductory_pillar"
+                          : "bg-intermediate_pillar"
                       } h-[30px]`}
                     >
                       {currentLavel?.maturityLevelName &&

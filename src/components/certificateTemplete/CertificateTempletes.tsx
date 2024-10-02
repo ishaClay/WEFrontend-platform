@@ -18,7 +18,7 @@ const CertificateTemplete = () => {
       <div className=" md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
           <h6 className="text-[16px] font-semibold font-droid">
-            All Certificate
+            All Certificates
           </h6>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] mt-1">
             All your certificate templates—edit them or allocate to trainees.

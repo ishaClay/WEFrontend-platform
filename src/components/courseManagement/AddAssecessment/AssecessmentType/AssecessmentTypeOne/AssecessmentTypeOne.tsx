@@ -295,10 +295,10 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     <div
                       className={`${
                         index ===
-                          assesment?.find(
-                            // @ts-ignore
-                            (item) => +item.ids === +assecessmentQuestion?.ids
-                          )?.options?.length ?? 0 - 1
+                        assesment?.find(
+                          // @ts-ignore
+                          (item) => +item.ids === +assecessmentQuestion?.ids
+                        )?.options?.length
                           ? "h-[24px]"
                           : ""
                       } ${

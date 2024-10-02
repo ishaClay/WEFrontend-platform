@@ -173,20 +173,8 @@ function CoursesAllCourse() {
           className="overflow-y-hidden overflow-x-auto bg-[#E7E7E8] flex xl:gap-8 gap-5 items-center py-4 xl:px-10 px-5 lg:w-[calc(100vw-305px)]"
           id="scrollStyle"
         >
-          {/* <div
-            className={`flex justify-center self-stretch py-2 gap-x-[10px] items-center min-w-[156px] w-[156px] rounded-[9px] px-2 shadow-b shadow-lg hover:bg-[#64A70B] ${
-              !selectedCourse
-                ? "bg-[#64A70B] !text-white"
-                : "bg-[#EDF0F4] text-[#3A3A3A]"
-            }`}
-            onClick={() => {
-              handleCourseClick(null);
-            }}
-          >
-            <p className="">All</p>
-          </div> */}
           {isLoading ? (
-            <Loader />
+            <Loader containerClassName="h-[96px]" />
           ) : (
             pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
               return (

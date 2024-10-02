@@ -21,6 +21,7 @@ const EmployeeDetailsPage = () => {
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
 
+  console.log("🚀 ~ EmployeeDetailsPage ~ data:", data);
   useEffect(() => {
     if (data) {
       setTrainerStatus(data?.employeeStatus === "Active" ? 1 : 0);
@@ -53,8 +54,8 @@ const EmployeeDetailsPage = () => {
                     Trainer personal information
                   </h2>
                 </legend>
-                <div className="grid grid-cols-9 items-center pl-[25px] py-[20px]">
-                  <div className="text-base xl:col-span-2 col-span-4">
+                <div className="grid grid-cols-10 items-center pl-[25px] py-[20px]">
+                  <div className="text-base xl:col-span-1 col-span-3">
                     <Avatar className="w-[109px] h-[109px]">
                       <AvatarImage src={data?.profileImage || ""} />
                       <AvatarFallback className="text-xl">
@@ -64,9 +65,19 @@ const EmployeeDetailsPage = () => {
                   </div>
                   <div className="text-base xl:col-span-2 col-span-5 sm:ps-0 ps-3">
                     <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
-                      Trainer name
+                      Trainer contact firstname
                     </h6>
-                    <p className="text-base font-droid">{data?.name || "-"}</p>
+                    <p className="text-base font-droid">
+                      {data?.employeeDetails?.fname || "-"}
+                    </p>
+                  </div>
+                  <div className="text-base xl:col-span-2 col-span-5 sm:ps-0 ps-3">
+                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
+                      Trainer contact lastname
+                    </h6>
+                    <p className="text-base font-droid">
+                      {data?.employeeDetails?.lname || "-"}
+                    </p>
                   </div>
                   <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
@@ -83,43 +94,6 @@ const EmployeeDetailsPage = () => {
                 </div>
               </fieldset>
             </div>
-            {/* <div className="mt-[40px]">
-            <fieldset className="border rounded-[10px]">
-              <legend className="mx-[35px] text-base">
-                <h2>Provider information</h2>
-              </legend>
-              <div className="pl-[25px] pb-[29px]">
-                <div className="grid grid-cols-4 items-center pt-[21px]">
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider name</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider type</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Country</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">City / Town</h6>
-                    <p>{"-"}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-4 items-center pt-[32px]">
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Foreign provider</h6>
-                    <p>{"-"}</p>
-                  </div>
-                  <div className="text-base">
-                    <h6 className="text-[#A3A3A3]">Provider note</h6>
-                    <p>{"-"}</p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div> */}
             <div className="xl:mt-[27px] mt-[22px]">
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">

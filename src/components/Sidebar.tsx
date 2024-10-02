@@ -114,18 +114,6 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         sidebarOpen ? "2xl:w-[260px] w-[235px]" : "w-[60px]"
       } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
-      {/* <Button
-        variant={"ghost"}
-        type="button"
-        className="absolute shadow-xl p-1 rounded-lg -right-[10px] top-10 z-20 bg-white lg:block hidden h-auto"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      >
-        {sidebarOpen ? (
-          <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
-        ) : (
-          <ChevronRight className="sm:w-8 sm:h-8 h-6 w-6" />
-        )}
-      </Button> */}
       <div className="h-screen overflow-auto">
         {sidebarOpen ? (
           <div className="ml-[20px] mt-[20px] flex items-center">
