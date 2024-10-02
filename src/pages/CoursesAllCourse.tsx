@@ -174,7 +174,7 @@ function CoursesAllCourse() {
           id="scrollStyle"
         >
           {isLoading ? (
-            <Loader containerClassName="h-auto" />
+            <Loader containerClassName="h-[96px]" />
           ) : (
             pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
               return (
