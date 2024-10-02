@@ -67,6 +67,10 @@ const MaturityLevelPage = () => {
     }
     return null;
   };
+  console.log(
+    "🚀 ~ MaturityLevelPage ~ fetchClientmaturitylevel:",
+    fetchClientmaturitylevel
+  );
 
   const handleMaturity = () => {
     EnumUpadate(path);
@@ -147,27 +151,13 @@ const MaturityLevelPage = () => {
     <>
       {fetchClientmaturitylevel &&
         fetchClientmaturitylevel?.data?.map((label, index) => {
-          let colorClass, opacityClass;
-          if (index === 0) {
-            colorClass =
-              "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
-            opacityClass = "bg-opacity-25";
-          } else if (index === 1) {
-            colorClass =
-              "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
-            opacityClass = "bg-opacity-50";
-          } else {
-            colorClass =
-              "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
-            opacityClass = "bg-opacity-75";
-          }
           return (
             <div
               key={index}
               className="text-sm flex items-center justify-start relative mb-10 h-6"
             >
               <div
-                className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
+                className={`w-[60px] h-[25px] left-0 top-0  rounded-l-lg rounded-r-none`}
                 style={{
                   background: `linear-gradient(to right, ${label?.color} 10%, #ffffff)`,
                 }}
@@ -179,19 +169,6 @@ const MaturityLevelPage = () => {
             </div>
           );
         })}
-      {/* <div className="sm:mb-[35px] mb-5">
-        <p className="font-droid font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
-          Total Score -
-          <div className="flex items-center">
-            <span className="font-droid font-bold text-[#3A3A3A] lg:text-[42px] text-[30px] leading-[52px]">
-              {allassessmant?.data?.data?.avTotalpoints}
-            </span>
-            <span className="font-droid font-extrabold text-base leading-[18.88px] text-[#64A70B]">
-              /{allassessmant?.data?.data?.avTotalmaxpoint}
-            </span>
-          </div>
-        </p>
-      </div> */}
     </>
   );
 

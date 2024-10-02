@@ -237,7 +237,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         create({
           data: payload,
           id: params || "",
-          paramsversion: "1" || "",
+          paramsversion: "1",
         });
       }
     } else {

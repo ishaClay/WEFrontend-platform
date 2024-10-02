@@ -382,40 +382,6 @@ function CoursesAllocate() {
                       </div>
                     </div>
                   </div>
-
-                  {/* {totalPages > 1 && (
-                      <div className="ml-[1000px] mt-[20px]">
-                        <Pagination>
-                          <PaginationContent>
-                            <PaginationItem>
-                              <PaginationPrevious
-                                onClick={() =>
-                                  handlePaginationChange(currentPage - 1)
-                                }
-                              />
-                            </PaginationItem>
-                            {[...Array(totalPages)].map((_, index) => (
-                              <PaginationItem key={index}>
-                                <PaginationLink
-                                  onClick={() =>
-                                    handlePaginationChange(index + 1)
-                                  }
-                                >
-                                  {index + 1}
-                                </PaginationLink>
-                              </PaginationItem>
-                            ))}
-                            <PaginationItem>
-                              <PaginationNext
-                                onClick={() =>
-                                  handlePaginationChange(currentPage + 1)
-                                }
-                              />
-                            </PaginationItem>
-                          </PaginationContent>
-                        </Pagination>
-                      </div>
-                    )} */}
                 </>
               );
             })

@@ -218,7 +218,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         mutate({
           data: payload,
           id: params || "",
-          paramsversion: "1" || "",
+          paramsversion: "1",
         });
       }
     } else {

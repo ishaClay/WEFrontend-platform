@@ -220,7 +220,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
         mutate({
           data: payload,
           id: params || "",
-          paramsversion: "1" || "",
+          paramsversion: "1",
         });
       }
     } else {

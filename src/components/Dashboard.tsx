@@ -553,10 +553,10 @@ const Dashboard = () => {
                     <Button
                       className={`${
                         currentLavel?.maturityLevelName === "Advanced"
-                          ? "bg-[#258483]"
+                          ? "bg-advanced_pillar"
                           : currentLavel?.maturityLevelName === "Introductory"
-                          ? "bg-[#C92C35]"
-                          : "bg-[#FFD56A]"
+                          ? "bg-introductory_pillar"
+                          : "bg-intermediate_pillar"
                       } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
                     >
                       {currentLavel?.maturityLevelName}
@@ -578,11 +578,11 @@ const Dashboard = () => {
                         currentLavel?.maturityLevelName &&
                         getNextLevel(currentLavel?.maturityLevelName) ===
                           "Advanced"
-                          ? "bg-[#258483]"
+                          ? "bg-advanced_pillar"
                           : getNextLevel(currentLavel?.maturityLevelName) ===
                             "Introductory"
-                          ? "bg-[#C92C35]"
-                          : "bg-[#FFD56A]"
+                          ? "bg-introductory_pillar"
+                          : "bg-intermediate_pillar"
                       } h-[30px]`}
                     >
                       {currentLavel?.maturityLevelName &&
