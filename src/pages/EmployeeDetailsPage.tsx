@@ -21,7 +21,6 @@ const EmployeeDetailsPage = () => {
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
 
-  console.log("🚀 ~ EmployeeDetailsPage ~ data:", data);
   useEffect(() => {
     if (data) {
       setTrainerStatus(data?.employeeStatus === "Active" ? 1 : 0);

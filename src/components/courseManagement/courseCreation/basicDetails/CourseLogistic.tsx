@@ -392,7 +392,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                     setError("durationType", "");
                   }}
                   value={selectBoxValue?.durationType || ""}
-                  className="sm:w-[150px] w-[110px] border font-droid border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
+                  className="sm:min-w-[150px] min-w-[110px] border font-droid border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
                   itemClassName="text-[#1D2026] font-droid"
                   placeholder="Select duration type"
                 />

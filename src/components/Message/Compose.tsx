@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchMessageRoles } from "@/lib/utils";
+import { composeLabels, fetchMessageRoles } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { getTargetUserby } from "@/services/apiServices/clientServices";
@@ -43,6 +43,7 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
+import Loader from "../comman/Loader";
 
 interface SendMessagePayload {
   senderId: string;
@@ -118,17 +119,20 @@ const Compose = () => {
     }
   }, [isActive]);
 
-  const { data: fetchTargetUserbyList } = useQuery({
-    queryKey: [QUERY_KEYS.getTargetUserby, { targetAudienceId, selectTab }],
-    queryFn: () => getTargetUserby(userID as string),
-  });
+  const { data: fetchTargetUserbyList, isLoading: fetchingTargetUserbyList } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getTargetUserby, { targetAudienceId }],
+      queryFn: () => getTargetUserby(userID as string),
+    });
 
   const fetchAssignToList = (selectType: string) => {
     const selectedType =
       selectType === "client"
         ? "admin"
         : selectType === "trainer"
-        ? "trainee"
+        ? role === UserRole?.Trainer
+          ? selectType
+          : "trainee"
         : selectType === "Trainee"
         ? "employee"
         : selectType === "Trainer Company"
@@ -193,7 +197,7 @@ const Compose = () => {
       "message",
       emailtemplateList?.data?.data?.find(
         (item: any) => item?.id === +chatMessage
-      )?.message
+      )?.message || ""
     );
     setEmailTemplateMessage(
       emailtemplateList?.data?.data?.find(
@@ -299,15 +303,16 @@ const Compose = () => {
                       isActive === item ? "border-[#00778B]" : ""
                     }`}
                     onClick={() => setIsActive(item)}
+                    key={item}
                   >
                     <Avatar className="w-[42px] h-[42px]">
                       <AvatarFallback className="text-white text-xl bg-[#0077A2]">
-                        {item?.[0]?.toUpperCase()}
+                        {composeLabels(item, role)?.[0]?.toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="ml-3">
                       <h6 className="leading-[19.53px] mb-px text-[black] capitalize">
-                        {item === "client" ? "Admin" : item}
+                        {composeLabels(item, role)}
                       </h6>
                       {/* <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
                         {item} Name
@@ -364,45 +369,56 @@ const Compose = () => {
                     selectToValue || selectToValue?.length > 0 ? false : true
                   }
                 >
-                  {isActive === "client" ? (
+                  {fetchingTargetUserbyList ? (
+                    <Loader containerClassName="h-20" className="h-5 w-5" />
+                  ) : (
                     <>
-                      {+userData?.query?.role === UserRole.Trainee ? (
-                        <SelectItem
-                          value={String(selectToValue?.userDetails?.id)}
-                        >
-                          {selectToValue?.userDetails?.name ||
-                            selectToValue?.userDetails?.email?.split("@")[0]}
-                        </SelectItem>
+                      {isActive === "client" ? (
+                        <>
+                          {+userData?.query?.role === UserRole.Trainee ? (
+                            <SelectItem
+                              value={String(selectToValue?.userDetails?.id)}
+                            >
+                              {selectToValue?.userDetails?.name ||
+                                selectToValue?.userDetails?.email?.split(
+                                  "@"
+                                )[0]}
+                            </SelectItem>
+                          ) : (
+                            <SelectItem
+                              value={String(selectToValue?.clientDetails?.id)}
+                            >
+                              {selectToValue?.clientDetails?.name ||
+                                selectToValue?.clientDetails?.email?.split(
+                                  "@"
+                                )[0]}
+                            </SelectItem>
+                          )}
+                        </>
+                      ) : selectToValue?.length > 0 ? (
+                        selectToValue?.map((item: any) => {
+                          return (
+                            <SelectItem
+                              key={item?.userDetails?.id}
+                              value={String(item?.userDetails?.id)}
+                            >
+                              {isActive === "trainer Company"
+                                ? `${
+                                    item?.contactFirstName || item?.providerName
+                                      ? item?.contactFirstName ||
+                                        item?.providerName
+                                      : item?.userDetails?.email?.split("@")[0]
+                                  } ${item?.contactSurname}`
+                                : item?.name || item?.email?.split("@")[0]}
+                            </SelectItem>
+                          );
+                        })
                       ) : (
-                        <SelectItem
-                          value={String(selectToValue?.clientDetails?.id)}
-                        >
-                          {selectToValue?.clientDetails?.name ||
-                            selectToValue?.clientDetails?.email?.split("@")[0]}
-                        </SelectItem>
+                        <span className="py-3 h-full block text-center text-lg text-neutral-400">
+                          No data found
+                        </span>
                       )}
                     </>
-                  ) : selectToValue?.length > 0 ? (
-                    selectToValue?.map((item: any) => {
-                      return (
-                        <SelectItem
-                          key={item?.userDetails?.id}
-                          value={String(item?.userDetails?.id)}
-                        >
-                          {isActive === "trainer Company"
-                            ? `${
-                                item?.contactFirstName || item?.providerName
-                                  ? item?.contactFirstName || item?.providerName
-                                  : item?.userDetails?.email?.split("@")[0]
-                              } ${item?.contactSurname}`
-                            : item?.name || item?.email?.split("@")[0]}
-                        </SelectItem>
-                      );
-                    })
-                  ) : (
-                    <span className="py-3 h-full block text-center text-lg text-neutral-400">
-                      No data found
-                    </span>
                   )}
                 </SelectContent>
               </Select>
@@ -414,8 +430,8 @@ const Compose = () => {
             <div className="sm:mb-[29px] mb-[20px]">
               <Select
                 onValueChange={(e) => {
-                  setValue("emailTemplate", e);
-                  setChatMessage(e);
+                  setValue("emailTemplate", e === "0" ? "" : e);
+                  setChatMessage(e === "0" ? "" : e);
                 }}
                 {...register("emailTemplate")}
                 value={String(chatMessage)}
@@ -433,6 +449,7 @@ const Compose = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
+                  <SelectItem value={"0"}>No template</SelectItem>
                   {emailtemplateList?.data?.data &&
                   emailtemplateList?.data?.data?.length > 0 ? (
                     emailtemplateList?.data?.data?.map((item: any) => {

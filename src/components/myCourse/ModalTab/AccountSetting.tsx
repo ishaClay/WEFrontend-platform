@@ -53,7 +53,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
   const { mutate, isPending: isPendingMutation } = useMutation({
     mutationFn: changePassword,
     onSuccess: () => {
-      onClose();
+      reset();
       toast({ title: "Password updated successfully", variant: "success" });
     },
     onError: (error: any) => {

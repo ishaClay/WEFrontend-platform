@@ -93,7 +93,7 @@ const ModalTabs = ({
         </div>
         <div className="sm:col-span-9 col-span-12 sm:ps-5 ps-0 sm:border-l border-l-none border-[#3E4E4E4] sm:ms-5 ms-0">
           <TabsContent value="profile" className="m-0">
-            <ProfileSetting handleClose={handleClose} />
+            <ProfileSetting />
           </TabsContent>
           <TabsContent value="account" className="m-0">
             <AccountSetting handleClose={handleClose} />

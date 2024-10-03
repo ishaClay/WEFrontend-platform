@@ -67,10 +67,6 @@ const MaturityLevelPage = () => {
     }
     return null;
   };
-  console.log(
-    "🚀 ~ MaturityLevelPage ~ fetchClientmaturitylevel:",
-    fetchClientmaturitylevel
-  );
 
   const handleMaturity = () => {
     EnumUpadate(path);

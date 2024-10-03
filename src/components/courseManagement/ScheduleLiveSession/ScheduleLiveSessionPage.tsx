@@ -600,7 +600,7 @@ const ScheduleLiveSessionPage = () => {
               </div>
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-medium font-font-droid">
-                  Start Time
+                  Session Start Time
                 </Label>
                 <Input
                   className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
