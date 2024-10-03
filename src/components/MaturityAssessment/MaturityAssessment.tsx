@@ -330,7 +330,8 @@ const MaturityAssessment = () => {
                     empPermissions?.retakeSelfAssessment)) && (
                   <Button
                     type="button"
-                    variant={"destructive"}
+                    variant={"default"}
+                    className="bg-[#00778B]"
                     onClick={() => {
                       navigate(`/retakeAssessment`);
                       isFirstTime = true;

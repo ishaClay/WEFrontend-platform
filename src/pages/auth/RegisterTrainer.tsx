@@ -521,29 +521,16 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  {/* <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="Enter note, if any"
-                      className="h-[46px]"
-                      label="Provider Notes"
-                      {...register("providerNotes")}
-                    />
-                    {errors.providerNotes && (
-                      <ErrorMessage
-                        message={errors.providerNotes.message as string}
-                      />
-                    )}
-                  </div> */}
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="col-span-2">
-                          <label className="mb-1  flex items-center leading-5 font-droid sm:text-base text-[15px]">
+                          <label className="mb-2  flex items-center leading-5 font-droid sm:text-base text-[15px]">
                             Contact Telephone No.{" "}
                           </label>
                           <PhoneInput
                             {...register("contactTelephone")}
-                            placeholder="Enter contact number"
+                            placeholder="Enter contact telephone no"
                             value={phone}
                             international
                             onChange={(e: any) => {
@@ -554,7 +541,7 @@ function RegisterTrainer() {
                                 e?.trim()?.length > 15
                               ) {
                                 setError("contactTelephone", {
-                                  message: "Please enter valid phone number",
+                                  message: "Please enter contact telephone no",
                                 });
                               } else {
                                 setError("contactTelephone", {
@@ -562,7 +549,7 @@ function RegisterTrainer() {
                                 });
                               }
                             }}
-                            className="phone-input"
+                            className="phone-input h-[46px]"
                           />
                           {errors.contactTelephone && (
                             <ErrorMessage

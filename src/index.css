@@ -413,3 +413,8 @@ input[type="radio"] {
   font-size: 12px;
   font-weight: 600;
 }
+
+.PhoneInputInput::placeholder {
+  font-size: 14px;
+  color: #a3a3a3;
+}
