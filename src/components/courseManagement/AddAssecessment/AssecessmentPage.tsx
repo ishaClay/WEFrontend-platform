@@ -55,6 +55,7 @@ const AssecessmentPage = () => {
     // };
   }>(initialState);
   const { assesment, setAssesment } = useContext(AssesmentContext);
+  console.log("🚀 ~ AssecessmentPage ~ assesment:", assesment);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -90,9 +91,9 @@ const AssecessmentPage = () => {
       // },
 
       const a: { [key: string]: string } = {
-        "Single Choice Question": "MCQ",
+        "Single Choice Question": "MCQ Single Select",
         ["Free Text Response"]: "Free Text Response",
-        ["Multiple Choice Question"]: "Multiple Choice",
+        ["Multiple Choice Question"]: "MCQ Multi Select",
       };
 
       const responseData = getAssessmentByIdData?.data?.AssessmentQuestion?.map(
@@ -157,10 +158,10 @@ const AssecessmentPage = () => {
       mutationFn: createAssessment,
       onSuccess: (res) => {
         const a: { [key: string]: string } = {
-          MCQ: "Single Choice Question",
+          ["MCQ Single Select"]: "Single Choice Question",
           ["Free Text Response"]: "Free Text Response",
           ["True & False"]: "Single Choice Question",
-          ["Multiple Choice"]: "Multiple Choice Question",
+          ["MCQ Multi Select"]: "Multiple Choice Question",
         };
 
         const assecessmentQue = assesment?.map((item: any) => {
@@ -214,10 +215,10 @@ const AssecessmentPage = () => {
     mutationFn: updateAssessment,
     onSuccess: (res) => {
       const a: { [key: string]: string } = {
-        MCQ: "Single Choice Question",
+        ["MCQ Single Select"]: "Single Choice Question",
         ["Free Text Response"]: "Free Text Response",
         ["True & False"]: "Single Choice Question",
-        ["Multiple Choice"]: "Multiple Choice Question",
+        ["MCQ Multi Select"]: "Multiple Choice Question",
       };
 
       const assecessmentQue = assesment?.map((item: any) => {
@@ -439,9 +440,10 @@ const AssecessmentPage = () => {
               // getAssessmentByIdData?.data?.AssessmentQuestion ||
               // assecessmentQuestion?.selectedQuestionType
               ?.map((type: string | any, index: number) => {
+                console.log("🚀 ~ ?.map ~ type:", type?.assessmentType);
                 return (
                   <Fragment key={index}>
-                    {(type?.assessmentType === "Multiple Choice" ||
+                    {(type?.assessmentType === "MCQ Multi Select" ||
                       type === "Multiple Choice") && (
                       <AssecessmentTypeTwo
                         i={index}
@@ -451,7 +453,7 @@ const AssecessmentPage = () => {
                         assecessmentQuestion={type}
                       />
                     )}
-                    {type?.assessmentType === "MCQ" && (
+                    {type?.assessmentType === "MCQ Single Select" && (
                       <AssecessmentTypeOne
                         i={index}
                         ref={(el: any) =>

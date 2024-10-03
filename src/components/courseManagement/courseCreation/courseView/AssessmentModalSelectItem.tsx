@@ -16,6 +16,7 @@ const AssessmentModalSelectItem = ({
   moduleId,
   setIsOpenAssessmentModal,
 }: ModalItemProps) => {
+  console.log("🚀 ~ data:", data);
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
