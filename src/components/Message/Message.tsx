@@ -596,9 +596,8 @@ const Message = () => {
                       className="flex pl-5 pr-[17px] pt-[15px] pb-3 cursor-pointer hover:bg-[#EDEFF9]"
                       style={{
                         backgroundColor:
-                          (chatId === item?.id &&
-                            currentChat?.group === item?.group) ||
-                          item?.count > 0
+                          currentChat?.id === item?.id &&
+                          currentChat?.group === item?.group
                             ? "#EDEFF9"
                             : "white",
                       }}
