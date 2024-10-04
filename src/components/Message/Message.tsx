@@ -404,7 +404,7 @@ const Message = () => {
                             <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
                               {moment(item?.createdAt).format("h:mmA")}
                             </div>
-                            <p className="text-black leading-[19.53px] break-all">
+                            <p className="text-black leading-[19.53px] break-all whitespace-pre-wrap">
                               {item?.message}
                             </p>
                             {Array.isArray(item?.images) &&
@@ -803,7 +803,7 @@ const Message = () => {
                               <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
                                 {moment(item?.createdAt).format("h:mmA")}
                               </div>
-                              <p className="text-black leading-[19.53px] break-all	">
+                              <p className="text-black leading-[19.53px] break-all whitespace-pre-wrap	">
                                 {item?.message}
                               </p>
                               {Array.isArray(item?.images) &&
