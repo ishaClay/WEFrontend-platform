@@ -393,10 +393,10 @@ const Addcertificate = () => {
                           )}
                         </div>
                         {Single_certificate?.data?.companyLogo && (
-                          <div className="">
+                          <div className="md:h-[100px]">
                             <img
                               src={Single_certificate?.data?.companyLogo}
-                              className="md:w-full w-[80px]"
+                              className="md:w-full w-[80px] min-h-[80px] max-h-[80px] m-auto h-full"
                             />
                           </div>
                         )}

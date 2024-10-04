@@ -207,6 +207,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     const dataNew = cohortData.map((item) => {
       if (item.cohortName !== "") {
         return {
+          id: item.id || null,
           name: item.cohortName,
           publish: 1,
           slotStartDate: {

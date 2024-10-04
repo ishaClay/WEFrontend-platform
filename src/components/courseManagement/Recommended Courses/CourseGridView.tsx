@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import atu from "@/assets/images/atu.png";
+import Course_image from "@/assets/images/Course_image.png";
 import diploma from "@/assets/images/diploma.png";
 import fulltime from "@/assets/images/fulltime.png";
 import online from "@/assets/images/online.png";
@@ -178,7 +179,7 @@ const CourseGridView = ({
           }}
         >
           <img
-            src={recommendeddata?.bannerImage}
+            src={recommendeddata?.bannerImage || Course_image}
             alt="course"
             className="w-full h-full object-cover"
           />

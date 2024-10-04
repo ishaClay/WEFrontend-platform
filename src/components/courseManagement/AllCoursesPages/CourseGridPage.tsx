@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Course_image from "@/assets/images/Course_image.png";
 import speed from "@/assets/images/Speed.png";
 import diploma from "@/assets/images/diploma.png";
 import fulltime from "@/assets/images/fulltime.png";
@@ -222,7 +223,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                 >
                   <img
                     className="w-full object-cover lg:h-[231px] h-full object-center"
-                    src={allcourse?.bannerImage}
+                    src={allcourse?.bannerImage || Course_image}
                     alt="Course"
                   />
                   <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">

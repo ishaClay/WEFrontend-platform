@@ -1,8 +1,9 @@
-import { CourseAllotedEntity } from "@/types/courseManagement";
-import { Progress } from "../ui/progress";
-import { Link } from "react-router-dom";
+import Course_image from "@/assets/images/Course_image.png";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
+import { CourseAllotedEntity } from "@/types/courseManagement";
+import { Link } from "react-router-dom";
+import { Progress } from "../ui/progress";
 
 type recentCourseItemProps = {
   data: CourseAllotedEntity;
@@ -34,7 +35,7 @@ const RecentCoursesItems = ({ data }: recentCourseItemProps) => {
         <div className="sm:flex block items-center w-full">
           <div className="rounded-md overflow-hidden sm:min-w-[200px] sm:min-h-[200px] sm:w-[200px] w-full sm:h-[200px] sm:m-0 m-auto">
             <img
-              src={data?.course?.bannerImage}
+              src={data?.course?.bannerImage || Course_image}
               alt="img"
               className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />

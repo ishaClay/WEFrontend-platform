@@ -182,6 +182,7 @@ function RegisterTrainer() {
       localStorage.removeItem("path");
       setValue("email", defEmail || "");
       dispatch(setPath([]));
+      navigate("/auth");
     },
     onError: (error: ResponseError) => {
       toast({

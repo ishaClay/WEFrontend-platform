@@ -109,6 +109,7 @@ function Register() {
       Cookies.remove("accessToken");
       localStorage.removeItem("user");
       dispatch(setPath([]));
+      navigate("/auth");
     },
     onError: (error: ResponseError) => {
       toast({

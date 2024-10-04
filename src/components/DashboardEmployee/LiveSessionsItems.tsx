@@ -1,19 +1,48 @@
+import Course_image from "@/assets/images/Course_image.png";
 import { SessionsEntity } from "@/types/dashboard";
 import { ArrowRight, CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
+import { useMemo } from "react";
 
 type liveSessionItemsProps = {
   data: SessionsEntity;
 };
 
 const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
+  const isEnableJoinButton = useMemo(() => {
+    const date = moment(data.date);
+    const startTime = moment(data.startTime);
+    const endTime = moment(data.startTime).add(data.sessionDuration, "minutes");
+    const currentDate = moment(new Date());
+
+    const isCheckData = date.isSame(currentDate);
+
+    if (isCheckData) {
+      if (startTime.isSame(currentDate)) {
+        return true;
+      } else if (startTime.isAfter(currentDate)) {
+        return true;
+      } else if (endTime.isBefore(currentDate)) {
+        return false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }, [data]);
+  console.log(
+    "🚀 ~ isEnableJoinButton ~ isEnableJoinButton:",
+    isEnableJoinButton
+  );
+
   return (
     <div className="col-span-1 md:p-5 p-4 shadow rounded-md sm:m-0 m-1">
       <div className="flex">
         <div className="">
           <div className="rounded-md overflow-hidden min-w-20 min-h-20 w-20 h-20">
             <img
-              src={data.course?.bannerImage}
+              src={data.course?.bannerImage || Course_image}
               alt="img"
               className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />
@@ -21,7 +50,11 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
           <a
             href={data?.zoomApiBaseUrl}
             target="_blank"
-            className="flex justify-center mt-2 items-center bg-transparent text-sm hover:bg-transparent text-[#00778B] font-bold p-0"
+            className={`${
+              isEnableJoinButton
+                ? "cursor-pointer pointer-events-auto"
+                : "cursor-default pointer-events-none opacity-60"
+            } flex justify-center mt-2 items-center bg-transparent text-sm hover:bg-transparent text-[#00778B] font-bold p-0`}
           >
             JOIN <ArrowRight width={16} />
           </a>

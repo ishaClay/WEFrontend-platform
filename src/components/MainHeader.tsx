@@ -76,7 +76,7 @@ const MainHeader = () => {
     onSuccess: () => {
       Cookies.remove("accessToken");
       localStorage.removeItem("user");
-      navigate("/");
+      navigate("/auth");
       dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {

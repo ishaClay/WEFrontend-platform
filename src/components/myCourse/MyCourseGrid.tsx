@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import ClockImage from "@/assets/images/Clock.png";
+import Course_image from "@/assets/images/Course_image.png";
 import GraduationCapImage from "@/assets/images/Graduationcap.png";
 import InternetImage from "@/assets/images/Internet.png";
 import SpeedImage from "@/assets/images/Speed.png";
@@ -44,7 +45,7 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg aspect-video bg-[color:var(--base5-56)] justify-center items-center flex">
           <img
-            src={grid.course?.bannerImage}
+            src={grid.course?.bannerImage || Course_image}
             alt="img"
             className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />

@@ -230,8 +230,8 @@ const EmployeeAssessment = () => {
           </h5>
           <h5 className="text-[16px] font-[Calibri] text-[#606060]">
             {assessmentQuestion?.length || 0}
-            <span className="mr-1 ml-1">Questions | Duration : </span>
-            {getAssessmentSingleQuestion?.data?.timeDuration?.hours
+            <span className="mr-1 ml-1">Questions </span>
+            {/* {getAssessmentSingleQuestion?.data?.timeDuration?.hours
               ?.toString()
               ?.padStart(2, "0")}{" "}
             :{" "}
@@ -241,7 +241,7 @@ const EmployeeAssessment = () => {
             :{" "}
             {getAssessmentSingleQuestion?.data?.timeDuration?.seconds
               ?.toString()
-              ?.padStart(2, "0")}{" "}
+              ?.padStart(2, "0")}{" "} */}
           </h5>
         </div>
       </div>

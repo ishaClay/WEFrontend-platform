@@ -833,7 +833,7 @@ const Dashboard = () => {
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Ongoing Live Sessions
           </h3>
-          <div className="bg-white rounded-xl border-[#D9D9D9] border">
+          <div className="bg-white rounded-xl border-[#D9D9D9] border py-3 max-h-[200px]">
             {isLoading ? (
               <span className="py-14 flex justify-center">
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -854,7 +854,7 @@ const Dashboard = () => {
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Upcoming Live Sessions
           </h3>
-          <div className="bg-white rounded-xl border-[#D9D9D9] border py-3">
+          <div className="bg-white rounded-xl border-[#D9D9D9] border py-3 h-[200px]">
             {isLoading ? (
               <span className="py-14 flex justify-center">
                 <Loader2 className="w-5 h-5 animate-spin" />

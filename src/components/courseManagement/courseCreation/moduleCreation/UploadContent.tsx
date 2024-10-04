@@ -73,7 +73,7 @@ const UploadContent = ({
   const { mutate: FileUpload } = useMutation({
     mutationFn: (data: any) => uploadFile(data, progress),
     onSuccess: (data) => {
-      setIsUploading(false);
+      setIsUploading && setIsUploading(false);
       if (moduleIndex !== undefined && sectionIndex !== undefined) {
         setValue(
           `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
@@ -150,6 +150,7 @@ const UploadContent = ({
 
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
+    console.log("🚀 ~ handleFileSelect ~ file:", file);
 
     if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
@@ -163,7 +164,7 @@ const UploadContent = ({
     if (file) {
       const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
-        setIsUploading(true);
+        setIsUploading && setIsUploading(true);
         setFileName(file.name);
         setUploadProgress(0);
         FileUpload(file);
@@ -172,7 +173,7 @@ const UploadContent = ({
           variant: "destructive",
           title: `Only ${FileType?.fileType.join(", ")} files are allowed.`,
         });
-        setIsUploading(false);
+        setIsUploading && setIsUploading(false);
       }
     }
   };

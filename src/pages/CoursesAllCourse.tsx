@@ -26,18 +26,6 @@ function CoursesAllCourse() {
     ? usersData?.query?.id
     : usersData?.id;
 
-  // const { data: allcourse, isLoading } = useQuery({
-  //   queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
-  //   queryFn: () =>
-  //     fetchAllCourse(
-  //       selectedCourse?.id?.toString() || "",
-  //       search,
-  //       user?.clientId,
-  //       userID,
-  //       user?.CompanyId
-  //     ),
-  // });
-
   const {
     mutate: getAllCourses,
     isPending,

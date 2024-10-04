@@ -1,17 +1,20 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EvaluteDataEntity } from "@/types/enroll";
+import { Dispatch, SetStateAction } from "react";
 import EvaluateModalDetailsItem from "./EvaluateModalDetailsItem";
 
 interface EvaluateModalDetailsProps {
   data: EvaluteDataEntity[];
   courseId: number;
   employeeId: number;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const EvaluateModalDetails = ({
   data,
   courseId,
   employeeId,
+  setIsOpen,
 }: EvaluateModalDetailsProps) => {
   const evaluationsData = data?.filter((item) => item?.evaluations?.length > 0);
 
@@ -36,6 +39,7 @@ const EvaluateModalDetails = ({
                 index={index}
                 courseId={courseId}
                 employeeId={employeeId}
+                setIsOpen={setIsOpen}
               />
             );
           })

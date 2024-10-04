@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Course_image from "@/assets/images/Course_image.png";
 import lightOn from "@/assets/images/LightOn.png";
 import neighbour from "@/assets/images/Neighbour.png";
 import speed from "@/assets/images/Speed.png";
@@ -194,20 +195,9 @@ const CourseListPage = ({ data }: dataGridProps) => {
                   <div className="relative overflow-hidden sm:max-h-[221px] sm:max-w-[356px] w-full">
                     <img
                       className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
-                      src={allcourse?.bannerImage}
+                      src={allcourse?.bannerImage || Course_image}
                       alt="Course"
                     />
-                    {/* <input
-                      type="checkbox"
-                      className="absolute top-[10px] right-[10px] h-[24px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
-                    /> */}
-                    {/* <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
-                      <FaStar className="text-[#FD8E1F]" />
-                      <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">
-                        {allcourse?.courseReconmendedStatus ||
-                          maturityLevel?.fetchMaturity?.maturityLevelName}
-                      </span>
-                    </div> */}
                   </div>
                 </div>
 

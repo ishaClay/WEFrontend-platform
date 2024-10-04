@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import { EmployeeCertificationResult } from "@/types/certificate";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -14,7 +15,7 @@ const CertificationsList = ({ data }: certificationListProps) => {
         <div className="flex items-center sm:col-span-6 col-span-7">
           <div className="sm:min-w-[100px] sm:w-[100px] min-w-[50px] w-[50px] sm:min-h-[100px] sm:h-[100px] min-h-[50px] h-[50px] sm:mr-5 mr-[10px]">
             <img
-              src={data?.course?.bannerImage}
+              src={data?.course?.bannerImage || Course_image}
               alt=""
               className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />

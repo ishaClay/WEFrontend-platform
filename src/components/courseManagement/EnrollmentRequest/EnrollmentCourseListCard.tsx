@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import AcceptedIcon from "@/assets/images/Accepted_icons.png";
+import Course_image from "@/assets/images/Course_image.png";
 import RejectedIcons from "@/assets/images/Rejected_icons.png";
 import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
@@ -90,7 +91,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       <div className="sm:flex block items-center">
         <div className="sm:min-w-[152px] sm:min-h-[152px] sm:w-[152px] sm:h-[152px]">
           <img
-            src={data?.course?.bannerImage}
+            src={data?.course?.bannerImage || Course_image}
             alt="img"
             className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />

@@ -53,6 +53,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
           data={fetchEvaluteList?.data || []}
           courseId={course?.course?.id}
           employeeId={+empId}
+          setIsOpen={setIsOpen}
         />
       </Modal>
 

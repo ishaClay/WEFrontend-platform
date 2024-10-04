@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import { CourseAllotedEntity } from "@/types/Invition";
 import { Star } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -15,7 +16,7 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
       <div className="sm:flex block gap-4 items-center">
         <div className="sm:min-w-[100px] sm:min-h-[92px] sm:w-[100px] sm:h-[92px] w-full h-full rounded-lg overflow-hidden">
           <img
-            src={data?.course?.bannerImage}
+            src={data?.course?.bannerImage || Course_image}
             alt=""
             className="w-full h-full"
           />

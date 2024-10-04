@@ -68,7 +68,7 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return <p>#{row.original.id}</p>;
+        return <p>#{row.index + (page - 1) * 10 + 1}</p>;
       },
     },
     {
