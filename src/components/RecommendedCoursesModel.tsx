@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { CourseDiscountDataEntity } from "@/types/course";
@@ -203,7 +204,7 @@ const RecommendedCoursesModel = ({
                 <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-7 gap-4">
                   <div className="sm:min-w-[143px] sm:min-h-[143px] sm:w-[143px] sm:h-[143px] w-full">
                     <img
-                      src={courseList?.bannerImage}
+                      src={courseList?.bannerImage || Course_image}
                       alt=""
                       className=" rounded-md object-cover h-full w-full"
                     />

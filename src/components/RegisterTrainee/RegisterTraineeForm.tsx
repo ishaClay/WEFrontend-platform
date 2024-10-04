@@ -196,6 +196,7 @@ const RegisterTraineeForm = () => {
       localStorage.removeItem("path");
       setValue("email", email || "");
       dispatch(setPath([]));
+      navigate("/auth");
     },
     onError: (error: ResponseError) => {
       toast({

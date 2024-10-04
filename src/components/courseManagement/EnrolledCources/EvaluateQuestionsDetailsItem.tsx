@@ -13,6 +13,7 @@ const EvaluateQuestionsDetailsItem = ({
   const machedKeyword = item?.machedKeyword?.filter((machText) =>
     answer?.split(", ")?.includes(machText)
   );
+
   return (
     <div className="border border-solid border-[#D9D9D9] rounded-sm sm:p-5 p-3">
       <div className="flex items-center pb-3">
@@ -38,7 +39,11 @@ const EvaluateQuestionsDetailsItem = ({
             KeyWords (Matched
             <span className="ml-1">{item?.machedKeyword?.length}</span>,
             Unmatched
-            <span className="ml-1">{machedKeyword?.length || 0}</span> )
+            <span className="ml-1">
+              {(machedKeyword?.length || 0) -
+                (item?.machedKeyword?.length || 0)}
+            </span>{" "}
+            )
           </p>
         </h6>
       </div>

@@ -135,14 +135,20 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData = getSingleCourse?.data?.course;
+      console.log("🚀 ~ useEffect ~ data:", data);
       setValue("nfqLeval", data?.nfqLeval?.id?.toString() || "");
       setValue("ectsCredits", data?.ectsCredits || "");
       setValue("fetCredits", data?.fetCredits || "");
-      setValue("certificate", data?.certificate?.toString() || "");
+      setValue(
+        "certificate",
+        (data?.certificate && data?.certificate?.toString()) || ""
+      );
       setSelectBoxValue({
         nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
         certificate:
-          getSingleCourse?.data?.course?.certificate?.toString() || "",
+          (getSingleCourse?.data?.course?.certificate &&
+            getSingleCourse?.data?.course?.certificate?.toString()) ||
+          "",
       });
     }
   }, [getSingleCourse, setValue]);

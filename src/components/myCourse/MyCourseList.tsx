@@ -1,4 +1,5 @@
 import ClockImage from "@/assets/images/Clock.png";
+import Course_image from "@/assets/images/Course_image.png";
 import GraduationCapImage from "@/assets/images/Graduationcap.png";
 import InternetImage from "@/assets/images/Internet.png";
 import SpeedImage from "@/assets/images/Speed.png";
@@ -43,7 +44,7 @@ const MyCourseList = ({ list }: myPagesListProps) => {
         <div className="flex sm:flex-nowrap flex-wrap sm:justify-start justify-center items-center xl:gap-5 gap-3">
           <div className="overflow-hidden rounded-lg sm:min-h-[152px] sm:min-w-[152px] sm:w-[152px] sm:h-[152px] w-full">
             <img
-              src={list.course?.bannerImage}
+              src={list.course?.bannerImage || Course_image}
               alt=""
               className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />

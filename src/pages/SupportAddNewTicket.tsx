@@ -91,6 +91,7 @@ function SupportAddNewTicket() {
     (item) => item !== null
   );
 
+  console.log("🚀 ~ SupportAddNewTicket ~ assigToUserList:", assigToUserList);
   const { mutate: createSupportRequestTicket, isPending: createPanding } =
     useMutation({
       mutationFn: (e: SubmitPayload) => createSupportTicket(e),
@@ -198,7 +199,11 @@ function SupportAddNewTicket() {
                       return (
                         <SelectItem
                           key={item.id}
-                          value={String(item?.userDetails?.id)}
+                          value={
+                            item?.userDetails?.id
+                              ? String(item?.userDetails?.id)
+                              : String(item?.clientDetails?.id)
+                          }
                           className="w-full"
                         >
                           {item?.userDetails?.role === UserRole?.Employee

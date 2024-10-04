@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -40,7 +41,7 @@ const EnrolledCourseListItem = ({
       <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-2.5 sm:border-0 border rounded-[6px]">
         <div className="sm:min-w-[140px] sm:w-[140px] sm:min-h-[140px] sm:h-[140px] w-full rounded-md overflow-hidden">
           <img
-            src={data?.course?.bannerImage}
+            src={data?.course?.bannerImage || Course_image}
             alt="bannerImage"
             className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />

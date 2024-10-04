@@ -1,9 +1,8 @@
-import { readCSVFile } from "@/services/apiServices/uploadServices";
+import { readCSVFile, uploadFile } from "@/services/apiServices/uploadServices";
 import { ErrorType } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import React, { ChangeEvent, DragEvent, forwardRef } from "react";
 import { useToast } from "../ui/use-toast";
-import { uploadFile } from "@/services/apiServices/uploadServices";
 
 interface FileUploadProps {
   handleDrop: (file: string) => void;
@@ -76,11 +75,12 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       event.preventDefault();
       setDragging(false);
       const file = event.dataTransfer.files[0];
-      
-      if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+
+      if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
         toast({
           variant: "destructive",
-          title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+          title:
+            "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
         });
         return;
       }
@@ -98,16 +98,17 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       event.preventDefault();
       const file = event.target.files && event.target.files[0];
       if (file) {
-        if(file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+        if (file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
           if (isvalidation) {
             handleFileValidation(file);
           } else {
             upload_file(file);
           }
-        } else{
+        } else {
           toast({
             variant: "destructive",
-            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+            title:
+              "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
           });
         }
       }
@@ -134,8 +135,8 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
           img.onload = () => {
             if (isExactDimension) {
               if (
-                img.width === validationValue?.width &&
-                img.height === validationValue?.height
+                img.width <= validationValue?.width &&
+                img.height <= validationValue?.height
               ) {
                 upload_file(file);
               } else {

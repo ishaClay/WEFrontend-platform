@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import CoursesViewAllocatePopup from "./CoursesViewAllocatePopup";
 // import { RootState } from "@/redux/store";
+import Course_image from "@/assets/images/Course_image.png";
 import speed from "@/assets/images/Speed.png";
 import courseIcon from "@/assets/svgs/cource.svg";
 import duration from "@/assets/svgs/duration.svg";
@@ -138,7 +139,10 @@ function CoursesAllocate() {
                       <div className="sm:flex block gap-[17px] xl:col-span-10 col-span-12">
                         <div className="overflow-hidden rounded sm:min-w-[152px] sm:w-[152px] sm:min-h-[152px] sm:h-[152px] w-full">
                           <img
-                            src={courseallocate?.course?.bannerImage}
+                            src={
+                              courseallocate?.course?.bannerImage ||
+                              Course_image
+                            }
                             alt="img"
                             className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                           />

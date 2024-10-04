@@ -103,7 +103,8 @@ function App() {
   const domain = document.location.origin;
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  // const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userToken = Cookies.get("accessToken") || "";
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -156,7 +157,7 @@ function App() {
     onSuccess: () => {
       Cookies.remove("accessToken");
       localStorage.removeItem("user");
-      navigate("/");
+      navigate("/auth");
       dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
@@ -204,6 +205,12 @@ function App() {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!userToken && userData) {
+      mutate(userData?.query?.id);
+    }
+  }, [userToken, userData]);
 
   useEffect(() => {
     if (fetchClientmaturitylevel) {

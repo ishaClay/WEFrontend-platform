@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import speed from "@/assets/images/Speed.png";
 import course from "@/assets/svgs/cource.svg";
 import duration from "@/assets/svgs/duration.svg";
@@ -247,7 +248,7 @@ function CourseViewAllocatePopup({
                 <div className="md:w-[204px] md:h-[192px] sm:w-[190px] sm:h-[170px] w-full h-[250px] aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden">
                   <img
                     className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
-                    src={courseData?.course?.bannerImage}
+                    src={courseData?.course?.bannerImage || Course_image}
                     alt="Course"
                   />
                 </div>

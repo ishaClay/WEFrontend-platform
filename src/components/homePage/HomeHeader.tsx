@@ -40,7 +40,7 @@ function HomeHeader(props: headerProps) {
       Cookies.remove("accessToken");
       localStorage.removeItem("user");
       localStorage.removeItem("path");
-      navigate("/");
+      navigate("/auth");
       dispatch(setPath([]));
       setIsAlertOpen(false);
     },

@@ -101,9 +101,9 @@ const TicketsDetailsReply = () => {
                 ? data?.data?.data?.assignTo?.fname +
                     " " +
                     data?.data?.data?.assignTo?.lname
-                : data?.data?.data?.assignTo.name
+                : data?.data?.data?.assignTo?.name
             )
-          : String(data?.data?.data?.openBy.name)
+          : String(data?.data?.data?.openBy?.name)
       );
       setSelectTicketStatus(data?.data.data?.status);
       // setSelectTicketStatus(

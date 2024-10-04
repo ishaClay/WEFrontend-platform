@@ -34,7 +34,7 @@ const EnrollCourseEmployeeDetailsList = ({
           </span>
         )}
       </div>
-      <div className="flex sm:flex-row flex-col sm:items-start items-center gap-3 mt-5">
+      <div className="flex sm:flex-row flex-col sm:items-start items-center gap-3 mt-5 flex-wrap">
         {data?.moduleLiveSection?.map((item, i: number) => {
           return (
             <Button

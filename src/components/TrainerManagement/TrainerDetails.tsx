@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Course_image from "@/assets/images/Course_image.png";
 import starImage from "@/assets/images/Vector.png";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -337,7 +338,7 @@ const TrainerDetails = () => {
                       <div className="sm:flex block items-start gap-[22px]">
                         <div className="aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden bg-slate-400">
                           <img
-                            src={course?.bannerImage}
+                            src={course?.bannerImage || Course_image}
                             alt="bannerImage"
                             className="object-cover w-[300px] h-full static align-middle max-w-full inline-block"
                           />

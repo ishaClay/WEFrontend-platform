@@ -337,7 +337,7 @@ const AllocatedCertificateEmployeePage = () => {
                                 <h2>
                                   {selectedCertificate?.administratorTitle}
                                 </h2>
-                                <h2>Head Of Marketing</h2>
+                                {/* <h2>Head Of Marketing</h2> */}
                               </div>
                             </div>
                             {selectedCertificate?.companyLogo && (
@@ -384,7 +384,7 @@ const AllocatedCertificateEmployeePage = () => {
                                   <h2>
                                     {selectedCertificate?.instructorTitle}
                                   </h2>
-                                  <h2>Head Of Marketing</h2>
+                                  {/* <h2>Head Of Marketing</h2> */}
                                 </div>
                               )}
                             </div>

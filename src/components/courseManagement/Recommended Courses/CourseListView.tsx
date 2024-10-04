@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Course_image from "@/assets/images/Course_image.png";
 import speed from "@/assets/images/Speed.png";
 import atu from "@/assets/images/atu.png";
 import diploma from "@/assets/images/diploma.png";
@@ -29,7 +30,6 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 
 let socket: any;
 
@@ -82,31 +82,6 @@ function CourseListView({
       });
     },
   });
-
-  // const getPillerName = (pillerData: CourseDataEntity[]) => {
-  //   if (!pillerData) return null;
-  //   return pillerData?.map((item) => {
-  //     const pillarName = item?.fetchPillar?.pillarName;
-  //     const pillerColor = item?.fetchMaturity?.rangeStart >= 1 && item?.fetchMaturity?.rangeEnd <= 40 ? "bg-[#F63636] text-white" :
-  //       item?.fetchMaturity?.rangeStart >= 40.1 && item?.fetchMaturity?.rangeEnd <= 80 ? "bg-[#FFD56A] text-black" :
-  //         "bg-[#64A70B] text-white";
-
-  //     return <Badge
-  //       variant="outline"
-  //       className={`${pillerColor} border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-droid font-normal`}
-  //     >
-  //       {pillarName}
-  //     </Badge>
-  //   })
-  // }
-
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     if (!isRecommendedCourseShow) {
@@ -218,7 +193,7 @@ function CourseListView({
               <div className="overflow-hidden rounded sm:min-w-[152px] w-full sm:w-[152px] sm:min-h-[133px] sm:h-[133px]">
                 <img
                   className="rounded object-cover object-center w-full h-full"
-                  src={recommendeddata.bannerImage}
+                  src={recommendeddata.bannerImage || Course_image}
                   alt="Course"
                 />
               </div>

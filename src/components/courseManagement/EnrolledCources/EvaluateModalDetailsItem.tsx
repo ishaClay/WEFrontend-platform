@@ -6,7 +6,7 @@ import { EvaluteDataEntity } from "@/types/enroll";
 import { ErrorType } from "@/types/Errors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
 
 type evaluteModalProps = {
@@ -14,12 +14,14 @@ type evaluteModalProps = {
   index: number;
   courseId: number;
   employeeId: number;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 const EvaluateModalDetailsItem = ({
   data,
   index,
   courseId,
   employeeId,
+  setIsOpen,
 }: evaluteModalProps) => {
   const { toast } = useToast();
   const [addTotalPoints, setAddTotalPoints] = useState<string>("");
@@ -59,6 +61,7 @@ const EvaluateModalDetailsItem = ({
       });
       setModuleId("");
       setAddTotalPoints("");
+      setIsOpen(false);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchEvalute],
       });
@@ -69,6 +72,7 @@ const EvaluateModalDetailsItem = ({
         description: error?.data?.message || "Internal server error",
         variant: "destructive",
       });
+      setIsOpen(false);
     },
   });
 
