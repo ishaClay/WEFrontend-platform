@@ -55,8 +55,6 @@ const AssecessmentPage = () => {
     // };
   }>(initialState);
   const { assesment, setAssesment } = useContext(AssesmentContext);
-  console.log("🚀 ~ AssecessmentPage ~ assesment:", assesment);
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const courseId = searchParams.get("courseId");
@@ -440,7 +438,6 @@ const AssecessmentPage = () => {
               // getAssessmentByIdData?.data?.AssessmentQuestion ||
               // assecessmentQuestion?.selectedQuestionType
               ?.map((type: string | any, index: number) => {
-                console.log("🚀 ~ ?.map ~ type:", type?.assessmentType);
                 return (
                   <Fragment key={index}>
                     {(type?.assessmentType === "MCQ Multi Select" ||
