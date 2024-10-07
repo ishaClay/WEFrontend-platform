@@ -1,6 +1,7 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import FileUpload from "@/components/comman/FileUpload";
+import SelectMenuWithSearch from "@/components/comman/SelectMenuWithSearch";
 import { Button } from "@/components/ui/button";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import {
@@ -21,12 +22,13 @@ import {
   createSupportTicket,
   fetchAssigToUser,
 } from "@/services/apiServices/supportRequestServices";
+import { OptionType } from "@/types/common";
 import { SubmitPayload } from "@/types/SupportRequest";
 import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiImage, FiVideo } from "react-icons/fi";
@@ -81,17 +83,35 @@ function SupportAddNewTicket() {
     mode: "all",
   });
 
-  const { data: fetchAssigToUserList, isPending: assigToUserListPending } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchAssigToUserList],
-      queryFn: () => fetchAssigToUser(UserId),
-      enabled: !!UserId,
-    });
-  const assigToUserList = fetchAssigToUserList?.data?.filter(
-    (item) => item !== null
-  );
+  const { data: fetchAssigToUserList } = useQuery({
+    queryKey: [QUERY_KEYS.fetchAssigToUserList],
+    queryFn: () => fetchAssigToUser(UserId),
+    enabled: !!UserId,
+  });
+  const assigToUserList =
+    fetchAssigToUserList?.data?.filter((item) => item !== null) || [];
 
-  console.log("🚀 ~ SupportAddNewTicket ~ assigToUserList:", assigToUserList);
+  const assigToOptions: OptionType[] = assigToUserList.map((item) => {
+    return {
+      label: `${
+        item?.userDetails?.role === UserRole?.Employee
+          ? "Employee"
+          : item?.userDetails?.role === UserRole?.Company
+          ? "SME Company"
+          : item?.userDetails?.role === UserRole?.Trainer
+          ? "Trainer Provider"
+          : item?.userDetails?.role === UserRole?.Trainee
+          ? "Trainer"
+          : "Client Admin"
+      } -- ${
+        item?.userDetails?.role === UserRole?.Trainer
+          ? item?.providerName
+          : item?.name || item?.email?.split("@")?.[0]
+      }`,
+      value: String(item?.userDetails?.id),
+    };
+  });
+
   const { mutate: createSupportRequestTicket, isPending: createPanding } =
     useMutation({
       mutationFn: (e: SubmitPayload) => createSupportTicket(e),
@@ -171,62 +191,18 @@ function SupportAddNewTicket() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-[36px] gap-0 mb-5">
             <div className="col-span-1 w-full">
-              <Select
-                onValueChange={(e) => {
+              <Label className="mb-[11px] text-base p-0 font-[400] mt-[18px] inline-block">
+                Assigned To <span className="text-red-400">*</span>
+              </Label>
+              <SelectMenuWithSearch
+                options={assigToOptions}
+                onChange={(e) => {
                   setValue("assignTo", e);
                   setSelectAssignTo(e as string);
                 }}
                 value={selectAssignTo}
-                {...register("assignTo")}
-              >
-                <SelectGroup>
-                  <SelectLabel className="mb-[11px] text-base p-0 font-[400]">
-                    Assigned To <span className="text-red-400">*</span>
-                  </SelectLabel>
-                  <SelectTrigger
-                    className={`w-full px-[15px] py-4 h-[52px] truncate placeholder:text-neutral-400 `}
-                  >
-                    <SelectValue placeholder={`Select Name`} />
-                  </SelectTrigger>
-                </SelectGroup>
-                <SelectContent className="min-w-full w-full max-w-full max-h-[300px]">
-                  {assigToUserListPending ? (
-                    <span className="flex justify-center py-3">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    </span>
-                  ) : assigToUserList && assigToUserList?.length > 0 ? (
-                    assigToUserList?.map((item: any) => {
-                      return (
-                        <SelectItem
-                          key={item.id}
-                          value={
-                            item?.userDetails?.id
-                              ? String(item?.userDetails?.id)
-                              : String(item?.clientDetails?.id)
-                          }
-                          className="w-full"
-                        >
-                          {item?.userDetails?.role === UserRole?.Employee
-                            ? "Employee"
-                            : item?.userDetails?.role === UserRole?.Company
-                            ? "SME Company"
-                            : item?.userDetails?.role === UserRole?.Trainer
-                            ? "Trainer Provider"
-                            : item?.userDetails?.role === UserRole?.Trainee
-                            ? "Trainer"
-                            : "Client Admin"}{" "}
-                          {"--"}
-                          {item?.userDetails?.role === UserRole?.Trainer
-                            ? item?.providerName
-                            : item?.name || item?.email?.split("@")?.[0]}
-                        </SelectItem>
-                      );
-                    })
-                  ) : (
-                    <span>No data found</span>
-                  )}
-                </SelectContent>
-              </Select>
+                placeholder="Select Name"
+              />
               {!errors?.assignTo?.ref?.value && (
                 <ErrorMessage message={errors?.assignTo?.message as string} />
               )}

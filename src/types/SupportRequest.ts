@@ -1,34 +1,34 @@
 export interface SupportRequest {
-  id: string,
-  updatedate: string,
-  requestor: string,
-  status: string,
-  subject: string,
-  country: string,
-  assign: string,
-  Priority: string,
-  openbyname: string,
+  id: string;
+  updatedate: string;
+  requestor: string;
+  status: string;
+  subject: string;
+  country: string;
+  assign: string;
+  Priority: string;
+  openbyname: string;
 }
 
 export interface SubmitType {
-  id: string,
+  id: string;
   item: {
-    assignTo: string,
-    ticketStatus: string,
-    details: string
-  }
+    assignTo: string;
+    ticketStatus: string;
+    details: string;
+  };
 }
 
 export interface SubmitPayload {
-  assignTo: number,
-  priority: string,
-  type: string,
-  subject: string,
-  description: string,
-  documentUrl: string,
-  videoUrl: string,
-  openBy: number,
-  email: string
+  assignTo: number;
+  priority: string;
+  type: string;
+  subject: string;
+  description: string;
+  documentUrl: string;
+  videoUrl: string;
+  openBy: number;
+  email: string;
 }
 
 export interface SelfAssessmentType {
@@ -39,7 +39,6 @@ export interface SelfAssessmentType {
   totalquestionsavailable: number;
   totalquestionsattempted: number;
 }
-
 
 export interface SupportTicketCompanyType {
   id: number;
@@ -125,12 +124,11 @@ export interface ClientDetails {
   updatedAt: string;
 }
 
-
 export interface SupportTicketListType {
-  data: SupportTicketListData
+  data: SupportTicketListData;
 }
 export interface SupportTicketListData {
-  data?: (DataEntity)[] | null;
+  data?: DataEntity[] | null;
   dataAnalytics: DataAnalytics;
   metadata: Metadata;
   message: string;
@@ -180,8 +178,6 @@ export interface Metadata {
   totalPages: number;
 }
 
-
-
 export interface AssigToUserListType {
   data?: AssigToUserListDataEntity[] | null;
   message: string;
@@ -211,6 +207,7 @@ export interface AssigToUserListDataEntity {
   parentCompanyAddress?: string | null;
   parentCompanyCounty?: null;
   note?: null;
+  providerName?: string;
 }
 export interface UserDetails {
   id: number;
@@ -225,7 +222,7 @@ export interface UserDetails {
   isVerify: number;
   lastLogout?: string | null;
   pathStatus: number;
-  deviceTokens?: (null)[] | null;
+  deviceTokens?: null[] | null;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;

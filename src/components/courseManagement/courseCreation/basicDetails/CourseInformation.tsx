@@ -148,6 +148,13 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
   });
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    if (!coursePrise || coursePrise === "0") {
+      setProvideDisc(false);
+      setDiscount("");
+    }
+  }, [coursePrise]);
+
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
     onSuccess: (data) => {
@@ -461,8 +468,7 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
                     }
                   }}
                   error={
-                    (!!provideDisc && +discount > +coursePrise) ||
-                    (provideDisc && +discount === +coursePrise)
+                    !!provideDisc && +discount > +coursePrise
                       ? "Discount is greater than course price"
                       : ""
                   }
