@@ -14,7 +14,7 @@ import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "../comman/Error/Loading";
+import { ConfirmModal } from "../comman/ConfirmModal";
 import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -31,6 +31,8 @@ const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(1);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
+  const [isDelete, setIsDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState<string>("");
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
     queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
@@ -46,6 +48,8 @@ const AllocatedCertificatePage = () => {
         description: "Certificate deleted successfully",
         variant: "success",
       });
+      setIsDelete(false);
+      setDeleteId("");
 
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.issuedCertificate],
@@ -204,7 +208,10 @@ const AllocatedCertificatePage = () => {
             <Button
               type="button"
               variant={"ghost"}
-              onClick={() => deleteCertificate(row?.original?.id)}
+              onClick={() => {
+                setIsDelete(true);
+                setDeleteId(row?.original?.id?.toString());
+              }}
             >
               <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
             </Button>
@@ -363,7 +370,17 @@ const AllocatedCertificatePage = () => {
           </div>
         </>
       )}
-      <Loading isLoading={deletePending} />
+      <ConfirmModal
+        open={isDelete}
+        onClose={() => {
+          setIsDelete(false);
+          setDeleteId("");
+        }}
+        onDelete={() => deleteCertificate(+deleteId)}
+        value={"Delete Issue Certificate"}
+        isLoading={deletePending}
+        message={`Do you want to delete Certificate ?`}
+      />
     </div>
   );
 };

@@ -39,24 +39,41 @@ import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
 
 const schema = zod.object({
-  fname: zod.string(),
-  lname: zod.string(),
+  fname: zod
+    .string()
+    .min(1, { message: "Please enter contact firstname" })
+    .regex(/^\S*$/, "Please enter valid contact firstname"),
+  lname: zod
+    .string()
+    .min(1, { message: "Please enter contact lastname" })
+    .regex(/^\S*$/, "Please enter valid contact lastname"),
   number: zod.string().optional(),
-  email: zod.string().email({ message: "Please enter valid email" }),
-  providerName: zod.string(),
-  providerType: zod.string(),
-  providerCity: zod.string(),
-  providerCounty: zod.string(),
-  providerNotes: zod.string().optional(),
+  email: zod
+    .string()
+    .min(1, { message: "Please enter email address" })
+    .email("Please enter valid email address"),
+  providerName: zod.string().min(1, { message: "Please enter provider name" }),
+  providerType: zod
+    .string({
+      required_error: "Please select provider type",
+    })
+    .min(1, { message: "Please enter provider type" }),
+  providerCity: zod.string().min(1, { message: "Please enter provider city" }),
+  providerCounty: zod.string().optional(),
+  providerNotes: zod
+    .string()
+    .max(200, {
+      message: "Provider notes must contain at least 200 characters",
+    })
+    .optional(),
   foreignProvider: zod
-    .enum(["Yes", "No"])
-    .refine(
-      (value) => value !== undefined && (value === "Yes" || value === "No"),
-      {
-        message: "Please select foreign provider",
-        path: ["foreignProvider"],
-      }
-    ),
+    .string({
+      message: "Please select foreign provider",
+    })
+    .refine((value) => value === "Yes" || value === "No", {
+      message: "Please select foreign provider",
+      path: ["foreignProvider"],
+    }),
 });
 
 const TrainerDetailsEdit = () => {

@@ -109,13 +109,14 @@ function RegisterTrainer() {
       })
       .optional(),
     foreignProvider: z
-      .string({
-        message: "Please select foreign provider",
-      })
-      .refine((value) => value === "Yes" || value === "No", {
-        message: "Please select foreign provider",
-        path: ["foreignProvider"],
-      }),
+      .enum(["Yes", "No"])
+      .refine(
+        (value) => value !== undefined && (value === "Yes" || value === "No"),
+        {
+          message: "Please select foreign provider",
+          path: ["foreignProvider"],
+        }
+      ),
   });
   const dispatch = useDispatch();
 

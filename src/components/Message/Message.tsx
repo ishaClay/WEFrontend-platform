@@ -53,6 +53,7 @@ const Message = () => {
   const userID = UserId ? UserId : userData?.query?.id;
 
   const [searchChat, setSearchChat] = useState("");
+  console.log("🚀 ~ Message ~ searchChat:", searchChat);
   const [images, setImages] = useState<string[]>([]);
 
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -144,15 +145,10 @@ const Message = () => {
     }
   }, [chatList?.data?.data, groupChat?.data, messageType, currentChat]);
 
-  const filterByName = (item: any) => {
-    return (
-      (item.fname
-        ? item.fname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
-        : true) ||
-      (item.lname
-        ? item.lname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
-        : true)
-    );
+  const filterByName = (item: { name: string }) => {
+    return (item?.name || "")
+      ?.toLowerCase()
+      ?.includes(searchChat?.toLowerCase());
   };
 
   const { mutate: upload_file, isPending: FileUploadPending } = useMutation({
@@ -190,6 +186,15 @@ const Message = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
+    const validFileTypes = [
+      "video/mp4",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "image/png",
+      "image/jpeg",
+      "application/pdf",
+    ];
+    const maxFileSize = 10 * 1024;
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
@@ -201,7 +206,23 @@ const Message = () => {
           });
           return;
         } else {
-          upload_file(file);
+          const isValid = validFileTypes.includes(file.type);
+          const isValidSize = file.size <= maxFileSize;
+
+          if (isValid && isValidSize) {
+            upload_file(file);
+          } else if (!isValid) {
+            toast({
+              variant: "destructive",
+              title:
+                "Invalid file type. Please select a video, word, or excel file.",
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title: "File size exceeds the maximum limit of 10 KB.",
+            });
+          }
         }
       });
     }
@@ -907,7 +928,7 @@ const Message = () => {
                       <input
                         id="imageUpload"
                         type="file"
-                        accept="image/*"
+                        accept="image/png, image/jpeg"
                         style={{ display: "none" }}
                         onChange={handleImageChange}
                         multiple
@@ -918,7 +939,7 @@ const Message = () => {
                       <input
                         id="pdfUpload"
                         type="file"
-                        accept=".pdf"
+                        accept=".xlsx,.xls,image/*,.doc, .docx,.pdf, .mp4"
                         style={{ display: "none" }}
                         onChange={handleImageChange}
                         multiple

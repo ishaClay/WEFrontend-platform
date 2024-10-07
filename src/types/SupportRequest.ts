@@ -146,6 +146,7 @@ export interface DataEntity {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  uniqueId: null | string;
   openBy: OpenByOrAssignTo;
   assignTo: OpenByOrAssignTo;
 }

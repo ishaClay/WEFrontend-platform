@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { OptionType } from "@/types/common";
 import {
   Combobox,
@@ -37,7 +38,7 @@ export default function SelectMenuWithSearch({
     <div className="w-full">
       <Combobox
         value={selectedOption}
-        onChange={(val) => {
+        onChange={(val: any) => {
           // @ts-ignore
           onChange(val?.value);
         }}
@@ -50,7 +51,7 @@ export default function SelectMenuWithSearch({
               "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
             )}
             displayValue={(option: OptionType) => option?.label}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event: any) => setQuery(event.target.value)}
             // value={query}
             placeholder={placeholder}
           />

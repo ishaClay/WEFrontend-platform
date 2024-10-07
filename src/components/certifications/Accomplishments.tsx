@@ -3,11 +3,12 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseEnroll } from "@/services/apiServices/certificate";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
-import { jsPDF } from "jspdf";
 import { Loader2, MoveLeft } from "lucide-react";
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
+import CertificatePdf from "../comman/CertificatePdf";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -37,24 +38,6 @@ const Accomplishments = () => {
   const dispatch = useAppDispatch();
   const pathName = location?.pathname?.split("/")[1];
 
-  const handleDownload = () => {
-    const imageUrl = getEnrolledCourse?.data?.certificate?.certificatePdf;
-    // const anchor = document.createElement("a");
-    // anchor.href = pdfUrl;
-    // anchor.target = "_blank";
-    // anchor.download = "certificate.pdf";
-    // anchor.click();
-
-    const fileExtension = imageUrl.split(".").at(-1);
-
-    const pdf = new jsPDF("landscape");
-
-    // Add image to PDF
-    pdf.addImage(imageUrl, fileExtension, 10, 10, 280, 200); // Adjust the parameters as needed
-
-    // Save the PDF
-    pdf.save("certificate.pdf");
-  };
   return (
     <>
       <div className="bg-white flex justify-end p-7 border-b broder-[#dddddd33]">
@@ -155,10 +138,20 @@ const Accomplishments = () => {
               <div className="flex xl:justify-end justify-center">
                 <Button
                   className="sm:uppercase capitalize bg-[#00778B] sm:text-base mt-10 text-sm font-normal font-droid leading-5 py-[8px] h-auto w-auto sm:px-[19px] px-[12px]"
-                  onClick={handleDownload}
+                  // onClick={handleDownload}
                   type="button"
                 >
-                  download certificate
+                  <PDFDownloadLink
+                    document={
+                      <CertificatePdf
+                        image={
+                          getEnrolledCourse?.data?.certificate?.certificatePdf
+                        }
+                      />
+                    }
+                  >
+                    download certificate
+                  </PDFDownloadLink>
                 </Button>
               </div>
             </div>

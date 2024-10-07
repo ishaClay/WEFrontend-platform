@@ -45,7 +45,7 @@ const SupportRequestTable = ({
 
   const column: ColumnDef<DataEntity>[] = [
     {
-      accessorKey: "id",
+      accessorKey: "uniqueId",
       header: ({ column }) => {
         return (
           <Button
@@ -68,7 +68,9 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return <p>#{row.index + (page - 1) * 10 + 1}</p>;
+        return (
+          <p>{row?.original?.uniqueId ? `#${row?.original?.uniqueId}` : "-"}</p>
+        );
       },
     },
     {

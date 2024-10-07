@@ -23,6 +23,7 @@ interface DatePickerProps {
   buttonClassName?: string;
   placeholderClassName?: string;
   fromDate?: Date | undefined;
+  toDate?: Date | undefined;
   disabled?: boolean;
 }
 
@@ -34,6 +35,7 @@ export const DatePicker = ({
   buttonClassName,
   labelClassName,
   fromDate = undefined,
+  toDate = undefined,
   disabled = false,
   placeholderClassName,
 }: DatePickerProps) => {
@@ -75,6 +77,7 @@ export const DatePicker = ({
             selected={date}
             onSelect={handleSelectDate}
             fromDate={fromDate}
+            toDate={toDate}
             initialFocus
             className="font-droid"
           />
