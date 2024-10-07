@@ -64,7 +64,6 @@ const schema = zod
         (val: string | any) => val === undefined || val === "" || !isNaN(val),
         "Please enter valid course price"
       ),
-    discountApplicable: zod.number().optional(),
     discountProvider: zod
       .string({ required_error: "Please select discount provider" })
       .min(1, "Please select a discount provider")
@@ -84,7 +83,7 @@ const schema = zod
     }
   )
   .superRefine((data, ctx) => {
-    if (data.freeCourse && data.discountApplicable === undefined) {
+    if (data.freeCourse) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
         message: "Please select a discount provider",
@@ -134,6 +133,7 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
       freeCourse: false,
     },
   });
+  console.log("🚀 ~ CourseInformation ~ errors:", errors);
 
   const search = window.location.search;
   const paramsId = new URLSearchParams(search).get("id");
@@ -147,6 +147,13 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
     queryFn: () => fetchClientById(clientId),
   });
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!coursePrise || coursePrise === "0") {
+      setProvideDisc(false);
+      setDiscount("");
+    }
+  }, [coursePrise]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
@@ -186,7 +193,6 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
 
   useEffect(() => {
     if (isFreeCourse && data) {
-      setValue("discountApplicable", data?.data?.id);
       setDiscountProvider(data?.data?.id?.toString());
     }
   }, [isFreeCourse, data]);
@@ -461,8 +467,7 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
                     }
                   }}
                   error={
-                    (!!provideDisc && +discount > +coursePrise) ||
-                    (provideDisc && +discount === +coursePrise)
+                    !!provideDisc && +discount > +coursePrise
                       ? "Discount is greater than course price"
                       : ""
                   }

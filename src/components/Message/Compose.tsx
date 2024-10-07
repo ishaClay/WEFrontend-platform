@@ -239,6 +239,15 @@ const Compose = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
+    const validFileTypes = [
+      "video/mp4",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "image/png",
+      "image/jpeg",
+      "application/pdf",
+    ];
+    const maxFileSize = 10 * 1024;
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
@@ -250,7 +259,23 @@ const Compose = () => {
           });
           return;
         } else {
-          upload_file(file);
+          const isValid = validFileTypes.includes(file.type);
+          const isValidSize = file.size <= maxFileSize;
+
+          if (isValid && isValidSize) {
+            upload_file(file);
+          } else if (!isValid) {
+            toast({
+              variant: "destructive",
+              title:
+                "Invalid file type. Please select a video, word, or excel file.",
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title: "File size exceeds the maximum limit of 10 KB.",
+            });
+          }
         }
       });
     }
@@ -538,7 +563,7 @@ const Compose = () => {
                   <input
                     id="imageUpload"
                     type="file"
-                    accept="image/*"
+                    accept="image/png, image/jpg"
                     style={{ display: "none" }}
                     onChange={handleImageChange}
                     multiple
@@ -549,7 +574,7 @@ const Compose = () => {
                   <input
                     id="pdfUpload"
                     type="file"
-                    accept=".pdf"
+                    accept=".xlsx,.xls,image/*,.doc, .docx,.pdf, .mp4"
                     style={{ display: "none" }}
                     onChange={handleImageChange}
                     multiple

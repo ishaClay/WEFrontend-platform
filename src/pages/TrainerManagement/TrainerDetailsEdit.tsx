@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 
 let socket: any;
 const TrainerEditDetails = () => {
@@ -36,6 +37,9 @@ const TrainerEditDetails = () => {
   const params = useParams();
 
   const [trainerStatus, setTrainerStatus] = useState(1);
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+  }, [socket]);
 
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
@@ -44,9 +48,7 @@ const TrainerEditDetails = () => {
   const { mutate, isPending: isMutating } = useMutation({
     mutationFn: updateEmployee,
     onSuccess: (data) => {
-      if (data?.data?.employeeStatus === "Inactive") {
-        socket.emit("employeeStatus", data?.data?.userDetails?.id);
-      }
+      socket.emit("employeeStatus", data?.data?.userDetails?.id);
 
       dispatch(
         setPath([

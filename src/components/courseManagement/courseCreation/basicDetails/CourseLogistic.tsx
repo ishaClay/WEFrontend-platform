@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import InputWithLabel from "@/components/comman/InputWithLabel";
@@ -373,7 +374,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 <InputWithLabel
                   type="text"
                   placeholder={`Enter number / Select duration`}
-                  className="border-[#D9D9D9] placeholder:text-[#A3A3A3] border rounded-md font-droid sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
+                  className="border-[#D9D9D9] placeholder:text-[#A3A3A3] border rounded-md font-droid sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5 w-[260px]"
                   {...register("duration")}
                   value={watch("duration")?.split(" ")[0]}
                   error={errors.duration?.message as string}
@@ -392,7 +393,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                     setError("durationType", "");
                   }}
                   value={selectBoxValue?.durationType || ""}
-                  className="sm:min-w-[150px] min-w-[110px] border font-droid border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
+                  className="sm:min-w-[160px] min-w-[110px] border font-droid border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
                   itemClassName="text-[#1D2026] font-droid"
                   placeholder="Select duration type"
                 />

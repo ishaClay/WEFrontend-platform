@@ -415,6 +415,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                               +userData?.query?.role === UserRole.Trainee
                             }
                             fromDate={new Date()}
+                            toDate={item?.endDate}
                             setDate={(date) =>
                               handleChanges(date, item.id, "startDate")
                             }

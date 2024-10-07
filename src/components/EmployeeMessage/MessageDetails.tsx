@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MoveLeft, SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { IoIosDocument } from "react-icons/io";
 import { io } from "socket.io-client";
 import * as z from "zod";
 import InputWithLabel from "../comman/InputWithLabel";
@@ -23,6 +24,7 @@ import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import eye from "/assets/icons/eye.svg";
 
 interface MessageDetailsProps {
   empId: DataEntity;
@@ -243,6 +245,44 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
                       </Avatar>
                       <div className="max-w-[70%] min-w-[100px] rounded-2xl bg-muted px-3 py-2 text-sm shadow">
                         <p>{data.message}</p>
+                        {Array.isArray(data?.images) &&
+                          data?.images?.length > 0 &&
+                          data?.images?.map((i: any, index) => (
+                            <div
+                              key={index}
+                              className={`max-w-full w-[300px] mb-5 ${
+                                index === 0 ? "mt-5" : ""
+                              }`}
+                            >
+                              {i?.endsWith(".pdf") ? (
+                                <div className="bg-[#EDEFF9] p-3 flex rounded">
+                                  <IoIosDocument className="h-5 w-5 me-3" />
+                                  <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
+                                    {i?.split(".com/")?.[1]}
+                                  </span>
+                                  <Button
+                                    variant={"ghost"}
+                                    className="p-0 h-auto"
+                                    onClick={() => window?.open(i, "_blank")}
+                                  >
+                                    <img
+                                      src={eye}
+                                      alt="view"
+                                      width={18}
+                                      height={12.38}
+                                    />
+                                  </Button>
+                                </div>
+                              ) : (
+                                <img
+                                  src={i}
+                                  alt="image"
+                                  onClick={() => window.open(i, "_blank")}
+                                  className="cursor-pointer"
+                                />
+                              )}
+                            </div>
+                          ))}
                         <div className="mt-1 text-xs text-muted-foreground">
                           {TimesFormatter(data?.createdAt)}
                         </div>
