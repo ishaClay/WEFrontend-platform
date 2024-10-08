@@ -1,7 +1,7 @@
 import { DataEntity } from "@/types/review";
-import moment from "moment";
 import { FaStar } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { convertUTCToGMT } from "@/lib/utils";
 
 const FeedbackCard = ({ data }: { data: DataEntity }) => {
   return (
@@ -31,7 +31,7 @@ const FeedbackCard = ({ data }: { data: DataEntity }) => {
             </span>
           </div>
           <p className="text-[14px] font-[400] font-droid">
-            {moment(new Date(data?.createdAt))?.format("DD/MM/YYYY")}
+            {convertUTCToGMT(new Date(data?.createdAt))?.format("DD/MM/YYYY")}
           </p>
         </div>
         <p className="text-[14px]">{data?.discription}</p>

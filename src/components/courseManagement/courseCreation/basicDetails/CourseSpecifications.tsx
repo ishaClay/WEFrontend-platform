@@ -135,7 +135,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData = getSingleCourse?.data?.course;
-      console.log("🚀 ~ useEffect ~ data:", data);
       setValue("nfqLeval", data?.nfqLeval?.id?.toString() || "");
       setValue("ectsCredits", data?.ectsCredits || "");
       setValue("fetCredits", data?.fetCredits || "");

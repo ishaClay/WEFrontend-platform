@@ -16,7 +16,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
@@ -64,12 +63,6 @@ const CourseListPage = ({ data }: dataGridProps) => {
       month: String(currentDate.getMonth() + 1).padStart(2, "0"),
       year: String(currentDate.getFullYear()),
     };
-
-    const duration = cohortData?.duration?.split(" ");
-    const number = parseInt(duration?.[0]) || 0;
-    const unit = duration?.[1] || "days";
-    // @ts-ignore
-    const courseEndDate = moment(currentDate).add(number, unit);
 
     const matchingSlot =
       cohortData?.cohortGroups?.length > 0 &&

@@ -11,7 +11,7 @@ import Modal from "@/components/comman/Modal";
 import NoDataText from "@/components/comman/NoDataText";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getImages } from "@/lib/utils";
+import { convertUTCToGMT, getImages } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import {
@@ -21,7 +21,6 @@ import {
   Pillarcourse,
 } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
@@ -81,7 +80,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
         );
 
         // Check if the current date is within the start and end date range
-        return moment(startDate).isAfter(new Date());
+        return convertUTCToGMT(startDate).isAfter(new Date());
       });
 
     const findIndex =

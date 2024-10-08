@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { convertUTCToGMT } from "@/lib/utils";
 import { AllCourse } from "@/types/allcourses";
-import moment from "moment";
 
 const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
   const getUpcommingCohort = (cohortData: AllCourse) => {
@@ -19,7 +19,7 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
         );
 
         // Check if the current date is within the start and end date range
-        return moment(startDate).isAfter(new Date());
+        return convertUTCToGMT(startDate).isAfter(new Date());
       });
 
     const upcomingData = upcomingItems ? upcomingItems : [];

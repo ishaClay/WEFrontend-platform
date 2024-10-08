@@ -3,12 +3,11 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { isSessionOngoingAtTime } from "@/lib/utils";
+import { convertUTCToGMT, isSessionOngoingAtTime } from "@/lib/utils";
 import { deleteLiveSessions } from "@/services/apiServices/liveSession";
 import { AllLivesessions } from "@/types/liveSession";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleCheck, Copy, Pencil, X } from "lucide-react";
-import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -47,7 +46,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
     deleteLiveSession(data?.id);
   };
 
-  const isCompleted = moment(data.startTime)
+  const isCompleted = convertUTCToGMT(data.startTime)
     .add(data.sessionDuration, "minutes")
     .isBefore(new Date());
 
@@ -85,11 +84,11 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         <div className="sm:flex block gap-10">
           <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Date: </span>
-            {moment(data?.date)?.format("MM/DD/YYYY")}
+            {convertUTCToGMT(data?.date).format("MM/DD/YYYY")}
           </h6>
           <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
-            {moment(data?.startTime).format("hh:mm A")}
+            {convertUTCToGMT(data?.startTime).format("hh:mm A")}
           </h6>
           <h6 className="text-base text-black font-font-droid font-normal">
             <span className="text-[#606060]">Duration: </span>

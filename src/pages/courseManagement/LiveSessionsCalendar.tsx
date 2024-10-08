@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppDispatch } from "@/hooks/use-redux";
+import { convertUTCToGMT } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { AllLivesessions } from "@/types/liveSession";
 import {
@@ -52,11 +53,12 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   const events = allLiveSession?.map((session) => {
     const sessionDurationMinutes = session?.sessionDuration;
 
-    const eventStart = moment(session.startTime, "YYYY-MM-DD hh:mm A").toDate();
+    const eventStart = convertUTCToGMT(session.startTime);
 
-    const eventEnd = moment(session.startTime, "YYYY-MM-DD hh:mm A")
-      .add(sessionDurationMinutes, "minutes")
-      .toDate();
+    const eventEnd = convertUTCToGMT(session.startTime).add(
+      sessionDurationMinutes,
+      "minutes"
+    );
 
     return {
       start: eventStart,
@@ -81,11 +83,17 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     const gotoNext = () => {
       let nextDate;
       if (view === "day") {
-        nextDate = moment(currentDate).add(1, "day").toDate();
+        nextDate = convertUTCToGMT(currentDate || "")
+          .add(1, "day")
+          .toDate();
       } else if (view === "week") {
-        nextDate = moment(currentDate).add(1, "week").toDate();
+        nextDate = convertUTCToGMT(currentDate || "")
+          .add(1, "week")
+          .toDate();
       } else if (view === "month") {
-        nextDate = moment(currentDate).add(1, "month").toDate();
+        nextDate = convertUTCToGMT(currentDate || "")
+          .add(1, "month")
+          .toDate();
       }
       setCurrentDate(nextDate);
     };
@@ -93,11 +101,17 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     const gotoPrevious = () => {
       let previousDate;
       if (view === "day") {
-        previousDate = moment(currentDate).subtract(1, "day").toDate();
+        previousDate = convertUTCToGMT(currentDate || "")
+          .subtract(1, "day")
+          .toDate();
       } else if (view === "week") {
-        previousDate = moment(currentDate).subtract(1, "week").toDate();
+        previousDate = convertUTCToGMT(currentDate || "")
+          .subtract(1, "week")
+          .toDate();
       } else if (view === "month") {
-        previousDate = moment(currentDate).subtract(1, "month").toDate();
+        previousDate = convertUTCToGMT(currentDate || "")
+          .subtract(1, "month")
+          .toDate();
       }
       setCurrentDate(previousDate);
     };
@@ -160,7 +174,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
               </Button>
             </div>
             <span className="text-black font-semibold">
-              {moment(currentDate).format(
+              {convertUTCToGMT(currentDate).format(
                 view !== "day" ? "MMMM YYYY" : "DD MMMM YYYY"
               )}
             </span>
@@ -223,8 +237,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         </h3>
         <p className="mb-2">
           <strong>Meeting time:</strong>{" "}
-          {moment(event?.start).format("hh:mm a")} -
-          {moment(event?.end).format("hh:mm a")}
+          {convertUTCToGMT(event?.start).format("hh:mm a")} -
+          {convertUTCToGMT(event?.end).format("hh:mm a")}
         </p>
         <ScrollArea className="max-h-[500px]">
           <p className="mb-2 text-wrap max-w-[450px] break-words">
@@ -233,9 +247,9 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         </ScrollArea>
         <Button
           disabled={
-            !moment().isBetween(
-              moment(event?.start),
-              moment(event?.end),
+            !convertUTCToGMT().isBetween(
+              convertUTCToGMT(event?.start),
+              convertUTCToGMT(event?.end),
               "minute",
               "[)"
             )

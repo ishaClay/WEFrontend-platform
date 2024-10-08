@@ -2,11 +2,11 @@ import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { MeasureEntity } from "@/types/employee";
 import { CircleCheck, Eye } from "lucide-react";
-import moment from "moment";
 import { useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import DelayModel from "../Roadmap/DelayModel";
+import { convertUTCToGMT } from "@/lib/utils";
 
 type ActionItemsProps = {
   data: MeasureEntity;
@@ -16,24 +16,30 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
   const [isOpenDelayModel, setIsOpenDelayModel] = useState(false);
   const [uploadData, setUploadData] = useState<any>(null);
   const status = () => {
+    console.log(
+      "🚀 ~ status ~ data:",
+      convertUTCToGMT(new Date(data.startDate)).isSameOrBefore(
+        convertUTCToGMT(new Date())
+      )
+    );
     if (
-      moment(new Date(data.startDate), "YYYY-MM-DD").isSameOrBefore(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(data.startDate)).isSameOrBefore(
+        convertUTCToGMT(new Date())
       ) &&
-      moment(new Date(data.endDate), "YYYY-MM-DD").isSameOrAfter(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(data.endDate)).isSameOrAfter(
+        convertUTCToGMT(new Date())
       )
     ) {
       return "On time";
     } else if (
-      moment(new Date(), "YYYY-MM-DD").isAfter(
-        moment(new Date(data.endDate), "YYYY-MM-DD")
+      convertUTCToGMT(new Date()).isAfter(
+        convertUTCToGMT(new Date(data.endDate))
       )
     ) {
       return "Delay";
     } else if (
-      moment(new Date(data.startDate), "YYYY-MM-DD").isAfter(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(data.startDate)).isAfter(
+        convertUTCToGMT(new Date())
       )
     ) {
       return "On time";
@@ -58,8 +64,8 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
           <MdOutlineCalendarMonth className="h-[20px] w-[20px] text-[#666666] me-2" />
           Date:
           <span className="text-black ps-2">
-            {moment(new Date(data.startDate)).format("Do MMMM YYYY")}-
-            {moment(data.endDate).format("Do MMMM YYYY")}
+            {convertUTCToGMT(new Date(data.startDate)).format("Do MMMM YYYY")}-
+            {convertUTCToGMT(data.endDate).format("Do MMMM YYYY")}
           </span>
         </h6>
       </div>

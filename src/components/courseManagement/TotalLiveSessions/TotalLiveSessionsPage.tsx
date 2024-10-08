@@ -1,8 +1,7 @@
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Label } from "@/components/ui/label";
-import { isSessionOngoingAtTime } from "@/lib/utils";
+import { convertUTCToGMT, isSessionOngoingAtTime } from "@/lib/utils";
 import { AllLivesessions } from "@/types/liveSession";
-import moment from "moment";
 import { useState } from "react";
 import LiveSessionList from "./LiveSessionList";
 
@@ -34,14 +33,14 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
 
       switch (selectFilter) {
         case "upcoming":
-          return moment(session.startTime).isAfter(now);
+          return convertUTCToGMT(session.startTime).isAfter(now);
         case "starting":
           return isSessionOngoingAtTime(
             session.startTime,
             session?.sessionDuration
           );
         case "ending":
-          return moment(session.startTime)
+          return convertUTCToGMT(session.startTime)
             .add(session.sessionDuration, "minutes")
             .isBefore(now);
         default:

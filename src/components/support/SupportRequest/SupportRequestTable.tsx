@@ -15,10 +15,10 @@ import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
-import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
+import { convertUTCToGMT } from "@/lib/utils";
 
 interface SupportRequestTableProps {
   data?: SupportTicketListType;
@@ -97,7 +97,9 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return moment(row?.original?.updatedAt || "").format("DD-MM-YYYY");
+        return convertUTCToGMT(row?.original?.updatedAt || "").format(
+          "DD-MM-YYYY"
+        );
       },
       meta: {
         className: "sm:table-cell hidden",

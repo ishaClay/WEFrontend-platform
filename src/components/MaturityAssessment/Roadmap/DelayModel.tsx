@@ -8,11 +8,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import { markComplate } from "@/services/apiServices/pillar";
 import { uploadFile } from "@/services/apiServices/uploadServices";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FileCheck } from "lucide-react";
-import moment from "moment";
 import { Dispatch, useState } from "react";
 
 const DelayModel = ({
@@ -30,23 +30,23 @@ const DelayModel = ({
   const { clientId } = useAppSelector((state) => state.user);
   const status = () => {
     if (
-      moment(new Date(uploadData?.startDate), "YYYY-MM-DD").isSameOrBefore(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(uploadData?.startDate)).isSameOrBefore(
+        convertUTCToGMT(new Date())
       ) &&
-      moment(new Date(uploadData?.endDate), "YYYY-MM-DD").isSameOrAfter(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(uploadData?.endDate)).isSameOrAfter(
+        convertUTCToGMT(new Date())
       )
     ) {
       return "On time";
     } else if (
-      moment(new Date(), "YYYY-MM-DD").isAfter(
-        moment(new Date(uploadData?.endDate), "YYYY-MM-DD")
+      convertUTCToGMT(new Date()).isAfter(
+        convertUTCToGMT(new Date(uploadData?.endDate))
       )
     ) {
       return "Delay";
     } else if (
-      moment(new Date(uploadData?.startDate), "YYYY-MM-DD").isAfter(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(uploadData?.startDate)).isAfter(
+        convertUTCToGMT(new Date())
       )
     ) {
       return "On time";
@@ -135,7 +135,7 @@ const DelayModel = ({
                   Start date :
                 </h6>
                 <span className="text-black sm:text-base text-sm">
-                  {moment(new Date(uploadData?.startDate)).format(
+                  {convertUTCToGMT(new Date(uploadData?.startDate)).format(
                     "Do MMMM YYYY"
                   )}
                 </span>
@@ -143,7 +143,9 @@ const DelayModel = ({
               <div className="flex items-center text-base font-font-droid font-semibold gap-1">
                 <h6 className="text-[#777] sm:text-base text-sm">End date :</h6>
                 <span className="text-black sm:text-base text-sm">
-                  {moment(new Date(uploadData?.endDate)).format("Do MMMM YYYY")}
+                  {convertUTCToGMT(new Date(uploadData?.endDate)).format(
+                    "Do MMMM YYYY"
+                  )}
                 </span>
               </div>
               <div className="flex items-center text-base font-font-droid font-semibold gap-1">
@@ -159,7 +161,7 @@ const DelayModel = ({
                   Last updated date :
                 </h6>
                 <span className="text-black sm:text-base text-sm">
-                  {moment(new Date(uploadData?.updatedAt)).format(
+                  {convertUTCToGMT(new Date(uploadData?.updatedAt)).format(
                     "Do MMMM YYYY"
                   )}
                 </span>
