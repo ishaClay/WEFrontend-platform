@@ -40,6 +40,7 @@ const CourseViewPage = ({
                 CourseCardList={CourseCardList}
                 moduleId={data.id}
                 assessments={data?.assessment}
+                count={data?.section?.length}
               />
             </AccordionContent>
           </AccordionItem>
