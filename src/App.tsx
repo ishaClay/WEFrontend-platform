@@ -209,12 +209,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!userToken && userData) {
-      mutate(userData?.query?.id);
-    }
-  }, [userToken, userData]);
-
-  useEffect(() => {
     if (fetchClientmaturitylevel) {
       document.documentElement.style.setProperty(
         "--introductory-pillar",
