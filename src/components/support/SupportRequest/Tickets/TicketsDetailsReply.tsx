@@ -105,7 +105,11 @@ const TicketsDetailsReply = () => {
             )
           : String(data?.data?.data?.openBy?.name)
       );
-      setSelectTicketStatus(data?.data.data?.status);
+      setSelectTicketStatus(
+        data?.data.data?.status === "Open"
+          ? "Answered"
+          : String(data?.data.data?.status)
+      );
       // setSelectTicketStatus(
       //   data?.data.data?.status === "Open"
       //     ? "Answered"

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { arraysAreEqual } from "@/lib/utils";
+import { arraysAreEqual, convertUTCToGMT } from "@/lib/utils";
 import {
   createCohort,
   deleteCohort,
@@ -27,7 +27,6 @@ import { UserRole } from "@/types/UserRole";
 import { cohortgroupResponse } from "@/types/cohort";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
-import moment from "moment";
 import { useEffect, useState } from "react";
 
 interface CohortModalProps {
@@ -211,14 +210,14 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           name: item.cohortName,
           publish: 1,
           slotStartDate: {
-            date: moment(item.startDate).format("DD"),
-            month: moment(item.startDate).format("MM"),
-            year: moment(item.startDate).format("YYYY"),
+            date: convertUTCToGMT(item.startDate || "").format("DD"),
+            month: convertUTCToGMT(item.startDate || "").format("MM"),
+            year: convertUTCToGMT(item.startDate || "").format("YYYY"),
           },
           slotEndDate: {
-            date: moment(item.endDate).format("DD"),
-            month: moment(item.endDate).format("MM"),
-            year: moment(item.endDate).format("YYYY"),
+            date: convertUTCToGMT(item.endDate || "").format("DD"),
+            month: convertUTCToGMT(item.endDate || "").format("MM"),
+            year: convertUTCToGMT(item.endDate || "").format("YYYY"),
           },
         };
       }
@@ -314,7 +313,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   };
 
   function isDateBetween(startDate: Date | undefined) {
-    const isBetDate = moment(startDate).isAfter(new Date());
+    const isBetDate = convertUTCToGMT(startDate || ("" as string)).isAfter(
+      new Date()
+    );
 
     // Check if the current date is between start date and end date
     return isBetDate;

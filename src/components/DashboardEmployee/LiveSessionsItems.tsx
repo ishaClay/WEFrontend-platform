@@ -1,8 +1,8 @@
 import Course_image from "@/assets/images/Course_image.png";
+import { useMemo } from "react";
+import { convertUTCToGMT } from "@/lib/utils";
 import { SessionsEntity } from "@/types/dashboard";
 import { ArrowRight, CalendarDays, Clock } from "lucide-react";
-import moment from "moment";
-import { useMemo } from "react";
 
 type liveSessionItemsProps = {
   data: SessionsEntity;
@@ -10,10 +10,13 @@ type liveSessionItemsProps = {
 
 const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
   const isEnableJoinButton = useMemo(() => {
-    const date = moment(data.date);
-    const startTime = moment(data.startTime);
-    const endTime = moment(data.startTime).add(data.sessionDuration, "minutes");
-    const currentDate = moment(new Date());
+    const date = convertUTCToGMT(data.date);
+    const startTime = convertUTCToGMT(data.startTime);
+    const endTime = convertUTCToGMT(data.startTime).add(
+      data.sessionDuration,
+      "minutes"
+    );
+    const currentDate = convertUTCToGMT(new Date());
 
     const isCheckData = date.isSame(currentDate);
 
@@ -31,10 +34,6 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
       return false;
     }
   }, [data]);
-  console.log(
-    "🚀 ~ isEnableJoinButton ~ isEnableJoinButton:",
-    isEnableJoinButton
-  );
 
   return (
     <div className="col-span-1 md:p-5 p-4 shadow rounded-md sm:m-0 m-1">
@@ -70,15 +69,15 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
             <CalendarDays width={14} />
             Date:{" "}
             <span className="text-black">
-              {moment(data.date).format("Do MMMM, YYYY")}
+              {convertUTCToGMT(data.date).format("Do MMMM, YYYY")}
             </span>
           </h6>
           <h6 className="flex items-center text-xs text-[#666666]">
             <Clock width={14} />
             Time:{" "}
             <span className="text-black">
-              {moment(data.startTime).format("hh:mm A")} to{" "}
-              {moment(data.startTime)
+              {convertUTCToGMT(data.startTime).format("hh:mm A")} to{" "}
+              {convertUTCToGMT(data.startTime)
                 .add(data.sessionDuration, "minutes")
                 .format("hh:mm A")}
             </span>

@@ -16,9 +16,6 @@ const AssessmentModal = ({
     queryKey: [QUERY_KEYS.assessmentOptions],
     queryFn: () => getAssessmentOptions(),
   });
-  console.log("🚀 ~ assessmentOptions:", assessmentOptions);
-
-  console.log("🚀 ~ assessmentOptions:", assessmentOptions);
   return (
     <div>
       <div className="p-4">

@@ -422,9 +422,9 @@ export const chatDPColor = (id: number) => {
   return colors[colorIndex];
 };
 export const TimeFormatter = (dateTime: Date | string) => {
-  const today = moment().startOf("day");
+  const today = convertUTCToGMT().startOf("day");
 
-  const date = moment(dateTime);
+  const date = convertUTCToGMT(dateTime);
 
   let formattedTime;
 
@@ -439,7 +439,7 @@ export const TimeFormatter = (dateTime: Date | string) => {
 };
 
 export const TimesFormatter = (dateTime: Date | string) => {
-  const date = moment(dateTime);
+  const date = convertUTCToGMT(dateTime);
 
   const formattedTime = date.format("h:mm A");
   return formattedTime;
@@ -614,11 +614,11 @@ export function getTimeAgo(time: Date | string) {
 export const fetchMessageRoles = (role: number) => {
   let MessageRoles: any = [];
   if (role === UserRole.Trainer) {
-    MessageRoles = ["client", "Trainee", "company", "trainer"];
+    MessageRoles = ["client", "company", "trainer", "Trainee"];
   } else if (role === UserRole.Company) {
-    MessageRoles = ["client", "Trainee", "trainer", "trainer Company"];
+    MessageRoles = ["client", "trainer Company", "trainer", "Trainee"];
   } else if (role === UserRole.Trainee) {
-    MessageRoles = ["client", "Trainee", "company"];
+    MessageRoles = ["company", "client", "Trainee"];
   } else if (role === UserRole.Employee) {
     MessageRoles = ["company", "trainer", "trainer Company"];
   }
@@ -695,8 +695,8 @@ export const isSessionOngoingAtTime = (
   startTime: string,
   sessionDuration: number
 ): boolean => {
-  const targetDate = moment();
-  const sessionStart = moment(startTime);
+  const targetDate = convertUTCToGMT();
+  const sessionStart = convertUTCToGMT(startTime);
   const sessionEnd = sessionStart.clone().add(sessionDuration, "minutes");
   return targetDate.isBetween(sessionStart, sessionEnd, null, "[)");
 };
@@ -772,3 +772,9 @@ export const IstDate = (time: Date | string) => {
 
   return formattedTime;
 };
+
+export function convertUTCToGMT(utcDateString?: Date | string | undefined) {
+  const utcDate = moment.utc(utcDateString || new Date());
+  const gmtDate = utcDate.add(1, "hours");
+  return gmtDate;
+}

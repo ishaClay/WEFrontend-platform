@@ -15,7 +15,12 @@ import { toast } from "@/components/ui/use-toast";
 import useBreakpoints from "@/hooks/use-breakpoints";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { TimeFormatter, chatDPColor, handleScrollToBottom } from "@/lib/utils";
+import {
+  TimeFormatter,
+  chatDPColor,
+  convertUTCToGMT,
+  handleScrollToBottom,
+} from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchChat,
@@ -31,7 +36,6 @@ import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, ChevronLeft, FilePenLine, Loader2 } from "lucide-react";
-import moment from "moment";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
@@ -423,7 +427,7 @@ const Message = () => {
                                 item?.senderId?.email?.split("@")?.[0]}
                             </div>
                             <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
-                              {moment(item?.createdAt).format("h:mmA")}
+                              {convertUTCToGMT(item?.createdAt).format("h:mmA")}
                             </div>
                             <p className="text-black leading-[19.53px] break-all whitespace-pre-wrap">
                               {item?.message}
@@ -822,7 +826,9 @@ const Message = () => {
                                   item?.senderId?.email?.split("@")?.[0]}
                               </div>
                               <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
-                                {moment(item?.createdAt).format("h:mmA")}
+                                {convertUTCToGMT(item?.createdAt).format(
+                                  "h:mmA"
+                                )}
                               </div>
                               <p className="text-black leading-[19.53px] break-all whitespace-pre-wrap	">
                                 {item?.message}

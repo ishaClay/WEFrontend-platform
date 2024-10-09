@@ -12,7 +12,6 @@ import {
 } from "@/services/apiServices/pillar";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
@@ -35,6 +34,7 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
+import { convertUTCToGMT } from "@/lib/utils";
 
 let isFirstTime = true;
 const MaturityAssessment = () => {
@@ -200,7 +200,7 @@ const MaturityAssessment = () => {
         name: lastAssessmentNumber?.find(
           (item: any) => +item?.assessmentNumber === +selectAssessment
         )?.assessmentName,
-        date: moment(
+        date: convertUTCToGMT(
           lastAssessmentNumber?.find(
             (item: any) => +item?.assessmentNumber === +selectAssessment
           )?.completedAssessmentDate
@@ -210,7 +210,7 @@ const MaturityAssessment = () => {
     } else {
       const data = {
         name: assessmentQuestionScoreLIST?.data?.[0]?.assessmentName,
-        date: moment(
+        date: convertUTCToGMT(
           assessmentQuestionScoreLIST?.data?.[0]?.completedAssessmentDate
         ).format("DD/MM/YYYY"),
       };
@@ -280,7 +280,7 @@ const MaturityAssessment = () => {
                       {item.assessmentName}
                       {item.completedAssessmentDate && (
                         <p>
-                          {moment(item.completedAssessmentDate).format(
+                          {convertUTCToGMT(item.completedAssessmentDate).format(
                             "DD/MM/YYYY"
                           )}
                         </p>

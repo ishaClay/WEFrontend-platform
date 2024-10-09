@@ -13,7 +13,6 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const { versionId } = useParams();
   const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
-  console.log("🚀 ~ ModuleCourseViewCard ~ assessmentData:", data);
   const courseId = searchParams.get("courseId");
   const userData = JSON.parse(localStorage.getItem("user") as string);
 

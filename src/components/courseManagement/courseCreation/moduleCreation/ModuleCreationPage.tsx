@@ -280,7 +280,7 @@ const ModuleCreationPage = () => {
         if (moduleId) {
           await createSectionAsync.mutateAsync({
             moduleId,
-            sections: module.section.map((item) => {
+            sections: module.section.map((item, ind) => {
               const { uploadContentType, ...rest } = item;
               const youtubeUrl =
                 item?.uploadContentType && +item?.uploadContentType > 0
@@ -288,8 +288,19 @@ const ModuleCreationPage = () => {
                   : item?.youtubeUrl;
               // const documentType = +item?.uploadDocument === 0 ? null : item?.uploadDocument;
               return uploadContentType === 0
-                ? { ...rest, youtubeUrl: youtubeUrl, uploadContentType: null }
-                : { ...item, youtubeUrl: youtubeUrl };
+                ? {
+                    ...rest,
+                    youtubeUrl: youtubeUrl,
+                    uploadContentType: null,
+                    position:
+                      ind + moduleList?.length === 0 ? 1 : moduleList?.length,
+                  }
+                : {
+                    ...item,
+                    youtubeUrl: youtubeUrl,
+                    position:
+                      ind + moduleList?.length === 0 ? 1 : moduleList?.length,
+                  };
             }),
           });
         }
@@ -367,7 +378,8 @@ const ModuleCreationPage = () => {
           disabled={
             paramsType === "editminor"
               ? true
-              : moduleList?.length > 0 && moduleCreationItem.length > 0
+              : (moduleList?.length > 0 && moduleCreationItem.length > 0) ||
+                moduleCreationItem.length > 0
           }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-droid text-xs sm:h-10 h-9"
         >

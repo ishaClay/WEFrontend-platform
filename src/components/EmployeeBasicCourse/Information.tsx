@@ -40,7 +40,7 @@ const Information = ({ data }: getSingleCourseType | any) => {
           </div>
           <div className="">
             <h5 className="text-base font-droid font-bold text-black pb-1">
-              {data?.feedBack?.avgRate}/5{" "}
+              {data?.feedBack?.avgRate || 0}/5{" "}
               <span className="font-normal text-xs">
                 ({data?.feedBack?.peopleLikeCount} People like)
               </span>

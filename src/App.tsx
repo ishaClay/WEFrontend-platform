@@ -103,8 +103,6 @@ function App() {
   const domain = document.location.origin;
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const userToken = Cookies.get("accessToken") || "";
-  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -207,12 +205,6 @@ function App() {
       socket.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    if (!userToken && userData) {
-      mutate(userData?.query?.id);
-    }
-  }, [userToken, userData]);
 
   useEffect(() => {
     if (fetchClientmaturitylevel) {

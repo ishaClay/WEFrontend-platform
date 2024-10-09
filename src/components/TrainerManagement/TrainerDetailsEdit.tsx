@@ -324,10 +324,11 @@ const TrainerDetailsEdit = () => {
                 <div className="col-span-3 grid grid-cols-4 gap-4">
                   <div className="sm:col-span-2 col-span-4 font-droid w-full">
                     <InputWithLable
-                      placeholder="John"
+                      placeholder="First name"
                       className="h-[46px]"
                       label="Contact Firstname"
                       {...register("fname")}
+                      isMendatory
                     />
                     {errors.fname && (
                       <ErrorMessage message={errors.fname.message as string} />
@@ -335,10 +336,11 @@ const TrainerDetailsEdit = () => {
                   </div>
                   <div className="sm:col-span-2 col-span-4 font-droid w-full">
                     <InputWithLable
-                      placeholder="John"
+                      placeholder="Last name"
                       className="h-[46px]"
                       label="Contact Lastname"
                       {...register("lname")}
+                      isMendatory
                     />
                     {errors.lname && (
                       <ErrorMessage message={errors.lname.message as string} />
@@ -393,7 +395,7 @@ const TrainerDetailsEdit = () => {
                   </div>
                   <div className="sm:col-span-2 col-span-4 font-droid w-full">
                     <InputWithLable
-                      placeholder="john.sample@emailsample.com"
+                      placeholder="Enter email address"
                       className="h-[46px]"
                       disabled={
                         clientDetails?.data?.status === 2 ? false : true
@@ -414,9 +416,10 @@ const TrainerDetailsEdit = () => {
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
                     className="h-[46px]"
-                    placeholder="Sample Consulting Company"
+                    placeholder="Enter company name"
                     label="Provider Name"
                     {...register("providerName")}
+                    isMendatory
                   />
                   {errors.providerName && (
                     <ErrorMessage
@@ -426,10 +429,11 @@ const TrainerDetailsEdit = () => {
                 </div>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
-                    placeholder="IT or University"
+                    placeholder="Enter company type"
                     className="h-[46px]"
                     label="Provider Type"
                     {...register("providerType")}
+                    isMendatory
                   />
                   {errors.providerType && (
                     <ErrorMessage
@@ -453,10 +457,11 @@ const TrainerDetailsEdit = () => {
                 </div>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
-                    placeholder="London"
+                    placeholder="Enter city or town"
                     className="h-[46px]"
                     label="Provider City/Town"
                     {...register("providerCity")}
+                    isMendatory
                   />
                   {errors.providerCity && (
                     <ErrorMessage
@@ -473,8 +478,8 @@ const TrainerDetailsEdit = () => {
                     value={watch("foreignProvider") || ""}
                   >
                     <SelectGroup>
-                      <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
-                        Foreign Provider
+                      <SelectLabel className="text-[16px] font-normal py-0 pb-[9px] mt-0">
+                        Foreign Provider <span className="text-red-400">*</span>
                       </SelectLabel>
 
                       <SelectTrigger className="h-[46px] text-[gray]">

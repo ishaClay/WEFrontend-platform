@@ -24,10 +24,12 @@ const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
   assessments,
+  count,
 }: {
   CourseCardList: any;
   moduleId: string;
   assessments: any;
+  count: number;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -349,6 +351,7 @@ const CourseViewCardInner = ({
       ...data,
       uploadContentType:
         data.uploadContentType === 0 ? null : data.uploadContentType,
+      position: count + 1,
     });
 
     if (payload.length > 0) {

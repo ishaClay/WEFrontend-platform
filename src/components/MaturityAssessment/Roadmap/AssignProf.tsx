@@ -2,9 +2,8 @@ import Arrow_Right from "@/assets/images/Arrow_Right.png";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
-import { getImages } from "@/lib/utils";
+import { convertUTCToGMT, getImages } from "@/lib/utils";
 import { Eye } from "lucide-react";
-import moment from "moment";
 
 interface MeasuresItemsResponse {
   id: number;
@@ -139,7 +138,7 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                         <div className="font-font-droid sm:text-[13px] text-xs">
                           <span className="text-[#A3A3A3]">Date:</span>
                           <span className="text-[#000000] font-semibold">
-                            {moment(new Date(item?.createdAt)).format(
+                            {convertUTCToGMT(new Date(item?.createdAt)).format(
                               "DD-MM-YYYY"
                             )}
                           </span>

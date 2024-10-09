@@ -27,11 +27,9 @@ const schema = z.object({
   assesdmentAnswer: z.array(
     z.object({
       answer: z.union([
+        z.string().min(1, "Please select an answer"), // For single choice questions
         z
-          .string({ required_error: "Please select an answer" })
-          .min(1, "Please select an answer"), // For single choice questions
-        z
-          .array(z.string({ required_error: "Please select an answer" }))
+          .array(z.string().nonempty("Please select an answer"))
           .nonempty("Please select an answer"), // For multiple choice questions
       ]),
     })
@@ -62,7 +60,11 @@ const EmployeeAssessment = () => {
     isPending: getAssessmentQuestionPending,
   } = useQuery({
     queryKey: [QUERY_KEYS.getAssessmentQuestion, assessmentId],
-    queryFn: () => fetchAssesmentQuestion(assessmentId as string),
+    queryFn: () =>
+      fetchAssesmentQuestion(
+        assessmentId as string,
+        userData?.query?.detailsid
+      ),
     enabled: !!assessmentId,
   });
 
@@ -85,6 +87,10 @@ const EmployeeAssessment = () => {
         ),
       enabled: !!assessmentId,
     });
+  console.log(
+    "🚀 ~ EmployeeAssessment ~ assessmentScoreData:",
+    assessmentScoreData
+  );
 
   const assessmentScore = {
     labels: ["YourPercentage"],
@@ -203,6 +209,12 @@ const EmployeeAssessment = () => {
     createEvaluteFun(payload);
   };
 
+  const pendingCount =
+    Number(
+      // @ts-ignore
+      assessmentScoreData?.data?.questionsTypeCount?.total
+    ) - Number(assessmentScoreData?.data?.total?.questions);
+
   return getAssessmentSingleQuestionPending || getAssessmentQuestionPending ? (
     <span className="flex items-center justify-center py-10">
       <Loader2 className="w-5 h-5 animate-spin" />
@@ -283,24 +295,32 @@ const EmployeeAssessment = () => {
                     Number(assessmentScoreData?.data?.totalCorrect?.questions)}
                 </span>
                 <span className="text-[#F7C600]">
-                  Pending Questions :{" "}
-                  {Number(
-                    // @ts-ignore
-                    assessmentScoreData?.data?.questionsTypeCount?.total
-                  ) - Number(assessmentScoreData?.data?.total?.questions)}
+                  Pending Questions : {pendingCount}
                 </span>
               </p>
             </div>
-            <p
-              className="text-[#4285F4] cursor-pointer"
-              onClick={() =>
-                navigate(
-                  `/employee/employee-basic-course/${state?.versionId}?courseId=${state?.courseId}&tab=1`
-                )
-              }
-            >
-              Go Back
-            </p>
+            <div className="space-x-4">
+              {!pendingCount &&
+                assessmentScoreData?.data?.isPassed === "Fail" && (
+                  <Button
+                    className=" text-base bg-primary-button "
+                    onClick={() => setShowAssessmentScore(false)}
+                  >
+                    Try again
+                  </Button>
+                )}
+              <Button
+                variant={"ghost"}
+                className="text-[#4285F4] hover:text-[#4285F4] text-base hover:bg-transparent "
+                onClick={() =>
+                  navigate(
+                    `/employee/employee-basic-course/${state?.versionId}?courseId=${state?.courseId}&tab=1`
+                  )
+                }
+              >
+                Go Back
+              </Button>
+            </div>
           </div>
         )
       ) : (
@@ -308,6 +328,10 @@ const EmployeeAssessment = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               {assessmentQuestion?.map((data, index) => {
+                console.log(
+                  "🚀 ~ EmployeeAssessment ~ pendingCount:",
+                  watch(`assesdmentAnswer.${index}.answer`)
+                );
                 return (
                   <Fragment key={index}>
                     {data?.assessmentType === "Single Choice Question" &&
@@ -334,7 +358,11 @@ const EmployeeAssessment = () => {
                                 value
                               )
                             }
-                            // value={watch(`assesdmentAnswer.${index}.answer` || "")}
+                            value={
+                              (watch(
+                                `assesdmentAnswer.${index}.answer`
+                              ) as string) || ""
+                            }
                           >
                             {data?.option?.map((option: any) => (
                               <div

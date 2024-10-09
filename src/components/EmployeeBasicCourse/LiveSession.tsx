@@ -1,11 +1,10 @@
 import Zoom_Video from "@/assets/images/zoom-video.png";
 import { QUERY_KEYS } from "@/lib/constants";
-import { isSessionOngoingAtTime } from "@/lib/utils";
+import { convertUTCToGMT, isSessionOngoingAtTime } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarDays, Clock } from "lucide-react";
-import moment from "moment";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../ui/button";
 
@@ -54,7 +53,7 @@ const LiveSession = ({
   const isButtonPermission =
     +userData?.query?.role === 4 &&
     isEmployee &&
-    !moment(liveSessionData?.startTime).isAfter(new Date()) &&
+    !convertUTCToGMT(liveSessionData?.startTime).isAfter(new Date()) &&
     !isSessionOngoingAtTime(
       liveSessionData?.startTime,
       liveSessionData?.sessionDuration
@@ -114,7 +113,7 @@ const LiveSession = ({
                     <CalendarDays width={20} className="text-[#666666]" /> Date
                     :
                     <span className="text-black">
-                      {moment(list?.liveSection[0]?.startTime).format(
+                      {convertUTCToGMT(list?.liveSection[0]?.startTime).format(
                         "DD MMM, YYYY"
                       )}{" "}
                     </span>
@@ -123,11 +122,11 @@ const LiveSession = ({
                     <h6 className="flex items-center gap-2 text-xs text-[#777]">
                       <Clock width={20} className="text-[#666666]" /> Time :{" "}
                       <span className="text-black">
-                        {moment(list?.liveSection[0]?.startTime).format(
-                          "hh:mm A"
-                        )}{" "}
+                        {convertUTCToGMT(
+                          list?.liveSection[0]?.startTime
+                        ).format("hh:mm A")}{" "}
                         to{" "}
-                        {moment(list?.liveSection[0]?.startTime)
+                        {convertUTCToGMT(list?.liveSection[0]?.startTime)
                           .add(list?.liveSection[0]?.sessionDuration, "m")
                           .format("hh:mm A")}
                       </span>

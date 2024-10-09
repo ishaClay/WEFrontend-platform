@@ -150,7 +150,6 @@ const UploadContent = ({
 
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
-    console.log("🚀 ~ handleFileSelect ~ file:", file);
 
     if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({

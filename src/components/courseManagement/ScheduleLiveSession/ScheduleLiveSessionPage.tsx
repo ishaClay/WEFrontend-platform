@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { getCohort, getSession } from "@/services/apiServices/allcourse";
@@ -30,7 +31,6 @@ import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2, MoveLeft } from "lucide-react";
-import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -312,7 +312,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("selectLiveSession", moduleSection?.id?.toString());
         setSelectLiveSession(moduleSection?.id?.toString());
         setLiveSession(moduleSection?.title);
-        setValue("sessionTime", moment(startTime).format("HH:mm"));
+        setValue("sessionTime", convertUTCToGMT(startTime).format("HH:mm"));
         setValue("platform", !!platform);
         setValue("zoomUrl", zoomApiBaseUrl || "");
       }
@@ -573,17 +573,21 @@ const ScheduleLiveSessionPage = () => {
                 <Input
                   min={
                     cohortStartDate
-                      ? moment(new Date(cohortStartDate)).diff(
-                          moment(new Date()).format("YYYY-MM-DD"),
+                      ? convertUTCToGMT(new Date(cohortStartDate)).diff(
+                          convertUTCToGMT(new Date()).format("YYYY-MM-DD"),
                           "days"
                         ) < 0
-                        ? moment(new Date()).format("YYYY-MM-DD")
-                        : moment(new Date(cohortStartDate)).format("YYYY-MM-DD")
-                      : moment(new Date()).format("YYYY-MM-DD")
+                        ? convertUTCToGMT(new Date()).format("YYYY-MM-DD")
+                        : convertUTCToGMT(new Date(cohortStartDate)).format(
+                            "YYYY-MM-DD"
+                          )
+                      : convertUTCToGMT(new Date()).format("YYYY-MM-DD")
                   }
                   max={
                     cohortEndDate
-                      ? moment(new Date(cohortEndDate)).format("YYYY-MM-DD")
+                      ? convertUTCToGMT(new Date(cohortEndDate)).format(
+                          "YYYY-MM-DD"
+                        )
                       : ""
                   }
                   className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"

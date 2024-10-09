@@ -1,5 +1,5 @@
+import { convertUTCToGMT } from "@/lib/utils";
 import { MeasureEntity } from "@/types/Invition";
-import moment from "moment";
 
 type ActionItems = {
   data: MeasureEntity;
@@ -10,17 +10,17 @@ const ActionItemsList = ({ data }: ActionItems) => {
     if (data?.iscompleted === 1) {
       return "bg-[#D2EFB6]";
     } else if (
-      moment(new Date(data.startDate), "YYYY-MM-DD").isSameOrBefore(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(data.startDate)).isSameOrBefore(
+        convertUTCToGMT(new Date())
       ) &&
-      moment(new Date(data.endDate), "YYYY-MM-DD").isSameOrAfter(
-        moment(new Date(), "YYYY-MM-DD")
+      convertUTCToGMT(new Date(data.endDate)).isSameOrAfter(
+        convertUTCToGMT(new Date())
       )
     ) {
       return "bg-[#EDEA89]";
     } else if (
-      moment(new Date(), "YYYY-MM-DD").isAfter(
-        moment(new Date(data.endDate), "YYYY-MM-DD")
+      convertUTCToGMT(new Date()).isAfter(
+        convertUTCToGMT(new Date(data.endDate))
       )
     ) {
       return "bg-[#F1B89C]";
@@ -48,7 +48,7 @@ const ActionItemsList = ({ data }: ActionItems) => {
               <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Last Updated Date :{" "}
                 <span className="text-black">
-                  {moment(data.updatedAt).format("DD/MM/YYYY")}
+                  {convertUTCToGMT(data.updatedAt).format("DD/MM/YYYY")}
                 </span>
               </h6>
             </div>
@@ -56,14 +56,16 @@ const ActionItemsList = ({ data }: ActionItems) => {
               <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Target Completion Date :{" "}
                 <span className="text-black">
-                  {moment(data?.endDate)?.format("DD/MM/YYYY")}
+                  {convertUTCToGMT(data?.endDate)?.format("DD/MM/YYYY")}
                 </span>
               </h6>
               <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Actual Completion Date :{" "}
                 <span className="text-black ml-2">
                   {data?.iscompleted === 1
-                    ? moment(data?.lastUpdeated?.updatedAt).format("DD/MM/YYYY")
+                    ? convertUTCToGMT(data?.lastUpdeated?.updatedAt).format(
+                        "DD/MM/YYYY"
+                      )
                     : "-"}
                 </span>
               </h6>

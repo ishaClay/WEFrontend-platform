@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
 import { Label } from "@/components/ui/label";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import {
   assignItemForEmployee,
   EmployeeList,
 } from "@/services/apiServices/employee";
 import { MeasuresItemsResponse } from "@/types/employee";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import moment from "moment";
 import { Dispatch, useState } from "react";
 
 const AssignModel = ({
@@ -88,8 +88,8 @@ const AssignModel = ({
 
     const payload = {
       employeeId: selectAsignModel !== "Self" ? selectAsignModel : null,
-      startDate: moment(date?.startDate).toString() as string,
-      endDate: moment(date?.endDate).toString() as string,
+      startDate: convertUTCToGMT(date?.startDate).toString() as string,
+      endDate: convertUTCToGMT(date?.endDate).toString() as string,
       userId: userData?.id,
       companyId: selectAsignModel === "Self" ? companyId : null,
     };
@@ -136,7 +136,11 @@ const AssignModel = ({
         placeHolder="Enter Date"
         labelText="End Date"
         date={date.endDate}
-        fromDate={moment(date?.startDate).add(1, "days").toDate() || new Date()}
+        fromDate={
+          convertUTCToGMT(date?.startDate || "")
+            .add(1, "days")
+            .toDate() || new Date()
+        }
         setDate={(e) => setDate((prev) => ({ ...prev, endDate: e }))}
         buttonClassName="text-base font-font-droid font-medium w-[363px] h-[52px]"
         labelClassName="text-base font-font-droid font-semibold text-[#000] pb-1"

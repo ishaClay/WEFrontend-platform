@@ -52,7 +52,6 @@ import {
   Tooltip,
 } from "chart.js";
 import { Loader2 } from "lucide-react";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import CourseEnrollmentChart from "./CourseEnrollmentChart";
 import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
@@ -61,6 +60,7 @@ import DashboardCard from "./comman/DashboardCard";
 import Loader from "./comman/Loader";
 import NoDataText from "./comman/NoDataText";
 import { Progress } from "./ui/progress";
+import { convertUTCToGMT } from "@/lib/utils";
 
 Chart.register(
   CategoryScale,
@@ -517,7 +517,7 @@ const Dashboard = () => {
     ],
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
-  const assessmentQuestionScoreData = assessmentQuestionScoreLIST?.data;
+  const assessmentQuestionScoreData = assessmentQuestionScoreLIST?.data || [];
 
   return (
     <div className="rounded-xl">
@@ -595,12 +595,13 @@ const Dashboard = () => {
                 </div>
                 <h2>
                   Last Assessment Taken On:{" "}
-                  {assessmentQuestionScoreData
-                    ? moment(
+                  {assessmentQuestionScoreData.length
+                    ? convertUTCToGMT(
                         new Date(
-                          assessmentQuestionScoreData[
-                            assessmentQuestionScoreData?.length - 1
-                          ]?.completedAssessmentDate || "-"
+                          assessmentQuestionScoreData?.at(-1)
+                            ?.completedAssessmentDate ||
+                            assessmentQuestionScoreData?.at(-2)
+                              ?.completedAssessmentDate
                         )
                       )?.format("DD/MM/YYYY")
                     : "-"}

@@ -5,13 +5,13 @@ import { CourseDiscountDataEntity } from "@/types/course";
 import { ErrorType } from "@/types/Errors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Minus, Plus } from "lucide-react";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SelectMenu from "./comman/SelectMenu";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { useToast } from "./ui/use-toast";
+import { convertUTCToGMT } from "@/lib/utils";
 
 interface RecommendedCoursesModelProps {
   isLoading: boolean;
@@ -105,7 +105,7 @@ const RecommendedCoursesModel = ({
         );
 
         // Check if the current date is within the start and end date range
-        return moment(startDate).isAfter(new Date());
+        return convertUTCToGMT(startDate).isAfter(new Date());
       })
     : [];
 

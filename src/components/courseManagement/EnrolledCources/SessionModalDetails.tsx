@@ -7,6 +7,7 @@ import { SingleLiveSession } from "@/types/liveSession";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import SessionEmployeeItem from "./SessionEmployeeItem";
+import { convertUTCToGMT } from "@/lib/utils";
 
 const SessionModalDetails = ({ id }: { id: number | null }) => {
   const { data, isLoading } = useQuery<SingleLiveSession>({
@@ -16,7 +17,7 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
     enabled: !!id,
   });
 
-  const differenceInMillis = moment(data?.data?.startTime)
+  const differenceInMillis = convertUTCToGMT(data?.data?.startTime || "")
     .add(data?.data?.sessionDuration, "minutes")
     .diff(data?.data?.startTime);
 
@@ -54,13 +55,15 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
             <h5 className="pe-5 text-[#606060] font-droid text-base">
               Start Date:{" "}
               <span className="text-black">
-                {moment(data?.data?.startTime).format("DD-MM-YYYY")}
+                {convertUTCToGMT(data?.data?.startTime || "").format(
+                  "DD-MM-YYYY"
+                )}
               </span>
             </h5>
             <h5 className="pe-5 text-[#606060] font-droid text-base">
               Start Time:{" "}
               <span className="text-black">
-                {moment(data?.data?.startTime).format("hh:mm A")}
+                {convertUTCToGMT(data?.data?.startTime || "").format("hh:mm A")}
               </span>
             </h5>
             <h5 className="font-droid text-[#606060] text-base">

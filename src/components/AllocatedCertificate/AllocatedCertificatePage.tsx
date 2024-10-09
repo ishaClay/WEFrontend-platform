@@ -11,7 +11,6 @@ import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
-import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConfirmModal } from "../comman/ConfirmModal";
@@ -21,6 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
+import { convertUTCToGMT } from "@/lib/utils";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
@@ -160,9 +160,9 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-droid text-black line-clamp-2">
-            {moment(new Date(row?.original?.employee?.createdAt || "")).format(
-              "DD/MM/YYYY"
-            )}
+            {convertUTCToGMT(
+              new Date(row?.original?.employee?.createdAt || "")
+            ).format("DD/MM/YYYY")}
           </h6>
         );
       },

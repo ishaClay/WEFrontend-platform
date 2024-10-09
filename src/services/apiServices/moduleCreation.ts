@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { SectionCreation } from "@/types/modulecreation";
 import api from "./api";
 
@@ -16,11 +17,11 @@ export const createModule = async (data: any, courseId: any) => {
   const url = `api/v1/course/module/create`,
     method = "post";
 
-    const payload = {
-        title: data.moduleTitle,
-        course: courseId,
-        tab: "4"
-    }
+  const payload = {
+    title: data.moduleTitle,
+    course: courseId,
+    tab: "4"
+  }
 
   const res = await api({ url, method, data: payload });
   return res
@@ -95,6 +96,8 @@ const transformSectionPayload = (inputArray: SectionCreation[], moduleId: number
         liveSecTitle: item.sectionTitle,
         liveSecinformation: item.information,
         sectionTime: item.livesessionDuration,
+        // @ts-ignore
+        position: item.position,
         module: moduleId
       };
     } else {
@@ -107,6 +110,8 @@ const transformSectionPayload = (inputArray: SectionCreation[], moduleId: number
         sectionTime: item.readingTime,
         attachment: item.uploadDocument,
         documentType: item.uploadContentType,
+        // @ts-ignore
+        position: item.position,
         module: moduleId
       };
     }

@@ -3,9 +3,8 @@ import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { getImages } from "@/lib/utils";
+import { convertUTCToGMT, getImages } from "@/lib/utils";
 import { CircleCheck, Eye } from "lucide-react";
-import moment from "moment";
 import { useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
@@ -162,23 +161,23 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
           {data?.measures?.map((item: any) => {
             const status = () => {
               if (
-                moment(new Date(item.startDate), "YYYY-MM-DD").isSameOrBefore(
-                  moment(new Date(), "YYYY-MM-DD")
+                convertUTCToGMT(new Date(item.startDate)).isSameOrBefore(
+                  convertUTCToGMT(new Date())
                 ) &&
-                moment(new Date(item.endDate), "YYYY-MM-DD").isSameOrAfter(
-                  moment(new Date(), "YYYY-MM-DD")
+                convertUTCToGMT(new Date(item.endDate)).isSameOrAfter(
+                  convertUTCToGMT(new Date())
                 )
               ) {
                 return "On time";
               } else if (
-                moment(new Date(), "YYYY-MM-DD").isAfter(
-                  moment(new Date(item.endDate), "YYYY-MM-DD")
+                convertUTCToGMT(new Date()).isAfter(
+                  convertUTCToGMT(new Date(item.endDate))
                 )
               ) {
                 return "Delay";
               } else if (
-                moment(new Date(item.startDate), "YYYY-MM-DD").isAfter(
-                  moment(new Date(), "YYYY-MM-DD")
+                convertUTCToGMT(new Date(item.startDate)).isAfter(
+                  convertUTCToGMT(new Date())
                 )
               ) {
                 return "On time";
@@ -228,10 +227,13 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                             <MdOutlineCalendarMonth className="h-[20px] w-[20px] text-[#666666] me-2" />
                             Date:
                             <span className="text-black ps-2">
-                              {moment(new Date(item.startDate)).format(
+                              {convertUTCToGMT(new Date(item.startDate)).format(
                                 "Do MMMM YYYY"
                               )}
-                              -{moment(item.endDate).format("Do MMMM YYYY")}
+                              -
+                              {convertUTCToGMT(item.endDate).format(
+                                "Do MMMM YYYY"
+                              )}
                             </span>
                           </h6>
                         </div>

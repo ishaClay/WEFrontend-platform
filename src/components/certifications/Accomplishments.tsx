@@ -1,12 +1,11 @@
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { chatDPColor } from "@/lib/utils";
+import { chatDPColor, convertUTCToGMT } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseEnroll } from "@/services/apiServices/certificate";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, MoveLeft } from "lucide-react";
-import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import CertificatePdf from "../comman/CertificatePdf";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -104,7 +103,7 @@ const Accomplishments = () => {
                     <p>Started : </p>
                     <span>
                       {sData ? (
-                        moment(new Date(sData)).format("DD MMM, YYYY")
+                        convertUTCToGMT(new Date(sData)).format("DD MMM, YYYY")
                       ) : (
                         <span className="ml-1">-</span>
                       )}
@@ -114,7 +113,7 @@ const Accomplishments = () => {
                     <p>Completed : </p>
                     <span>
                       {eData ? (
-                        moment(new Date(eData)).format("DD MMM, YYYY")
+                        convertUTCToGMT(new Date(eData)).format("DD MMM, YYYY")
                       ) : (
                         <span className="ml-1">-</span>
                       )}
