@@ -83,13 +83,13 @@ const schema = zod
     }
   )
   .superRefine((data, ctx) => {
-    if (data.freeCourse) {
-      ctx.addIssue({
-        code: zod.ZodIssueCode.custom,
-        message: "Please select a discount provider",
-        path: ["discountProvider"],
-      });
-    }
+    // if (data.freeCourse) {
+    //   ctx.addIssue({
+    //     code: zod.ZodIssueCode.custom,
+    //     message: "Please select a discount provider",
+    //     path: ["discountProvider"],
+    //   });
+    // }
 
     if (!data.freeCourse) {
       if (data.price === undefined || data.price === "") {
@@ -189,13 +189,19 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
       setDiscount("");
       setProvideDisc(false);
     }
-  }, [isFreeCourse]);
+  }, [isFreeCourse, setValue]);
 
   useEffect(() => {
-    if (isFreeCourse && data) {
+    if (provideDisc && data) {
       setDiscountProvider(data?.data?.id?.toString());
+      setValue("discountProvider", data?.data?.id?.toString());
+      setError("discountProvider", { message: "" });
+    } else {
+      setDiscountProvider("");
+      setValue("discountProvider", "dummy");
+      setError("discountProvider", { message: "" });
     }
-  }, [isFreeCourse, data]);
+  }, [provideDisc, data, setValue, setError]);
 
   useEffect(() => {
     if (userData) {
@@ -279,7 +285,8 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
       price: formdata?.price ? formdata?.price?.toString() : "0",
       discountApplicable: discount ? discount?.toString() : "0",
       discout: provideDisc ? "1" : "0",
-      providerName: isFreeCourse ? null : +discountProvider || 0,
+      providerName:
+        isFreeCourse || !provideDisc ? null : +discountProvider || 0,
       clientId: data?.data?.id || 0,
       tab: "0",
       step: "1",
@@ -325,6 +332,14 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
       clearErrors("price");
     }
   }, [isFreeCourse, clearErrors]);
+
+  const discountError = provideDisc
+    ? +discount > +coursePrise
+      ? "Discount is greater than course price"
+      : !discount || +discount <= 0
+      ? "Please enter discount"
+      : ""
+    : "";
 
   return (
     <>
@@ -466,11 +481,7 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
                       setDiscount(value);
                     }
                   }}
-                  error={
-                    !!provideDisc && +discount > +coursePrise
-                      ? "Discount is greater than course price"
-                      : ""
-                  }
+                  error={discountError}
                   alterText={"€"}
                 />
               </div>
@@ -510,7 +521,7 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
             <Button
               type="submit"
               className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
-              disabled={isPending || isUpdatePending}
+              disabled={isPending || isUpdatePending || !!discountError}
             >
               {isPending || isUpdatePending ? (
                 <Loader containerClassName="max-h-auto" />

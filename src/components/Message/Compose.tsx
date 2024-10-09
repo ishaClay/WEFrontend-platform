@@ -66,7 +66,9 @@ const Compose = () => {
     role === UserRole?.Trainer ? 1 : 5
   );
   const [isActive, setIsActive] = useState(
-    role === UserRole?.Employee ? "company" : "client"
+    role === UserRole?.Employee || role === UserRole.Trainee
+      ? "company"
+      : "client"
   );
 
   // const [userRole, setUserRole] = useState<number>(role === UserRole?.Trainer ? 2 : 6);

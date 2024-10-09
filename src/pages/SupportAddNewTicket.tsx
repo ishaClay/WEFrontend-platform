@@ -108,7 +108,7 @@ function SupportAddNewTicket() {
           ? item?.providerName
           : item?.name || item?.email?.split("@")?.[0]
       }`,
-      value: String(item?.userDetails?.id),
+      value: String(item?.userDetails?.id || item?.clientDetails?.id),
     };
   });
 
