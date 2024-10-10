@@ -10,18 +10,21 @@ import {
 import clsx from "clsx";
 import { CheckIcon, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import Loader from "./Loader";
 
 type SelectMenuWithSearchProps = {
   options: OptionType[];
   onChange: (value: string) => void;
   value: string;
   placeholder?: string;
+  isLoading?: boolean;
 };
 export default function SelectMenuWithSearch({
   options,
   onChange,
   value,
   placeholder,
+  isLoading,
 }: SelectMenuWithSearchProps) {
   const [query, setQuery] = useState("");
 
@@ -68,16 +71,20 @@ export default function SelectMenuWithSearch({
             "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0"
           )}
         >
-          {filteredOptions.map((option) => (
-            <ComboboxOption
-              key={option.value}
-              value={option}
-              className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-white/10"
-            >
-              <CheckIcon className="invisible size-4 fill-white group-data-[selected]:visible" />
-              <div className="text-sm/6">{option.label}</div>
-            </ComboboxOption>
-          ))}
+          {isLoading ? (
+            <Loader containerClassName="h-[50px]" />
+          ) : (
+            filteredOptions.map((option) => (
+              <ComboboxOption
+                key={option.value}
+                value={option}
+                className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-white/10"
+              >
+                <CheckIcon className="invisible size-4 fill-white group-data-[selected]:visible" />
+                <div className="text-sm/6">{option.label}</div>
+              </ComboboxOption>
+            ))
+          )}
         </ComboboxOptions>
       </Combobox>
     </div>

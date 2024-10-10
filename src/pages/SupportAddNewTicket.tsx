@@ -83,7 +83,7 @@ function SupportAddNewTicket() {
     mode: "all",
   });
 
-  const { data: fetchAssigToUserList } = useQuery({
+  const { data: fetchAssigToUserList, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAssigToUserList],
     queryFn: () => fetchAssigToUser(UserId),
     enabled: !!UserId,
@@ -202,6 +202,7 @@ function SupportAddNewTicket() {
                 }}
                 value={selectAssignTo}
                 placeholder="Select Name"
+                isLoading={isLoading}
               />
               {!errors?.assignTo?.ref?.value && (
                 <ErrorMessage message={errors?.assignTo?.message as string} />

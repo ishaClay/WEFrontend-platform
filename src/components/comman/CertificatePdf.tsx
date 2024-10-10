@@ -1,6 +1,7 @@
 import { Document, Image, Page, StyleSheet, View } from "@react-pdf/renderer";
 
 const CertificatePdf = ({ image }: { image: string }) => {
+  console.log("🚀 ~ CertificatePdf ~ image:", image);
   const styles = StyleSheet.create({
     page: {
       padding: 20,
