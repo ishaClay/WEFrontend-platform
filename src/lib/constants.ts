@@ -1,9 +1,9 @@
 import AssesmentIcon from "@/assets/images/assesment.svg";
 import PdfIcon from "@/assets/images/pdfIcon.svg";
-import document_Option_1 from "@/assets/images/upload_option_1.png";
-import document_Option_2 from "@/assets/images/upload_option_2.png";
-import document_Option_4 from "@/assets/images/upload_option_4.png";
-import document_Option_6 from "@/assets/images/upload_option_6.png";
+import DocImage from "@/assets/images/uploadImages/doc.png";
+import PdfImage from "@/assets/images/uploadImages/pdf.png";
+import XlsImage from "@/assets/images/uploadImages/xls.png";
+import VideoImage from "@/assets/images/uploadImages/video.png";
 import VideoICon from "@/assets/images/videoIcon.svg";
 import assesmentTest from "@/assets/svgs/assesmentTest.svg";
 // QUERY KEYS
@@ -138,7 +138,7 @@ export const FileType = {
     name: "Document",
     fileType: ["docx", "doc"],
     fileTypeText: ".docx,.doc",
-    image: document_Option_1,
+    image: DocImage,
     enum: 1,
     listIcon: AssesmentIcon,
   },
@@ -146,7 +146,7 @@ export const FileType = {
     name: "Excel",
     fileType: ["xlsx", "xml"],
     fileTypeText: ".xlsx,.xml",
-    image: document_Option_2,
+    image: XlsImage,
     enum: 2,
     listIcon: AssesmentIcon,
   },
@@ -154,7 +154,7 @@ export const FileType = {
     name: "Pdf",
     fileType: ["pdf"],
     fileTypeText: ".pdf",
-    image: document_Option_4,
+    image: PdfImage,
     enum: 3,
     listIcon: PdfIcon,
   },
@@ -162,7 +162,7 @@ export const FileType = {
     name: "Video",
     fileType: ["mp4"],
     fileTypeText: ".mp4",
-    image: document_Option_6,
+    image: VideoImage,
     enum: 4,
     listIcon: VideoICon,
   },
@@ -170,7 +170,7 @@ export const FileType = {
     name: "Live",
     fileType: ["live"],
     fileTypeText: "live",
-    image: document_Option_6,
+    image: VideoImage,
     enum: 5,
     listIcon: VideoICon,
   },

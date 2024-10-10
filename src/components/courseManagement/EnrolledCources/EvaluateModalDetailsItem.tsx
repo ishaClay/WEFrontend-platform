@@ -9,7 +9,7 @@ import { Loader2 } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
 
-type evaluteModalProps = {
+type EvaluteModalProps = {
   data: EvaluteDataEntity;
   index: number;
   courseId: number;
@@ -22,7 +22,7 @@ const EvaluateModalDetailsItem = ({
   courseId,
   employeeId,
   setIsOpen,
-}: evaluteModalProps) => {
+}: EvaluteModalProps) => {
   const { toast } = useToast();
   const [addTotalPoints, setAddTotalPoints] = useState<string>("");
   const [moduleId, setModuleId] = useState<string | number>("");
@@ -127,7 +127,7 @@ const EvaluateModalDetailsItem = ({
               <input
                 type="text"
                 className="w-full h-full px-3 py-2 rounded-sm focus:border focus:border-[#4b4b4b] shadow-none outline-none"
-                disabled={data?.score ? true : false}
+                disabled={data?.completed}
                 defaultValue={data?.score}
                 onChange={(e) => handleAddPoints(e?.target?.value)}
               />
@@ -139,7 +139,7 @@ const EvaluateModalDetailsItem = ({
           <div className="">
             <Button
               className=" sm:text-base text-sm font-droid text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]"
-              disabled={!!errors?.message || isPending || !!data?.score}
+              disabled={!!errors?.message || isPending || data?.completed}
               onClick={() => {
                 onSubmit(data?.id);
                 setModuleId(data?.id);

@@ -256,6 +256,7 @@ export interface EvaluteDataEntity {
   updatedAt: string;
   evaluations: EvaluationsEntity[];
   score: string;
+  completed: boolean;
 }
 export interface EvaluationsEntity {
   id: number;
