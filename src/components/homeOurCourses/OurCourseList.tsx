@@ -5,10 +5,7 @@ import onlineImage from "@/assets/images/online.png";
 import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
 import { RegisterContext } from "@/context/RegisterContext";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { UserRole } from "@/types/UserRole";
 import {
   CoursePublishAdminClientData,
   CourseTime,
@@ -24,13 +21,10 @@ type OurCoursrseListProps = {
 };
 
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
-  const userData = JSON.parse(localStorage.getItem("user") as string);
   const { setSelectedRole, setShowRegistrationForm } =
     useContext(RegisterContext);
   const userToken = Cookies.get("accessToken") || "";
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
 
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
@@ -139,82 +133,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           Course info
         </Button>
 
-        {userToken ? (
-          <>
-            {+userData?.query?.role === UserRole.Company && (
-              <Button
-                type="button"
-                onClick={() => {
-                  if (userData) {
-                    if (+userData?.query?.role === UserRole.Company) {
-                      navigate(
-                        `/company/employee-basic-course/${data.currentVersion.id}`
-                      );
-                      dispatch(
-                        setPath([
-                          {
-                            label: `Course Management`,
-                            link: null,
-                          },
-                          {
-                            label: `All Courses`,
-                            link: `/company/allcourses`,
-                          },
-                          {
-                            label: data.title,
-                            link: null,
-                          },
-                        ])
-                      );
-                      return;
-                    }
-                    if (
-                      [UserRole.Trainer, UserRole.Trainee].includes(
-                        +userData?.query?.role
-                      )
-                    ) {
-                      navigate(
-                        `/${UserRole[
-                          userData?.query?.role
-                        ].toLowerCase()}/allcourse`
-                      );
-                      dispatch(
-                        setPath([
-                          {
-                            label: `Course Management`,
-                            link: null,
-                          },
-                          {
-                            label: `All Courses`,
-                            link: null,
-                          },
-                        ])
-                      );
-                      return;
-                    }
-                    if (+userData?.query?.role === UserRole.Employee) {
-                      navigate(`/employee/mycourses`);
-                      dispatch(
-                        setPath([
-                          {
-                            label: `My Courses`,
-                            link: null,
-                          },
-                        ])
-                      );
-                      return;
-                    }
-                  } else {
-                    navigate("/auth");
-                  }
-                }}
-                className="bg-[#64A70B] font-font-droid text-base px-5 py-2 h-auto"
-              >
-                Enroll Now
-              </Button>
-            )}
-          </>
-        ) : (
+        {!userToken && (
           <Button
             type="button"
             onClick={() => {

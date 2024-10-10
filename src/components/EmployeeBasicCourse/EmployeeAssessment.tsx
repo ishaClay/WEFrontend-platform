@@ -22,6 +22,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useToast } from "../ui/use-toast";
+import { AssessmentQuestions } from "@/types/assecessment";
 
 const schema = z.object({
   assesdmentAnswer: z.array(
@@ -48,6 +49,9 @@ const EmployeeAssessment = () => {
   const moduleId = new URLSearchParams(search).get("moduleId");
   const [showAssessmentScore, setShowAssessmentScore] = useState(false);
   const location = useLocation();
+  const [assessmentQuestions, setAssessmentQuestions] = useState<
+    AssessmentQuestions[]
+  >([]);
 
   useEffect(() => {
     if (location.state?.isCompleted) {
@@ -68,6 +72,12 @@ const EmployeeAssessment = () => {
     enabled: !!assessmentId,
   });
 
+  useEffect(() => {
+    if (getAssessmentQuestion?.data) {
+      setAssessmentQuestions(getAssessmentQuestion?.data);
+    }
+  }, [getAssessmentQuestion]);
+
   const {
     data: getAssessmentSingleQuestion,
     isPending: getAssessmentSingleQuestionPending,
@@ -87,10 +97,6 @@ const EmployeeAssessment = () => {
         ),
       enabled: !!assessmentId,
     });
-  console.log(
-    "🚀 ~ EmployeeAssessment ~ assessmentScoreData:",
-    assessmentScoreData
-  );
 
   const assessmentScore = {
     labels: ["YourPercentage"],
@@ -215,6 +221,18 @@ const EmployeeAssessment = () => {
       assessmentScoreData?.data?.questionsTypeCount?.total
     ) - Number(assessmentScoreData?.data?.total?.questions);
 
+  const setAnswers = () => {
+    getAssessmentQuestion?.data?.forEach((item: any, i) => {
+      if (item?.userAnswer) {
+        setValue(`assesdmentAnswer.${i}.answer`, item?.userAnswer);
+      }
+    });
+  };
+
+  useEffect(() => {
+    setAnswers();
+  }, [getAssessmentQuestion?.data]);
+
   return getAssessmentSingleQuestionPending || getAssessmentQuestionPending ? (
     <span className="flex items-center justify-center py-10">
       <Loader2 className="w-5 h-5 animate-spin" />
@@ -327,11 +345,7 @@ const EmployeeAssessment = () => {
         <div className="grid sm:px-8 sm:py-5 p-[20px] bg-white mb-12">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-              {assessmentQuestion?.map((data, index) => {
-                console.log(
-                  "🚀 ~ EmployeeAssessment ~ pendingCount:",
-                  watch(`assesdmentAnswer.${index}.answer`)
-                );
+              {assessmentQuestions?.map((data, index) => {
                 return (
                   <Fragment key={index}>
                     {data?.assessmentType === "Single Choice Question" &&
@@ -352,17 +366,20 @@ const EmployeeAssessment = () => {
                             // value={watch(`assesdmentAnswer.${index}.answer`)}
                             {...register(`assesdmentAnswer.${index}.answer`)}
                             disabled={+userData?.query?.role !== 4}
-                            onValueChange={(value) =>
+                            onValueChange={(value) => {
                               setValue(
                                 `assesdmentAnswer.${index}.answer`,
                                 value
-                              )
-                            }
-                            value={
-                              (watch(
-                                `assesdmentAnswer.${index}.answer`
-                              ) as string) || ""
-                            }
+                              );
+                              setAssessmentQuestions((prev) =>
+                                prev.map((q) =>
+                                  q.id === data.id
+                                    ? { ...q, userAnswer: value }
+                                    : q
+                                )
+                              );
+                            }}
+                            value={data.userAnswer}
                           >
                             {data?.option?.map((option: any) => (
                               <div
@@ -412,6 +429,20 @@ const EmployeeAssessment = () => {
                           rows={8}
                           disabled={+userData?.query?.role !== 4}
                           {...register(`assesdmentAnswer.${index}.answer`)}
+                          onChange={(e) => {
+                            setValue(
+                              `assesdmentAnswer.${index}.answer`,
+                              e.target.value
+                            );
+                            setAssessmentQuestions((prev) =>
+                              prev.map((q) =>
+                                q.id === data.id
+                                  ? { ...q, userAnswer: e.target.value }
+                                  : q
+                              )
+                            );
+                          }}
+                          value={data.userAnswer}
                         />
                         {errors.assesdmentAnswer?.[index]?.answer && (
                           <FormError
@@ -441,12 +472,20 @@ const EmployeeAssessment = () => {
                           <RadioGroup
                             {...register(`assesdmentAnswer.${index}.answer`)}
                             disabled={+userData?.query?.role !== 4}
-                            onValueChange={(value) =>
+                            onValueChange={(value) => {
                               setValue(
                                 `assesdmentAnswer.${index}.answer`,
                                 value
-                              )
-                            }
+                              );
+                              setAssessmentQuestions((prev) =>
+                                prev.map((q) =>
+                                  q.id === data.id
+                                    ? { ...q, userAnswer: value }
+                                    : q
+                                )
+                              );
+                            }}
+                            value={data.userAnswer}
                           >
                             <div className="flex items-center space-x-2 mb-3">
                               <RadioGroupItem
@@ -511,13 +550,30 @@ const EmployeeAssessment = () => {
                           >
                             <Checkbox
                               id={`checkbox-${index}-${option.option}`}
-                              checked={watch(
-                                `assesdmentAnswer.${index}.answer`
-                              )?.includes(option.option)}
+                              checked={data.userAnswer?.includes(option.option)}
                               disabled={+userData?.query?.role !== 4}
-                              onCheckedChange={() =>
-                                handleCheckboxChange(index, option.option)
-                              }
+                              onCheckedChange={() => {
+                                handleCheckboxChange(index, option.option);
+                                setAssessmentQuestions((prev) =>
+                                  prev.map((q) =>
+                                    q.id === data.id
+                                      ? {
+                                          ...q,
+                                          userAnswer: q.userAnswer
+                                            ? q.userAnswer?.includes(
+                                                option.option
+                                              )
+                                              ? q.userAnswer.filter(
+                                                  (ans: string) =>
+                                                    ans !== option.option
+                                                )
+                                              : [...q.userAnswer, option.option]
+                                            : [option.option],
+                                        }
+                                      : q
+                                  )
+                                );
+                              }}
                               className="border-[#9B9B9B] w-5 h-5"
                             />
                             <Label

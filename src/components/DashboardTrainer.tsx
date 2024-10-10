@@ -330,7 +330,7 @@ const DashboardTrainer = () => {
     },
     {
       icon: Companies,
-      title: "Pending",
+      title: "Open",
       value: supportTicketsData?.data?.supportTicketsCount?.open
         ? supportTicketsData?.data?.supportTicketsCount?.open?.high +
           supportTicketsData?.data?.supportTicketsCount?.open?.low +
@@ -348,7 +348,7 @@ const DashboardTrainer = () => {
     },
     {
       icon: Companies,
-      title: "Resolved",
+      title: "Answered",
       value: supportTicketsData?.data?.supportTicketsCount?.resolved
         ? supportTicketsData?.data?.supportTicketsCount?.resolved?.high +
           supportTicketsData?.data?.supportTicketsCount?.resolved?.low +

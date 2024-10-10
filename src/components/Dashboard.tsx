@@ -15,6 +15,7 @@ import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import { getAllassessment } from "@/services/apiServices/assessment";
 import {
   fetchTopCourseList,
@@ -60,7 +61,6 @@ import DashboardCard from "./comman/DashboardCard";
 import Loader from "./comman/Loader";
 import NoDataText from "./comman/NoDataText";
 import { Progress } from "./ui/progress";
-import { convertUTCToGMT } from "@/lib/utils";
 
 Chart.register(
   CategoryScale,
@@ -419,10 +419,18 @@ const Dashboard = () => {
       (a: number, b: number) => a + b,
       0
     );
+  console.log("🚀 ~ Dashboard ~ smeDashboardData:", smeDashboardData);
 
   const resolveSupportTicket =
     smeDashboardData?.data?.supportTickets?.resolved &&
     Object.values(smeDashboardData?.data?.supportTickets?.resolved).reduce(
+      (a: number, b: number) => a + b,
+      0
+    );
+
+  const inProgressSupportTicket =
+    smeDashboardData?.data?.supportTickets?.inProcess &&
+    Object.values(smeDashboardData?.data?.supportTickets?.inProcess).reduce(
       (a: number, b: number) => a + b,
       0
     );
@@ -675,7 +683,7 @@ const Dashboard = () => {
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
             Support Tickets
           </h3>
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl border-[#D9D9D9] border">
+          <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl border-[#D9D9D9] border">
             <DashboardCard
               isLoading={smeLoading}
               icon={Trainers}
@@ -690,8 +698,14 @@ const Dashboard = () => {
             />
             <DashboardCard
               isLoading={smeLoading}
+              icon={Total_courses}
+              title="In Progress"
+              value={inProgressSupportTicket || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
               icon={Companies}
-              title="Resolved"
+              title="Answered"
               value={resolveSupportTicket || 0}
             />
           </div>

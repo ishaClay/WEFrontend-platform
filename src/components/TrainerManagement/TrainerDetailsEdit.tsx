@@ -362,9 +362,7 @@ const TrainerDetailsEdit = () => {
                     {...register("number")}
                   /> */}
                     <div className="flex flex-col gap-1">
-                      <label className="mb-[8px]  font-bold text-[16px]">
-                        Phone No.
-                      </label>
+                      <label className="mb-[8px] text-[16px]">Phone No.</label>
                       <PhoneInputWithCountrySelect
                         placeholder="Enter phone number"
                         international
@@ -402,6 +400,7 @@ const TrainerDetailsEdit = () => {
                       }
                       label="Email"
                       {...register("email")}
+                      isMendatory
                     />
                     {errors.email && (
                       <ErrorMessage message={errors.email.message as string} />
@@ -442,9 +441,7 @@ const TrainerDetailsEdit = () => {
                   )}
                 </div>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
-                    County
-                  </Label>
+                  <Label className="mb-[8px] text-[16px]">County</Label>
                   <SelectMenu
                     option={countryOption || []}
                     placeholder="Select county"

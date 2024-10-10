@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { deleteSupportTicket } from "@/services/apiServices/supportRequestServices";
 import { ErrorType } from "@/types/Errors";
@@ -18,7 +19,6 @@ import { Loader2 } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
-import { convertUTCToGMT } from "@/lib/utils";
 
 interface SupportRequestTableProps {
   data?: SupportTicketListType;
@@ -44,6 +44,33 @@ const SupportRequestTable = ({
   const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
 
   const column: ColumnDef<DataEntity>[] = [
+    {
+      accessorKey: "id",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="p-0"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            No.
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <p>{row.index + 1 + (page - 1) * 10}</p>;
+      },
+    },
     {
       accessorKey: "uniqueId",
       header: ({ column }) => {
@@ -259,7 +286,7 @@ const SupportRequestTable = ({
       cell: ({ row }) => {
         return (
           <div>
-            {row?.original?.assignTo?.role === 2
+            {+row?.original?.assignTo?.role === 2
               ? row?.original?.assignTo?.fname +
                 " " +
                 row?.original?.assignTo?.lname

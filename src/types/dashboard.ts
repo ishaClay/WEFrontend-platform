@@ -34,6 +34,7 @@ export interface Report {
 export interface SupportTickets {
   open: OpenOrResolved;
   resolved: OpenOrResolved;
+  inProcess: OpenOrResolved;
 }
 export interface OpenOrResolved {
   high: number;
@@ -94,12 +95,12 @@ export interface DataEntity {
 export interface TraineeEnrollDashboardResponse {
   trainerCourseCount: number;
   trainerEnrollCourse?:
-    | TrainerEnrollCourseEntityOrTrainerUpcommingCourseEntity[]
-    | null;
+  | TrainerEnrollCourseEntityOrTrainerUpcommingCourseEntity[]
+  | null;
   trainerEnrollCourseCount: number;
   trainerUpcommingCourse?:
-    | TrainerEnrollCourseEntityOrTrainerUpcommingCourseEntity[]
-    | null;
+  | TrainerEnrollCourseEntityOrTrainerUpcommingCourseEntity[]
+  | null;
   trainerUpcommingCourseCount: number;
   forumQuestion?: ForumQuestionEntity[] | null;
   forumQuestionCount: number;

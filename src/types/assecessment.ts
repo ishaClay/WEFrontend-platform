@@ -4,19 +4,21 @@ export interface AssecessmentCreation {
   percentage: string;
   timeBound: string;
   duration: string;
-  question: QuestionCreation[]
+  question: QuestionCreation[];
 }
 
 export interface QuestionCreation {
   id?: number;
   ids?: number;
-  question: string,
-  point: number,
-  options: [{
-    option: string;
-  }],
-  assessmentType: string,
-  answer: number[] | string
+  question: string;
+  point: number;
+  options: [
+    {
+      option: string;
+    }
+  ];
+  assessmentType: string;
+  answer: number[] | string;
 }
 
 export interface AssessmentById {
@@ -58,20 +60,23 @@ export interface ReadingTime {
   second: number;
 }
 
-
 export interface EmpAssesmentQuestionType {
-  data?: QuestionDataEntity[] | null;
+  data: AssessmentQuestions[];
   message: string;
 }
-export interface QuestionDataEntity {
+export interface AssessmentQuestions {
   id: number;
   question: string;
   point: number;
   assessmentType: string;
-  option?: (string | null)[] | null | any;
-  deletedAt?: null;
+  option: OptionEntity[];
+  deletedAt: null;
   createdAt: string;
   updatedAt: string;
+  userAnswer: any;
+}
+export interface OptionEntity {
+  option: string;
 }
 
 export interface GetAssessmentSingleQuestion {

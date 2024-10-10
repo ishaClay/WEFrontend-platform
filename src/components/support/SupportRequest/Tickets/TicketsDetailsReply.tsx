@@ -86,30 +86,19 @@ const TicketsDetailsReply = () => {
           ? String(data?.data?.data?.assignTo?.id)
           : String(data?.data?.data?.openBy?.id)
       );
-      setValue(
-        "ticketStatus",
-        data?.data.data?.status === "Open"
-          ? "Answered"
-          : String(data?.data.data?.status)
-      );
+      setValue("ticketStatus", data?.data.data?.status);
       setValue("ticketType", String(data?.data?.data?.type));
       // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
-        data?.data?.data?.openBy.id === userID
-          ? String(
-              data?.data?.data?.assignTo?.role === 2
-                ? data?.data?.data?.assignTo?.fname +
-                    " " +
-                    data?.data?.data?.assignTo?.lname
-                : data?.data?.data?.assignTo?.name
-            )
-          : String(data?.data?.data?.openBy?.name)
+        String(
+          data?.data?.data?.assignTo?.role === 2
+            ? data?.data?.data?.assignTo?.fname +
+                " " +
+                data?.data?.data?.assignTo?.lname
+            : data?.data?.data?.assignTo?.name
+        )
       );
-      setSelectTicketStatus(
-        data?.data.data?.status === "Open"
-          ? "Answered"
-          : String(data?.data.data?.status)
-      );
+      setSelectTicketStatus(data?.data.data?.status);
       // setSelectTicketStatus(
       //   data?.data.data?.status === "Open"
       //     ? "Answered"
@@ -155,7 +144,7 @@ const TicketsDetailsReply = () => {
         id: id,
         openBy: +userID,
         assignTo: +data?.assignTo,
-        status: data?.ticketStatus,
+        status: data?.ticketStatus === "Open" ? "Answered" : data?.ticketStatus,
         type: data?.ticketType,
         response: data?.details,
         documentUrl: data?.uploadDocument ? data?.uploadDocument : "",
