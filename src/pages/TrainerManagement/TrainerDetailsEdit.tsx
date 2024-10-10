@@ -39,7 +39,7 @@ const TrainerEditDetails = () => {
   const [trainerStatus, setTrainerStatus] = useState(1);
   useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
-  }, [socket]);
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
@@ -49,6 +49,8 @@ const TrainerEditDetails = () => {
     mutationFn: updateEmployee,
     onSuccess: (data) => {
       socket.emit("employeeStatus", data?.data?.userDetails?.id);
+
+      socket.disconnect();
 
       dispatch(
         setPath([
@@ -71,6 +73,7 @@ const TrainerEditDetails = () => {
         description: error?.data?.message || "Internal server error",
         variant: "destructive",
       });
+      socket.disconnect();
     },
   });
 
@@ -141,7 +144,10 @@ const TrainerEditDetails = () => {
         <Button
           variant={"ghost"}
           className="p-0 text-base font-droid font-bold"
-          onClick={() => window.history.back()}
+          onClick={() => {
+            window.history.back();
+            socket.disconnect();
+          }}
         >
           <IoIosArrowRoundBack size={26} />
           Back

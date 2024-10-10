@@ -90,15 +90,13 @@ const TicketsDetailsReply = () => {
       setValue("ticketType", String(data?.data?.data?.type));
       // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
-        data?.data?.data?.openBy.id === userID
-          ? String(
-              data?.data?.data?.assignTo?.role === 2
-                ? data?.data?.data?.assignTo?.fname +
-                    " " +
-                    data?.data?.data?.assignTo?.lname
-                : data?.data?.data?.assignTo?.name
-            )
-          : String(data?.data?.data?.openBy?.name)
+        String(
+          data?.data?.data?.assignTo?.role === 2
+            ? data?.data?.data?.assignTo?.fname +
+                " " +
+                data?.data?.data?.assignTo?.lname
+            : data?.data?.data?.assignTo?.name
+        )
       );
       setSelectTicketStatus(data?.data.data?.status);
       // setSelectTicketStatus(

@@ -192,13 +192,15 @@ const Message = () => {
     const fileList = event.target.files;
     const validFileTypes = [
       "video/mp4",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "application/vnd.ms-excel", // .xls
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
       "image/png",
       "image/jpeg",
       "application/pdf",
     ];
-    const maxFileSize = 10 * 1024;
+    const maxFileSize = 10 * 1024 * 1024;
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
@@ -842,7 +844,11 @@ const Message = () => {
                                       index === 0 ? "mt-5" : ""
                                     }`}
                                   >
-                                    {i?.endsWith(".pdf") ? (
+                                    {i?.endsWith(".pdf") ||
+                                    i?.endsWith(".xls") ||
+                                    i?.endsWith(".xlsx") ||
+                                    i?.endsWith(".doc") ||
+                                    i?.endsWith(".docx") ? (
                                       <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
                                         <IoIosDocument className="h-5 w-5 me-3" />
                                         <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
@@ -863,6 +869,12 @@ const Message = () => {
                                           />
                                         </Button>
                                       </div>
+                                    ) : i?.endsWith(".mp4") ? (
+                                      <video
+                                        src={i}
+                                        className="w-[150px]"
+                                        controls
+                                      />
                                     ) : (
                                       <img
                                         src={i}
@@ -883,36 +895,46 @@ const Message = () => {
               </CardContent>
               <CardFooter className="absolute left-0 right-0 bottom-0 pl-[20px] pr-5 pt-0 pb-[21px] block bg-white">
                 <div className="">
-                  {images?.length > 0 && (
-                    <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
-                      {images?.map((image, index: number) => (
-                        <div key={index} className="mr-5 mb-2 relative">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="absolute -right-2 -top-2 h-4 w-4"
-                            onClick={() => removeImage(index)}
-                          >
-                            <MdClose className="h-4 w-4" />
-                          </Button>
+                  {FileUploadPending ? (
+                    <Loader containerClassName="h-auto p-2 flex overflow-x-auto bg-[#F5F5F5]" />
+                  ) : (
+                    images?.length > 0 && (
+                      <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
+                        {images?.map((image, index: number) => (
+                          <div key={index} className="mr-5 mb-2 relative">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="absolute -right-2 -top-2 h-4 w-4"
+                              onClick={() => removeImage(index)}
+                            >
+                              <MdClose className="h-4 w-4" />
+                            </Button>
 
-                          {image?.endsWith(".pdf") ? (
-                            <div className="flex items-center">
-                              <IoIosDocument />
-                              <span className="mx-3 text-[12px] text-medium">
-                                {image?.split(".com/")?.[1]}
-                              </span>
-                            </div>
-                          ) : (
-                            <img
-                              src={image}
-                              alt={`Preview-${index}`}
-                              className="h-[50px]"
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                            {image?.endsWith(".pdf") ||
+                            image?.endsWith(".xls") ||
+                            image?.endsWith(".xlsx") ||
+                            image?.endsWith(".doc") ||
+                            image?.endsWith(".docx") ? (
+                              <div className="flex items-center">
+                                <IoIosDocument />
+                                <span className="mx-3 text-[12px] text-medium">
+                                  {image?.split(".com/")?.[1]}
+                                </span>
+                              </div>
+                            ) : image?.endsWith(".mp4") ? (
+                              <video src={image} className="h-[50px]" />
+                            ) : (
+                              <img
+                                src={image}
+                                alt={`Preview-${index}`}
+                                className="h-[50px]"
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )
                   )}
                   <Textarea
                     className="mb-4 px-[13px] py-[11px] resize-none bg-white border border-solid border-[#D9D9D9]"

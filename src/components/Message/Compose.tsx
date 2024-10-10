@@ -243,13 +243,15 @@ const Compose = () => {
     const fileList = event.target.files;
     const validFileTypes = [
       "video/mp4",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
+      "application/vnd.ms-excel", // .xls
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
       "image/png",
       "image/jpeg",
       "application/pdf",
     ];
-    const maxFileSize = 10 * 1024;
+    const maxFileSize = 10 * 1024 * 1024;
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
@@ -516,35 +518,45 @@ const Compose = () => {
                 )}
                 {images?.length > 0 ? (
                   <div className="p-3 py-4 flex gap-5 overflow-x-auto bg-[#F5F5F5] mt-5">
-                    {images.map((image, index: number) => {
-                      return (
-                        <div key={index} className="relative">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            className="absolute -right-2 -top-2 h-4 w-4"
-                            onClick={() => removeImage(index)}
-                          >
-                            <MdClose className="h-4 w-4" />
-                          </Button>
-                          {image?.endsWith(".pdf") ? (
-                            <div className="flex items-center">
-                              <IoIosDocument />
-                              <span className="mx-3 text-medium">
-                                {image?.split("/")?.[3]}
-                              </span>
-                            </div>
-                          ) : (
-                            <img
-                              src={image}
-                              alt={`Preview-${index}`}
-                              className="h-[50px]"
-                            />
-                          )}
-                        </div>
-                      );
-                    })}
+                    {FileUploadPending ? (
+                      <Loader containerClassName="h-auto p-2 flex overflow-x-auto bg-[#F5F5F5]" />
+                    ) : (
+                      images.map((image, index: number) => {
+                        return (
+                          <div key={index} className="relative">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="icon"
+                              className="absolute -right-2 -top-2 h-4 w-4"
+                              onClick={() => removeImage(index)}
+                            >
+                              <MdClose className="h-4 w-4" />
+                            </Button>
+                            {image?.endsWith(".pdf") ||
+                            image?.endsWith(".xls") ||
+                            image?.endsWith(".xlsx") ||
+                            image?.endsWith(".doc") ||
+                            image?.endsWith(".docx") ? (
+                              <div className="flex items-center">
+                                <IoIosDocument />
+                                <span className="mx-3 text-medium">
+                                  {image?.split("/")?.[3]}
+                                </span>
+                              </div>
+                            ) : image?.endsWith(".mp4") ? (
+                              <video src={image} className="h-[50px]" />
+                            ) : (
+                              <img
+                                src={image}
+                                alt={`Preview-${index}`}
+                                className="h-[50px]"
+                              />
+                            )}
+                          </div>
+                        );
+                      })
+                    )}
                     {FileUploadPending && <p>Loading...</p>}
                   </div>
                 ) : (
