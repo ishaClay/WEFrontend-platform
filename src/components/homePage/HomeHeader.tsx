@@ -103,7 +103,7 @@ function HomeHeader(props: headerProps) {
     >
       <div className="sticky top-0 h-full z-[50] lg:shadow-none shadow-md bg-white">
         <header
-          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[20px] md:pt-[42px] pt-[18px] pb-[18px] ${
+          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[20px] py-[18px] ${
             props.hasDiffHeader ? "mx-7" : ""
           }`}
         >

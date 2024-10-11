@@ -91,7 +91,7 @@ const FeaturedCourses = () => {
                       <div className="sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between items-start">
                         <div className="sm:order-1 order-2 sm:mt-0 mt-3 w-[calc(100%-450px)] h-full flex flex-col justify-between">
                           <div>
-                            <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
+                            <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] capitalize xl:text-left text-center sm:mb-0 mb-4">
                               {title || "Featured Courses"}
                             </h5>
                           </div>
