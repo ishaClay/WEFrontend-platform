@@ -76,7 +76,7 @@ const AllocatedCertificatePage = () => {
         );
       },
       cell: ({ row }) => {
-        return <p>{row.index + 1 + (page - 1) * 10}</p>;
+        return <p>#{row.index + 1 + (page - 1) * 10}</p>;
       },
     },
     {
