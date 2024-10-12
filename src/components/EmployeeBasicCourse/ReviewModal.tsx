@@ -140,7 +140,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
               rows={5}
             />
             <div className="right-2 bottom-2 absolute text-[#A3A3A3] text-[12px]">
-              {review.length}/{250}
+              {review?.length}/{250}
             </div>
           </div>
         </>

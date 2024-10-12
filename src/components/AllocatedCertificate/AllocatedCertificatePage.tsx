@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { convertUTCToGMT } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   deleteAllocateCertificate,
@@ -20,7 +22,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
-import { convertUTCToGMT } from "@/lib/utils";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
@@ -75,11 +76,7 @@ const AllocatedCertificatePage = () => {
         );
       },
       cell: ({ row }) => {
-        return (
-          <h6 className="2xl:text-[15px] text-xs font-droid text-black">
-            #{row.original?.id}
-          </h6>
-        );
+        return <p>{row.index + 1 + (page - 1) * 10}</p>;
       },
     },
     {
@@ -363,6 +360,8 @@ const AllocatedCertificatePage = () => {
               columns={column}
               data={filteredData || []}
               setPage={setPage}
+              // @ts-ignore
+              totalPages={Issued_Certificate?.pagination?.totalPages}
               inputbox={false}
               pagination={{ pageIndex: page, pageSize: 10 }}
               itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"

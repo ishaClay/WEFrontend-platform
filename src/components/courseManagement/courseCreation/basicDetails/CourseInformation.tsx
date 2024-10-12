@@ -133,8 +133,6 @@ const CourseInformation = ({ setCourseById }: CourseInformationProps) => {
       freeCourse: false,
     },
   });
-  console.log("🚀 ~ CourseInformation ~ errors:", errors);
-
   const search = window.location.search;
   const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -162,9 +163,7 @@ const MessageList = ({
                     <div className="flex items-center gap-6 text-[#606060] text-xs">
                       {getTimeAgo(com.createdAt)}
                       <Button
-                        className={`cursor-pointer text-xs p-0 bg-transparent text-black font-droid h-4 ${
-                          com.reply ? "hidden" : "block"
-                        }`}
+                        className={`cursor-pointer text-xs p-0 bg-transparent text-black font-droid h-4`}
                         onClick={() => setopen(com?.id)}
                       >
                         Reply
@@ -218,36 +217,60 @@ const MessageList = ({
                 </div>
               </div>
               {/* show creted reply output */}
-              <div
-                className={`flex gap-4 w-full flex-row ms-[15px]  ${
-                  com?.reply === null ? "hidden" : "block"
-                }`}
-              >
-                <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
-                  <Avatar className="w-full h-full">
-                    <AvatarImage src={""} alt="profileImage" />
-                    <AvatarFallback
-                      className="text-white text-xl"
-                      style={{ background: chatDPColor(userData?.query?.id) }}
-                    >
-                      {userData?.query?.name?.charAt(0)?.toUpperCase() ||
-                        userData?.query?.email?.charAt(0)?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="w-full">
-                  <h5 className="font-droid text-sm tetx-black font-semibold">
-                    {userData?.query?.name}
-                  </h5>
-                  <p className="text-black text-sm font-droid">{com?.reply}</p>
-                  {/* <Input
+              {
+                // @ts-ignore
+                com?.replys?.length > 0 &&
+                  // @ts-ignore
+                  com?.replys?.map((itm: any) => {
+                    const user = itm?.user?.employeeDetails
+                      ? itm?.user?.employeeDetails
+                      : itm?.user?.trainerCompanyDetails
+                      ? itm?.user?.trainerCompanyDetails
+                      : itm?.user?.trainerDetails
+                      ? itm?.user?.trainerDetails
+                      : itm?.user?.companyDetails;
+                    return (
+                      <div className={`flex gap-4 w-full flex-row ms-[15px]`}>
+                        <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
+                          <Avatar className="w-full h-full">
+                            <AvatarImage
+                              src={user?.profileImage}
+                              alt="profileImage"
+                            />
+                            <AvatarFallback
+                              className="text-white text-xl"
+                              style={{
+                                background: chatDPColor(userData?.query?.id),
+                              }}
+                            >
+                              {user?.name?.charAt(0)?.toUpperCase() ||
+                                user?.email?.charAt(0)?.toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                        </div>
+                        <div className="w-full">
+                          <div className="flex items-center gap-8">
+                            <h5 className="font-droid text-sm tetx-black font-semibold">
+                              {user?.name}
+                            </h5>
+                            <p className="text-black text-[12px] font-droid">
+                              {getTimeAgo(itm.createdAt)}
+                            </p>
+                          </div>
+                          <p className="text-black text-sm font-droid">
+                            {itm?.reply}
+                          </p>
+                          {/* <Input
                     placeholder={"messages"}
                     className="border-none bg-transparent text-black text-sm font-droid px-0 placeholder:text-black h-auto"
                     type="text"
                     value={com?.reply as string}
                   /> */}
-                </div>
-              </div>
+                        </div>
+                      </div>
+                    );
+                  })
+              }
             </>
           );
         })

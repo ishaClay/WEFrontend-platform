@@ -57,7 +57,6 @@ const Message = () => {
   const userID = UserId ? UserId : userData?.query?.id;
 
   const [searchChat, setSearchChat] = useState("");
-  console.log("🚀 ~ Message ~ searchChat:", searchChat);
   const [images, setImages] = useState<string[]>([]);
 
   const [showScrollButton, setShowScrollButton] = useState(false);

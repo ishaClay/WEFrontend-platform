@@ -42,19 +42,24 @@ const ForumPage = () => {
   const [loadingID, setLoadingID] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const UserId = useSelector((state: UserData) => state.user.UserId);
-  const userId = UserId ? UserId : userData?.query?.id;
+  const userID = UserId ? UserId : userData?.query?.id;
   const { courseId } = useParams();
   const courseParamsId = new URLSearchParams(window.location.search).get("id");
+  const courseID = new URLSearchParams(window.location.search).get("courseId");
   const [openCommnet, setopenCommnet] = useState<number>(0);
   const [a, setA] = useState<any>({ key1: "", key2: "", key3: "" });
-
-  const { data: fetchForumQuestionData, isPending: fetchForumQuestionLoading } =
+  const path = location;
+  const { data: fetchForumQuestionData, isLoading: fetchForumQuestionLoading } =
     useQuery({
-      queryKey: [QUERY_KEYS.fetchModuleForumQuestion, courseId, courseParamsId],
-      queryFn: () => fetchForumQuestion(courseId || courseParamsId),
-      enabled: !!courseId || !!courseParamsId,
+      queryKey: [
+        QUERY_KEYS.fetchModuleForumQuestion,
+        courseId,
+        courseID,
+        courseParamsId,
+      ],
+      queryFn: () => fetchForumQuestion(courseId || courseParamsId || courseID),
+      enabled: !!courseId || !!courseParamsId || !!courseID,
     });
-
   useEffect(() => {
     if (fetchForumQuestionData?.data?.module?.length) {
       setforumquestion(
@@ -77,6 +82,7 @@ const ForumPage = () => {
           QUERY_KEYS.fetchModuleForumQuestion,
           courseId,
           courseParamsId,
+          courseID,
         ],
       });
       queryClient.invalidateQueries({
@@ -125,15 +131,19 @@ const ForumPage = () => {
     e.preventDefault();
     if (
       forumquestion.find((it) => it.moduleId === moduleID)?.question &&
-      (courseId || courseParamsId) &&
-      userId
+      (courseId || courseParamsId || courseID) &&
+      userID
     ) {
       setLoadingID(moduleID.toString());
       mutate({
         question:
           forumquestion.find((it) => it.moduleId === moduleID)?.question || "",
-        userId: +userId,
-        courseId: courseId ? +courseId : +courseParamsId!,
+        userId: +userID,
+        courseId: courseId
+          ? +courseId
+          : courseID
+          ? +courseID
+          : +courseParamsId!,
         moduleId: +moduleID,
         tab: "4",
       });
@@ -168,81 +178,84 @@ const ForumPage = () => {
               </h5>
             </div>
           </div>
-          <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:pb-5 pb-3 rounded-lg mb-5">
-            <div className="flex gap-4 items-center">
-              <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
-                <Avatar className="w-full h-full">
-                  <AvatarImage src={""} alt="profileImage" />
-                  <AvatarFallback
-                    className="text-white text-xl"
-                    style={{ background: chatDPColor(userData?.query?.id) }}
-                  >
-                    {userData?.query?.fname?.charAt(0)?.toUpperCase() ||
-                      userData?.query?.email?.charAt(0)?.toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+          {!path?.pathname.includes("/employee-basic-course") && (
+            <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:pb-5 pb-3 rounded-lg mb-5">
+              <div className="flex gap-4 items-center">
+                <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
+                  <Avatar className="w-full h-full">
+                    <AvatarImage src={""} alt="profileImage" />
+                    <AvatarFallback
+                      className="text-white text-xl"
+                      style={{ background: chatDPColor(userData?.query?.id) }}
+                    >
+                      {userData?.query?.fname?.charAt(0)?.toUpperCase() ||
+                        userData?.query?.email?.charAt(0)?.toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+
+                <div className="">
+                  <h5 className="text-black text-base font-font-droid">
+                    {userData?.query?.fname || userData?.query?.lname
+                      ? `${userData?.query?.fname || ""} ${" "} ${
+                          userData?.query?.lname || ""
+                        }`.trim()
+                      : userData?.query?.email?.split("@")[0]}
+                  </h5>
+                  <h6 className="text-[rgb(91,91,91)] text-xs font-droid">
+                    {+userData?.query?.role === UserRole.Company
+                      ? "Company"
+                      : +userData?.query?.role === UserRole.Trainer
+                      ? "Trainer Company"
+                      : +userData?.query?.role === UserRole.Trainee
+                      ? "Trainer"
+                      : +userData?.query?.role === UserRole.Employee
+                      ? "Company Employee"
+                      : +userData?.query?.role === UserRole.SuperAdmin
+                      ? "Super Admin"
+                      : "Client"}
+                  </h6>
+                </div>
               </div>
 
-              <div className="">
-                <h5 className="text-black text-base font-font-droid">
-                  {userData?.query?.fname || userData?.query?.lname
-                    ? `${userData?.query?.fname || ""} ${" "} ${
-                        userData?.query?.lname || ""
-                      }`.trim()
-                    : userData?.query?.email?.split("@")[0]}
-                </h5>
-                <h6 className="text-[rgb(91,91,91)] text-xs font-droid">
-                  {+userData?.query?.role === UserRole.Company
-                    ? "Company"
-                    : +userData?.query?.role === UserRole.Trainer
-                    ? "Trainer Company"
-                    : +userData?.query?.role === UserRole.Trainee
-                    ? "Trainer"
-                    : +userData?.query?.role === UserRole.Employee
-                    ? "Company Employee"
-                    : +userData?.query?.role === UserRole.SuperAdmin
-                    ? "Super Admin"
-                    : "Client"}
-                </h6>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit.bind(null, item?.id)}>
-              <Textarea
-                placeholder="Post Your Question"
-                rows={5}
-                className="w-full border-border-[#D9D9D9] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
-                onChange={(e) =>
-                  setforumquestion((prev) =>
-                    prev.map((it) =>
-                      it.moduleId === item?.id
-                        ? { ...it, question: e.target.value }
-                        : it
+              <form onSubmit={handleSubmit.bind(null, item?.id)}>
+                <Textarea
+                  placeholder="Post Your Question"
+                  rows={5}
+                  className="w-full border-border-[#D9D9D9] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
+                  onChange={(e) =>
+                    setforumquestion((prev) =>
+                      prev.map((it) =>
+                        it.moduleId === item?.id
+                          ? { ...it, question: e.target.value }
+                          : it
+                      )
                     )
-                  )
-                }
-                value={
-                  forumquestion.find((it) => it.moduleId === item?.id)?.question
-                }
-              />
-              <div className="text-right pt-5">
-                <Button
-                  className="bg-[#42A7C3] text-xs md:text:md"
-                  type="submit"
-                  disabled={createForumLoading && +loadingID === item?.id}
-                >
-                  {createForumLoading && +loadingID === item?.id && (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  )}
-                  Post Question
-                </Button>
-              </div>
-            </form>
-          </div>
+                  }
+                  value={
+                    forumquestion.find((it) => it.moduleId === item?.id)
+                      ?.question
+                  }
+                />
+                <div className="text-right pt-5">
+                  <Button
+                    className="bg-[#42A7C3] text-xs md:text:md"
+                    type="submit"
+                    disabled={createForumLoading && +loadingID === item?.id}
+                  >
+                    {createForumLoading && +loadingID === item?.id && (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    )}
+                    Post Question
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
 
           {item?.forumQuestions?.map((x, i) => {
-            const hasLiked = x?.like?.some((i: any) => i?.id === +userId);
-            const hasDisliked = x?.unlike?.some((i: any) => i?.id === +userId);
+            const hasLiked = x?.like?.some((i: any) => i?.id === +userID);
+            const hasDisliked = x?.unlike?.some((i: any) => i?.id === +userID);
 
             return (
               <div
@@ -303,7 +316,7 @@ const ForumPage = () => {
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
-                            userId: +userId,
+                            userId: +userID,
                           },
                           isLike: true,
                         });
@@ -342,7 +355,7 @@ const ForumPage = () => {
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
-                            userId: +userId,
+                            userId: +userID,
                           },
                           isLike: false,
                         });
