@@ -419,8 +419,6 @@ const Dashboard = () => {
       (a: number, b: number) => a + b,
       0
     );
-  console.log("🚀 ~ Dashboard ~ smeDashboardData:", smeDashboardData);
-
   const resolveSupportTicket =
     smeDashboardData?.data?.supportTickets?.resolved &&
     Object.values(smeDashboardData?.data?.supportTickets?.resolved).reduce(

@@ -1,12 +1,12 @@
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
+import { convertUTCToGMT } from "@/lib/utils";
 import { MeasureEntity } from "@/types/employee";
 import { CircleCheck, Eye } from "lucide-react";
 import { useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import DelayModel from "../Roadmap/DelayModel";
-import { convertUTCToGMT } from "@/lib/utils";
 
 type ActionItemsProps = {
   data: MeasureEntity;
@@ -16,12 +16,6 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
   const [isOpenDelayModel, setIsOpenDelayModel] = useState(false);
   const [uploadData, setUploadData] = useState<any>(null);
   const status = () => {
-    console.log(
-      "🚀 ~ status ~ data:",
-      convertUTCToGMT(new Date(data.startDate)).isSameOrBefore(
-        convertUTCToGMT(new Date())
-      )
-    );
     if (
       convertUTCToGMT(new Date(data.startDate)).isSameOrBefore(
         convertUTCToGMT(new Date())

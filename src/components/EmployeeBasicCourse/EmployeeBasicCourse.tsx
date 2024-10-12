@@ -2,6 +2,7 @@
 import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import Forum from "@/pages/courseManagement/Forum";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchSingleCourse,
@@ -38,6 +39,7 @@ const EmployeeBasicCourse = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
+
   const dispatch = useAppDispatch();
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
@@ -208,6 +210,15 @@ const EmployeeBasicCourse = () => {
                   >
                     Module
                   </TabsTrigger>
+                  {location?.pathname.includes("/employee-basic-course") &&
+                    +userData?.query?.role === 4 && (
+                      <TabsTrigger
+                        value="forum"
+                        className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                      >
+                        Forum
+                      </TabsTrigger>
+                    )}
                   <TabsTrigger
                     value="feedback"
                     className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
@@ -320,6 +331,12 @@ const EmployeeBasicCourse = () => {
               </TabsContent>
               <TabsContent value="module" className="p-5">
                 <Module data={course?.data} enrollData={course?.enroll} />
+              </TabsContent>
+              <TabsContent
+                value="forum"
+                className="xl:p-[30px] sm:p-5 p-4 mt-0"
+              >
+                <Forum />
               </TabsContent>
               <TabsContent value="feedback" className="p-5">
                 <Feedback data={course?.data} />

@@ -89,18 +89,18 @@ const FeaturedCourses = () => {
 
                     <div className="relative">
                       <div className="sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between items-start">
-                        <div className="sm:order-1 order-2 sm:mt-0 mt-3 w-[calc(100%-450px)] h-full flex flex-col justify-between">
+                        <div className="sm:order-1 order-2 sm:mt-0 mt-3 sm:w-[calc(100%-450px)] h-full flex flex-col justify-between">
                           <div>
-                            <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] capitalize xl:text-left text-center sm:mb-0 mb-4">
+                            <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] capitalize xl:text-left text-center">
                               {title || "Featured Courses"}
                             </h5>
                           </div>
                           <div>
-                            <h2 className="min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4 mt-5 truncate">
+                            <h2 className="sm:min-h-[40px] min-h-[20px] xl:leading-9 sm:leading-8 leading-4 xl:text-[32px] sm:text-3xl text-[18px] font-bold font-droid pb-4 mt-5 truncate">
                               {item.courseTitle?.title}
                             </h2>
 
-                            <p className="w-full mb-8 text-lg leading-5 pr-4 font-droid line-clamp-4">
+                            <p className="w-full sm:mb-8 mb-4 sm:text-lg text-[14px] leading-5 pr-4 font-droid line-clamp-4">
                               {item.content}
                             </p>
                           </div>

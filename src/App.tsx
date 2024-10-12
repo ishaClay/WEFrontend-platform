@@ -191,8 +191,6 @@ function App() {
     });
 
     socket.on("employee status", (data: any) => {
-      console.log("employee status", data);
-
       if (
         data?.user?.employeeDetails?.employeeStatus === "Inactive" &&
         data?.user?.id === +UserId
