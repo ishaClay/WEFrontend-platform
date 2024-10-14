@@ -224,43 +224,46 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     );
   };
 
-  const CustomEvent = ({ event }: { event: any }) => (
-    <Dialog>
-      <DialogTrigger className="w-full text-left h-full">
-        <p className="cursor-pointer max-w-[200px] w-full line-clamp-1">
-          {event?.courseTitle + " - " + event.title}
-        </p>
-      </DialogTrigger>
-      <DialogContent showCloseButton={true}>
-        <h3 className="mb-2 text-wrap">
-          <strong>Title:</strong> {event?.courseTitle + " - " + event.title}
-        </h3>
-        <p className="mb-2">
-          <strong>Meeting time:</strong>{" "}
-          {convertUTCToGMT(event?.start).format("hh:mm a")} -
-          {convertUTCToGMT(event?.end).format("hh:mm a")}
-        </p>
-        <ScrollArea className="max-h-[500px]">
-          <p className="mb-2 text-wrap max-w-[450px] break-words">
-            <strong>Description:</strong> {event?.description}
+  const CustomEvent = ({ event }: { event: any }) => {
+    if (event?.courseTitle === "test081002") {
+    }
+    return (
+      <Dialog>
+        <DialogTrigger className="w-full text-left h-full">
+          <p className="cursor-pointer max-w-[200px] w-full line-clamp-1">
+            {event?.courseTitle + " - " + event.title}
           </p>
-        </ScrollArea>
-        <Button
-          disabled={
-            !convertUTCToGMT().isBetween(
-              convertUTCToGMT(event?.start),
-              convertUTCToGMT(event?.end),
-              "minute",
-              "[)"
-            )
-          }
-          onClick={() => window.open(event?.zoomlink, "_blank")}
-        >
-          Join Meeting
-        </Button>
-      </DialogContent>
-    </Dialog>
-  );
+        </DialogTrigger>
+        <DialogContent showCloseButton={true}>
+          <h3 className="mb-2 text-wrap">
+            <strong>Title:</strong> {event?.courseTitle + " - " + event.title}
+          </h3>
+          <p className="mb-2">
+            <strong>Meeting time:</strong> {event?.start.format("hh:mm a")} -
+            {event?.end.format("hh:mm a")}
+          </p>
+          <ScrollArea className="max-h-[500px]">
+            <p className="mb-2 text-wrap max-w-[450px] break-words">
+              <strong>Description:</strong> {event?.description}
+            </p>
+          </ScrollArea>
+          <Button
+            disabled={
+              !convertUTCToGMT().isBetween(
+                convertUTCToGMT(event?.start),
+                convertUTCToGMT(event?.end),
+                "minute",
+                "[)"
+              )
+            }
+            onClick={() => window.open(event?.zoomlink, "_blank")}
+          >
+            Join Meeting
+          </Button>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   return (
     <div className="p-3 bg-white min-h-full">

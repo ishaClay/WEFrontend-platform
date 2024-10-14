@@ -9,9 +9,10 @@ import { createCommnets, createReply } from "@/services/apiServices/forum";
 import { UserData } from "@/types/auth";
 import { ErrorType } from "@/types/Errors";
 import { ForumQuestionsType } from "@/types/forum";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Dispatch, useState } from "react";
+import { Dispatch, Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 
 const MessageList = ({
@@ -95,6 +96,19 @@ const MessageList = ({
       });
     }
   };
+  const getUserName = (user: any) => {
+    switch (+user.role) {
+      case UserRole.Employee:
+        return user.employeeDetails?.name;
+      case UserRole.Trainer:
+        return user.trainerCompanyDetails?.providerName;
+      case UserRole.Trainee:
+        return user.trainerDetails?.name;
+
+      default:
+        return user.email?.split("@")?.[0];
+    }
+  };
   return (
     <div className="flex flex-col gap-4">
       <div
@@ -130,30 +144,26 @@ const MessageList = ({
         // ) :
         data?.comments?.map((com) => {
           return (
-            <>
+            <Fragment key={com?.id}>
               {/* show created commnet */}
-              <div className={`flex gap-4 w-full`} key={com?.id}>
-                <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
+              <div className={`flex gap-4 w-full`}>
+                <div className="min-w-[30px] w-[30px] mt-2.5 min-h-[30px] h-[30px] rounded-full overflow-hidden">
                   <Avatar className="w-full h-full">
                     <AvatarImage src={""} alt="profileImage" />
                     <AvatarFallback
                       className="text-white text-xl"
                       style={{ background: chatDPColor(com?.user?.id) }}
                     >
-                      {com.user?.trainerCompanyDetails?.providerName?.charAt(
-                        0
-                      ) ||
-                        com.user?.email?.split("@")[0].charAt(0) ||
-                        com.user?.trainerDetails?.providerName?.charAt(0) ||
+                      {getUserName(com?.user)?.charAt(0) ||
                         com.user?.email?.split("@")[0].charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
                 <div className="flex flex-col gap-2 w-full ">
-                  <div className="">
+                  <div className="bg-[#F5F7FF] px-4 py-2.5 rounded-[16px]">
                     <h5 className="font-droid text-sm tetx-black font-semibold pb-1.5">
-                      {com.user?.trainerCompanyDetails?.providerName ||
-                        com.user?.trainerDetails?.providerName}
+                      {getUserName(com?.user) ||
+                        com.user?.email?.split("@")?.[0]}
                     </h5>
                     <p className="text-black text-sm font-droid">
                       {com?.comment}
@@ -179,7 +189,7 @@ const MessageList = ({
                 } `}
               >
                 <div className="flex gap-4">
-                  <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
+                  <div className="min-w-[30px] w-[30px] mt-2.5 min-h-[30px] h-[30px] rounded-full overflow-hidden">
                     <Avatar className="w-full h-full">
                       <AvatarImage src={""} alt="profileImage" />
                       <AvatarFallback
@@ -203,7 +213,7 @@ const MessageList = ({
                       className="border-none bg-transparent text-black text-sm font-droid px-0 placeholder:text-black"
                       type="text"
                       onChange={(e) => setreplyMessage(e.target.value)}
-                      // value={replyMessage ?? ""}
+                      value={replyMessage ?? ""}
                     />
                     <div className="text-right">
                       <Button
@@ -231,7 +241,7 @@ const MessageList = ({
                       : itm?.user?.companyDetails;
                     return (
                       <div className={`flex gap-4 w-full flex-row ms-[15px]`}>
-                        <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
+                        <div className="min-w-[30px] w-[30px] mt-2.5 min-h-[30px] h-[30px] rounded-full overflow-hidden">
                           <Avatar className="w-full h-full">
                             <AvatarImage
                               src={user?.profileImage}
@@ -243,22 +253,25 @@ const MessageList = ({
                                 background: chatDPColor(userData?.query?.id),
                               }}
                             >
-                              {user?.name?.charAt(0)?.toUpperCase() ||
+                              {getUserName(itm.user)
+                                ?.charAt(0)
+                                ?.toUpperCase() ||
                                 user?.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
                         </div>
                         <div className="w-full">
-                          <div className="flex items-center gap-8">
+                          <div className="bg-[#F5F7FF] px-4 py-2.5 rounded-[16px]">
                             <h5 className="font-droid text-sm tetx-black font-semibold">
-                              {user?.name}
+                              {getUserName(itm.user) ||
+                                user?.email?.split("@")?.[0]}
                             </h5>
-                            <p className="text-black text-[12px] font-droid">
-                              {getTimeAgo(itm.createdAt)}
+                            <p className="text-black text-sm font-droid">
+                              {itm?.reply}
                             </p>
                           </div>
-                          <p className="text-black text-sm font-droid">
-                            {itm?.reply}
+                          <p className="text-black text-[12px] font-droid">
+                            {getTimeAgo(itm.createdAt)}
                           </p>
                           {/* <Input
                     placeholder={"messages"}
@@ -271,7 +284,7 @@ const MessageList = ({
                     );
                   })
               }
-            </>
+            </Fragment>
           );
         })
       }

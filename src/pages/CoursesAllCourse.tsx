@@ -162,7 +162,7 @@ function CoursesAllCourse() {
           id="scrollStyle"
         >
           {isLoading ? (
-            <Loader containerClassName="h-[96px]" />
+            <Loader containerClassName="h-[96px] w-full" />
           ) : (
             pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
               return (
