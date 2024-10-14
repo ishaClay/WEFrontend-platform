@@ -65,6 +65,7 @@ function Auth() {
       CompanyEmployee: 4,
       SuperAdmin: 5,
       Client: 6,
+      SubClient: 7,
     };
 
     switch (role) {
@@ -85,6 +86,9 @@ function Auth() {
         break;
       case Roles.Client:
         roleName = "Client";
+        break;
+      case Roles.SubClient:
+        roleName = "SubClient";
         break;
       default:
         roleName = "Unknown";
@@ -124,7 +128,7 @@ function Auth() {
       const user = data?.data?.data?.query;
       const role = trackUserLogin(+user?.role);
 
-      if (role !== "SuperAdmin" && role !== "Client") {
+      if (role !== "SuperAdmin" && role !== "Client" && role !== "SubClient") {
         if ((window as any).gtag) {
           (window as any).gtag("event", "login", {
             user_id: user?.id,
