@@ -234,7 +234,14 @@ function App() {
           path="/feature-course/:id"
           element={<FeatureCourseDetailPage />}
         />
-        <Route path="/auth" element={<Auth />} />
+        <Route
+          path="/auth"
+          element={
+            <ProtectedRoute>
+              <Auth />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/register" element={<Register />} />
