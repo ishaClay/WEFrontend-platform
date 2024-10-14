@@ -71,12 +71,12 @@ const AllocatedCertificatePage = () => {
       header: () => {
         return (
           <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
-            ID
+            #
           </h5>
         );
       },
       cell: ({ row }) => {
-        return <p>{row.index + 1 + (page - 1) * 10}</p>;
+        return <p>#{row.index + 1 + (page - 1) * 10}</p>;
       },
     },
     {
