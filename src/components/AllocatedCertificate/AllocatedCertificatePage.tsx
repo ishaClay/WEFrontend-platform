@@ -71,7 +71,7 @@ const AllocatedCertificatePage = () => {
       header: () => {
         return (
           <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
-            ID
+            #
           </h5>
         );
       },

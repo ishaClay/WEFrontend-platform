@@ -32,10 +32,6 @@ export { getToken, messaging };
 export default app;
 
 export const getDeviceToken = async () => {
-  // const permission = await Notification.requestPermission();
-
-  // if (permission === "granted") {
-  // }
   try {
     const message = await messaging();
     if (!message) return;

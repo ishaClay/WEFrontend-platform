@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import DocImage from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
@@ -17,7 +18,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+import { cn, convertUTCToGMT, TimeFormatter } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
   getSingleSupportTicket,
@@ -300,40 +301,57 @@ const TicketsDetailsReply = () => {
                 )}
               </div>
             )}
+            {data?.data.data?.assignTo && (
+              <div className="py-2">
+                <h2 className="font-medium underline text-[#A3A3A3]">
+                  Assigned To:
+                </h2>
+                <div className="flex items-center gap-[11px]">
+                  <Avatar className="w-[32px] h-[32px]">
+                    <AvatarImage
+                      src={data?.data.data?.assignTo?.profileImage}
+                    />
+                    <AvatarFallback>
+                      {userName(data?.data.data?.assignTo?.name)
+                        .charAt(0)
+                        .toUpperCase() ||
+                        data?.data.data?.assignTo?.fname
+                          ?.charAt(0)
+                          .toUpperCase() ||
+                        data?.data.data?.assignTo?.email
+                          ?.split("@")[0]
+                          ?.charAt(0)
+                          .toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="text-[16px]">
+                      {data?.data.data?.assignTo?.name ||
+                        data?.data.data?.assignTo?.fname ||
+                        data?.data.data?.assignTo?.email?.split("@")[0]}
+                    </h3>
+                    <p className="text-[#A3A3A3] text-[12px]">
+                      Status:{" "}
+                      {data?.data.data?.status === "InProcess"
+                        ? "In Progress"
+                        : data?.data.data?.status}
+                    </p>
+                    <p className="text-[#A3A3A3] text-[12px]">
+                      {TimeFormatter(
+                        // @ts-ignore
+                        convertUTCToGMT(data?.data.data?.createdAt)
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {data?.data?.data?.response?.length > 0 &&
             data?.data?.data?.response?.map((itm: any) => {
               return (
                 <div className="max-w-full border solid 1px gray rounded-[10px] sm:mt-[34px] mt-[20px] p-[17px]">
-                  <div className="flex items-center gap-[11px]">
-                    <Avatar className="w-[32px] h-[32px]">
-                      <AvatarImage src={itm?.createdBy?.profileImage} />
-                      <AvatarFallback>
-                        {userName(itm?.createdBy?.name)
-                          .charAt(0)
-                          .toUpperCase() ||
-                          itm?.createdBy?.fname?.charAt(0).toUpperCase() ||
-                          itm?.createdBy?.email
-                            ?.split("@")[0]
-                            ?.charAt(0)
-                            .toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="text-[16px]">
-                        {itm?.createdBy?.name ||
-                          itm?.createdBy?.fname ||
-                          itm?.createdBy?.email?.split("@")[0]}
-                      </h3>
-                      <p className="text-[#A3A3A3] text-[12px]">
-                        Reply By:{" "}
-                        {itm?.status === "InProcess"
-                          ? "In Progress"
-                          : itm?.status}
-                      </p>
-                    </div>
-                  </div>
                   <p className="text-[#A3A3A3] text-[16px] mt-[18px]">
                     Ticket Details
                   </p>
@@ -367,6 +385,47 @@ const TicketsDetailsReply = () => {
                         </div>
                       )}
                     </>
+                  )}
+                  {itm?.assignTo && (
+                    <div className="py-2">
+                      <h2 className="font-medium underline text-[#A3A3A3]">
+                        Assigned To:
+                      </h2>
+                      <div className="flex items-center gap-[11px]">
+                        <Avatar className="w-[32px] h-[32px]">
+                          <AvatarImage src={itm?.assignTo?.profileImage} />
+                          <AvatarFallback>
+                            {userName(itm?.assignTo?.name)
+                              .charAt(0)
+                              .toUpperCase() ||
+                              itm?.assignTo?.fname?.charAt(0).toUpperCase() ||
+                              itm?.assignTo?.email
+                                ?.split("@")[0]
+                                ?.charAt(0)
+                                .toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="text-[16px]">
+                            {itm?.assignTo?.name ||
+                              itm?.assignTo?.fname ||
+                              itm?.assignTo?.email?.split("@")[0]}
+                          </h3>
+                          <p className="text-[#A3A3A3] text-[12px]">
+                            Status:{" "}
+                            {itm?.status === "InProcess"
+                              ? "In Progress"
+                              : itm?.status}
+                          </p>
+                          <p className="text-[#A3A3A3] text-[12px]">
+                            {TimeFormatter(
+                              // @ts-ignore
+                              convertUTCToGMT(itm?.createdAt)
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               );

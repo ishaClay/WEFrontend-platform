@@ -37,8 +37,11 @@ const TrainerEditDetails = () => {
   const params = useParams();
 
   const [trainerStatus, setTrainerStatus] = useState(1);
+
   useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
+    if (!socket?.connected) {
+      socket = io(import.meta.env.VITE_SOCKET_URL);
+    }
   }, [socket]);
 
   const { data, isLoading } = useQuery({
@@ -63,6 +66,7 @@ const TrainerEditDetails = () => {
       );
 
       navigate(`/company/employeelist`);
+      socket.disconnect();
     },
     onError: (error: any) => {
       toast({
@@ -70,6 +74,7 @@ const TrainerEditDetails = () => {
         description: error?.data?.message || "Internal server error",
         variant: "destructive",
       });
+      socket.disconnect();
     },
   });
 
