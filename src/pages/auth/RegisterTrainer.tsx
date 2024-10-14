@@ -86,7 +86,10 @@ function RegisterTrainer() {
     contactSurname: z
       .string()
       .min(1, { message: "Please enter contact lastname" })
-      .regex(/^\S*$/, "Please enter valid contact lastname"),
+      .regex(
+        /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+        "Please enter valid contact lastname"
+      ),
     contactTelephone: z.string().optional(),
     providerAddress: z
       .string({
@@ -97,7 +100,10 @@ function RegisterTrainer() {
     contactFirstName: z
       .string()
       .min(1, { message: "Please enter contact firstname" })
-      .regex(/^\S*$/, "Please enter valid contact firstname"),
+      .regex(
+        /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+        "Please enter valid contact firstname"
+      ),
     email: z
       .string()
       .min(1, { message: "Please enter email address" })

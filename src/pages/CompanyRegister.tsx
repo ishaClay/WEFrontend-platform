@@ -83,11 +83,17 @@ function CompanyRegister() {
       contactFirstName: z
         .string()
         .min(1, { message: "Please enter contact first name" })
-        .regex(/^\S*$/, "Please enter valid contact first name"),
+        .regex(
+          /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+          "Please enter valid contact first name"
+        ),
       contactLastName: z
         .string()
         .min(1, { message: "Please enter contact last name" })
-        .regex(/^\S*$/, "Please enter valid contact last name"),
+        .regex(
+          /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+          "Please enter valid contact last name"
+        ),
       soleTrader: z.string(),
       companyNumberId: z.number().nullable().optional(),
       isRegister: z.boolean(),

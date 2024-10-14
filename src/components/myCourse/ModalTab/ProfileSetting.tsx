@@ -29,8 +29,14 @@ const ProfileSetting = () => {
 
   const schema = zod
     .object({
-      firstname: zod.string().nonempty("Please enter first name"),
-      lastname: zod.string().nonempty("Please enter last name"),
+      firstname: zod
+        .string()
+        .nonempty("Please enter first name")
+        .regex(/^[A-Za-z]+(?:\s[A-Za-z]+)*$/, "Please enter valid firstname"),
+      lastname: zod
+        .string()
+        .nonempty("Please enter last name")
+        .regex(/^[A-Za-z]+(?:\s[A-Za-z]+)*$/, "Please enter valid lastname"),
       smeOrganisation: zod.string().optional(),
       email: zod.string(),
       mobilenumber: zod.string().optional(),
