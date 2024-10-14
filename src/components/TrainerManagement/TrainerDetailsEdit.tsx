@@ -42,11 +42,17 @@ const schema = zod.object({
   fname: zod
     .string()
     .min(1, { message: "Please enter contact firstname" })
-    .regex(/^\S*$/, "Please enter valid contact firstname"),
+    .regex(
+      /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+      "Please enter valid contact firstname"
+    ),
   lname: zod
     .string()
     .min(1, { message: "Please enter contact lastname" })
-    .regex(/^\S*$/, "Please enter valid contact lastname"),
+    .regex(
+      /^[A-Za-z]+(?:\s[A-Za-z]+)*$/,
+      "Please enter valid contact lastname"
+    ),
   number: zod.string().optional(),
   email: zod
     .string()
