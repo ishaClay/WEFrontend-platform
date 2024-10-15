@@ -25,6 +25,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import eye from "/assets/icons/eye.svg";
+import { socket } from "../../services/socket";
 
 interface MessageDetailsProps {
   empId: DataEntity;
@@ -34,8 +35,6 @@ interface MessageDetailsProps {
 const schema = z.object({
   message: z.string().min(1, { message: "Please enter message" }),
 });
-
-let socket: any;
 
 const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   const queryClient = useQueryClient();
@@ -60,7 +59,6 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   });
 
   useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
     socket.on("message recieved", (newMessageReceived: any) => {
       setAllMsg((prevMsgs: any) => {
         const isDuplicate = prevMsgs.some(
