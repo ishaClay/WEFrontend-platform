@@ -148,7 +148,8 @@ const LiveSession = ({
                         to{" "}
                         {convertUTCToGMT(list?.liveSection[0]?.startTime)
                           .add(list?.liveSection[0]?.sessionDuration, "m")
-                          .format("hh:mm A")}
+                          .format("hh:mm A")}{" "}
+                        (GMT Time)
                       </span>
                     </h6>
                   )}

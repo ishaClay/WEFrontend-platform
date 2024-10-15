@@ -63,7 +63,8 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
             <h5 className="pe-5 text-[#606060] font-droid text-base">
               Start Time:{" "}
               <span className="text-black">
-                {convertUTCToGMT(data?.data?.startTime || "").format("hh:mm A")}
+                {convertUTCToGMT(data?.data?.startTime || "").format("hh:mm A")}{" "}
+                (GMT Time)
               </span>
             </h5>
             <h5 className="font-droid text-[#606060] text-base">

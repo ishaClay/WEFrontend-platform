@@ -18,11 +18,10 @@ import { useSelector } from "react-redux";
 const MessageList = ({
   data,
   openCommnet,
-  setopenCommnet,
 }: {
   data: ForumQuestionsType;
   openCommnet: number;
-  setopenCommnet: Dispatch<React.SetStateAction<number>>;
+  // setopenCommnet: Dispatch<React.SetStateAction<number>>;
 }) => {
   const queryClient = useQueryClient();
   const [newcommnet, setnewcommnet] = useState<string>("");
@@ -64,7 +63,7 @@ const MessageList = ({
     setreplyMessage("");
   };
 
-  const cretecommnets = useMutation({
+  const { mutate: cretecommnets, isPending: creatingComment } = useMutation({
     mutationFn: createCommnets,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -73,7 +72,7 @@ const MessageList = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
       });
-      setopenCommnet(0);
+      // setopenCommnet(0);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -81,7 +80,7 @@ const MessageList = ({
         variant: "destructive",
         description: error.data.message,
       });
-      setopenCommnet(0);
+      // setopenCommnet(0);
     },
   });
 
@@ -89,7 +88,7 @@ const MessageList = ({
     e.preventDefault();
     setnewcommnet("");
     if (newcommnet && data?.id && userId) {
-      cretecommnets.mutate({
+      cretecommnets({
         comment: newcommnet,
         forumQuestionId: +data?.id,
         userId: +userId,
@@ -131,6 +130,7 @@ const MessageList = ({
             <Button
               className="bg-[#42A7C3] text-xs px-5 h-[38px]"
               type="submit"
+              isLoading={creatingComment}
             >
               Post
             </Button>

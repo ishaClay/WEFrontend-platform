@@ -26,6 +26,7 @@ import Feedback from "./Feedback";
 import Information from "./Information";
 import Module from "./Module";
 import ReviewModal from "./ReviewModal";
+import { UserRole } from "@/types/UserRole";
 
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
@@ -211,7 +212,7 @@ const EmployeeBasicCourse = () => {
                     Module
                   </TabsTrigger>
                   {location?.pathname.includes("/employee-basic-course") &&
-                    +userData?.query?.role === 4 && (
+                    +userData?.query?.role !== UserRole.Company && (
                       <TabsTrigger
                         value="forum"
                         className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
@@ -307,8 +308,8 @@ const EmployeeBasicCourse = () => {
                                       {item?.title}
                                     </h5>
                                     <h6 className="text-[14px] text-[#606060] font-droid capitalize">
-                                      {item?.status === "inrogress"
-                                        ? "inProgress"
+                                      {item?.status === "inProgress"
+                                        ? "In Progress"
                                         : item?.status}
                                     </h6>
                                   </div>
