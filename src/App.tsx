@@ -191,6 +191,7 @@ function App() {
     });
 
     socket.on("employee status", (data: any) => {
+      console.log("🚀 ~ socket.on ~ data:", data);
       if (
         data?.user?.employeeDetails?.employeeStatus === "Inactive" &&
         data?.user?.id === +UserId
@@ -202,7 +203,7 @@ function App() {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [UserId]);
 
   useEffect(() => {
     if (fetchClientmaturitylevel) {

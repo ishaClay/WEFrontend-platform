@@ -9,7 +9,7 @@ import { chatDPColor } from "@/lib/utils";
 import { fetchEvaluteData } from "@/services/apiServices/enroll";
 import { EmployeeType } from "@/types/enroll";
 import { useQuery } from "@tanstack/react-query";
-import { Award, CircleCheck, FilePenLine } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 import EvaluateModalDetails from "./EvaluateModalDetails";
@@ -134,7 +134,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
               <div className="sm:me-4 me-2">
                 <Button
                   variant={"outlinePrimary"}
-                  className="text-[#00778b] border-[#00778b] sm:px-5 p-0 w-[146px] rounded-none sm:text-base text-sm sm:h-10 h-[36px]"
+                  className="text-[#00778b] border-[#00778b] sm:p-2 p-0 w-[160px] block rounded-none sm:text-base text-sm sm:h-10 h-[36px]"
                   onClick={() => setIsOpenAllocate(true)}
                   disabled={
                     progress?.[0] !== "100"
@@ -144,7 +144,6 @@ const EnrollCourseEmployeeDetailsListItem = ({
                       : false
                   }
                 >
-                  <Award width={18} height={18} />
                   Allocate Certificate
                 </Button>
               </div>
@@ -160,7 +159,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
             ) : (
               <div className="">
                 <Button
-                  className="text-white flex bg-[#00778b] sm:px-5 w-[95px] sm:py-2 p-0 font-droid sm:text-base text-sm rounded-none sm:h-10 h-[36px]"
+                  className="text-white bg-[#00778b] sm:p-2 block w-[95px] sm:py-2 p-0 font-droid sm:text-base text-sm rounded-none sm:h-10 h-[36px]"
                   onClick={() => {
                     setIsOpen(true);
                     setEmpId(data?.id);
@@ -178,7 +177,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
                   //     : true
                   // }
                 >
-                  <FilePenLine width={18} /> Evaluate
+                  Evaluate
                 </Button>
               </div>
             )}
