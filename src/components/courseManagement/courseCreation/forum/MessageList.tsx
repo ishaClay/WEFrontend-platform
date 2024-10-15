@@ -12,7 +12,7 @@ import { ForumQuestionsType } from "@/types/forum";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Dispatch, Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import { useSelector } from "react-redux";
 
 const MessageList = ({
