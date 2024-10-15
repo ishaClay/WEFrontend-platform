@@ -6,7 +6,6 @@ import "react-phone-number-input/style.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { io } from "socket.io-client";
 import CompanyProtectedRoute from "./Layout/CompanyProtectedRoute";
 import ProtectedRoute from "./Layout/ProtectedRoute";
 import DashboardTrainee from "./components/DashboardTrainee";
@@ -93,8 +92,8 @@ import { LogOut } from "./services/apiServices/authService";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
 import { changeTheme } from "./services/apiServices/theme";
-import { ResponseError } from "./types/Errors";
 import { socket } from "./services/socket";
+import { ResponseError } from "./types/Errors";
 
 function App() {
   const dispatch = useAppDispatch();

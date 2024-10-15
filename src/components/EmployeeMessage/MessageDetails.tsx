@@ -17,15 +17,14 @@ import { MoveLeft, SendHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosDocument } from "react-icons/io";
-import { io } from "socket.io-client";
 import * as z from "zod";
+import { socket } from "../../services/socket";
 import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import eye from "/assets/icons/eye.svg";
-import { socket } from "../../services/socket";
 
 interface MessageDetailsProps {
   empId: DataEntity;
