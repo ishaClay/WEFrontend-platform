@@ -2,12 +2,12 @@
 import Loader from "@/components/comman/Loader";
 import NoDataText from "@/components/comman/NoDataText";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { convertUTCToGMT } from "@/lib/utils";
 import { getSingleLiveSession } from "@/services/apiServices/liveSession";
 import { SingleLiveSession } from "@/types/liveSession";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import SessionEmployeeItem from "./SessionEmployeeItem";
-import { convertUTCToGMT } from "@/lib/utils";
 
 const SessionModalDetails = ({ id }: { id: number | null }) => {
   const { data, isLoading } = useQuery<SingleLiveSession>({
@@ -79,7 +79,7 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
             Status : {data?.data?.status}
           </h6>
           <h4 className="pb-3 font-droid text-base font-bold">
-            Employee Attendance
+            Invited Employees
           </h4>
           <ScrollArea className="h-[300px]">
             {data?.data?.employee && data?.data?.employee?.length > 0 ? (

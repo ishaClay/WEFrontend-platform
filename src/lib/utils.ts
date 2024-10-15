@@ -575,13 +575,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-          +readingTime?.hour * 3600 +
-          +readingTime?.minute * 60 +
-          +readingTime?.second
+      +readingTime?.hour * 3600 +
+      +readingTime?.minute * 60 +
+      +readingTime?.second
       : +totalSeconds +
-          +readingTime?.hours * 3600 +
-          +readingTime?.minutes * 60 +
-          +readingTime?.seconds;
+      +readingTime?.hours * 3600 +
+      +readingTime?.minutes * 60 +
+      +readingTime?.seconds;
   }, 0);
 };
 
@@ -778,3 +778,13 @@ export function convertUTCToGMT(utcDateString?: Date | string | undefined) {
   const gmtDate = utcDate.add(1, "hours");
   return gmtDate;
 }
+
+export const isSessionCompletedAtTime = (
+  startTime: string,
+  sessionDuration: number
+): boolean => {
+  const targetDate = convertUTCToGMT();
+  const sessionStart = convertUTCToGMT(startTime);
+  const sessionEnd = sessionStart.clone().add(sessionDuration, "minutes");
+  return targetDate.isAfter(sessionEnd);
+};

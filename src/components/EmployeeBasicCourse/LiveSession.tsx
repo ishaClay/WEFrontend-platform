@@ -1,6 +1,10 @@
 import Zoom_Video from "@/assets/images/zoom-video.png";
 import { QUERY_KEYS } from "@/lib/constants";
-import { convertUTCToGMT, isSessionOngoingAtTime } from "@/lib/utils";
+import {
+  convertUTCToGMT,
+  isSessionCompletedAtTime,
+  isSessionOngoingAtTime,
+} from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -46,6 +50,17 @@ const LiveSession = ({
 
   const liveSessionData = list?.liveSection?.[0];
 
+  const isBetweenTime = isSessionOngoingAtTime(
+    liveSessionData?.startTime,
+    liveSessionData?.sessionDuration
+  );
+
+  const isCompletedTime = isSessionCompletedAtTime(
+    liveSessionData?.startTime,
+    liveSessionData?.sessionDuration
+  );
+
+  console.log("🚀 ~ isCompletedTime:", isCompletedTime);
   const isEmployee = !!list?.liveSection[0]?.employee?.find(
     (item: any) => item.id === userData?.query?.detailsid
   );
@@ -66,6 +81,11 @@ const LiveSession = ({
       liveSessionData?.startTime,
       liveSessionData?.sessionDuration
     );
+  console.log(
+    "🚀 ~ joinButtonPermission:",
+    joinButtonPermission,
+    liveSessionData?.startTime
+  );
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
     onSuccess: async () => {
@@ -134,33 +154,38 @@ const LiveSession = ({
                   )}
                 </div>
               </div>
-              {/* <div className="md:text-right text-left">
-                <h6 className="text-[#777] text-xs font-droid pb-2.5">
-                  Assign date :
-                  <span className="text-black"> -</span>
-                </h6>
-                <h6 className="text-[#777] text-xs font-droid">
-                  Planned completed date :
-                  <span className="text-black">20th April, 2024</span>
-                </h6>
-              </div> */}
             </div>
           </div>
         </div>
         <div className="bg-[#00778B1A] xl:h-[450px] sm:h-[425px] h-[380px] w-full rounded-xl flex justify-center items-center">
           <div className="text-center">
-            <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
-              The meeting link will be enabled{" "}
-              {`${
-                timeRemaining?.days?.toString()?.padStart(2, "0") ?? 0
-              } days, ${
-                timeRemaining?.hours?.toString()?.padStart(2, "0") ?? 0
-              } hours, ${
-                timeRemaining?.minutes?.toString()?.padStart(2, "0") ?? 0
-              } minutes`}{" "}
-              <br />
-              before the scheduled time.
-            </p>
+            {liveSessionData?.startTime ? (
+              isCompletedTime ? (
+                <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
+                  The meeting has been completed.
+                </p>
+              ) : isBetweenTime ? (
+                <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
+                  The meeting has started.
+                </p>
+              ) : (
+                <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
+                  The meeting link will be enabled in{" "}
+                  {`${
+                    timeRemaining?.days?.toString()?.padStart(2, "0") ?? 0
+                  } days, ${
+                    timeRemaining?.hours?.toString()?.padStart(2, "0") ?? 0
+                  } hours, ${
+                    timeRemaining?.minutes?.toString()?.padStart(2, "0") ?? 0
+                  } minutes`}{" "}
+                  .
+                </p>
+              )
+            ) : (
+              <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
+                The meeting has not been scheduled.
+              </p>
+            )}
             <a
               target="_blank"
               href={list?.liveSection[0]?.zoomApiBaseUrl}
