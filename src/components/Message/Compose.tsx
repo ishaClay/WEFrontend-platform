@@ -40,8 +40,8 @@ import { IoIosArrowRoundBack, IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
 import { z } from "zod";
+import { socket } from "../../services/socket";
 import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
 
@@ -222,7 +222,6 @@ const Compose = () => {
       return sendMessage(payload);
     },
     onSuccess: (data) => {
-      const socket = io(import.meta.env.VITE_SOCKET_URL);
       socket.emit("new message", data?.data);
       setChatMessage("");
       navigate(`/${currentUser}/message`);

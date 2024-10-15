@@ -15,15 +15,14 @@ import {
   updateEmployee,
 } from "@/services/apiServices/employee";
 import { uploadImage } from "@/services/apiServices/upload";
+import { socket } from "@/services/socket";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Pencil, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 
-let socket: any;
 const TrainerEditDetails = () => {
   const [phoneError, setPhoneError] = useState("");
   const navigate = useNavigate();
@@ -37,12 +36,6 @@ const TrainerEditDetails = () => {
   const params = useParams();
 
   const [trainerStatus, setTrainerStatus] = useState(1);
-
-  useEffect(() => {
-    if (!socket?.connected) {
-      socket = io(import.meta.env.VITE_SOCKET_URL);
-    }
-  }, [socket]);
 
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
@@ -66,7 +59,6 @@ const TrainerEditDetails = () => {
       );
 
       navigate(`/company/employeelist`);
-      socket.disconnect();
     },
     onError: (error: any) => {
       toast({
@@ -74,7 +66,6 @@ const TrainerEditDetails = () => {
         description: error?.data?.message || "Internal server error",
         variant: "destructive",
       });
-      socket.disconnect();
     },
   });
 
@@ -147,7 +138,6 @@ const TrainerEditDetails = () => {
           className="p-0 text-base font-droid font-bold"
           onClick={() => {
             window.history.back();
-            socket.disconnect();
           }}
         >
           <IoIosArrowRoundBack size={26} />

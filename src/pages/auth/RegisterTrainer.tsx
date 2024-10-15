@@ -57,10 +57,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import { z } from "zod";
-
-let socket: any;
+import { socket } from "../../services/socket";
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
@@ -296,7 +294,6 @@ function RegisterTrainer() {
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
-      socket = io(import.meta.env.VITE_SOCKET_URL);
       socket.emit("new Traner", data.data.data?.user?.id);
     },
     onError: (error: ResponseError) => {

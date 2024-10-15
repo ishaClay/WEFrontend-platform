@@ -94,9 +94,9 @@ import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
 import { changeTheme } from "./services/apiServices/theme";
 import { ResponseError } from "./types/Errors";
+import { socket } from "./services/socket";
 
 function App() {
-  let socket: any;
   const dispatch = useAppDispatch();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -168,7 +168,6 @@ function App() {
   });
 
   useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
     socket.on("message recieved", () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatList],
@@ -199,10 +198,6 @@ function App() {
         mutate(data?.user?.id);
       }
     });
-
-    return () => {
-      socket.disconnect();
-    };
   }, [UserId]);
 
   useEffect(() => {
