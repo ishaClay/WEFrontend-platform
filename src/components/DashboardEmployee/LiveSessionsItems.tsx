@@ -79,7 +79,8 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
               {convertUTCToGMT(data.startTime).format("hh:mm A")} to{" "}
               {convertUTCToGMT(data.startTime)
                 .add(data.sessionDuration, "minutes")
-                .format("hh:mm A")}
+                .format("hh:mm A")}{" "}
+              (GMT Time)
             </span>
           </h6>
         </div>

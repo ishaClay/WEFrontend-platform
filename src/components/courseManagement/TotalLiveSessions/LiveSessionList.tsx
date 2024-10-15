@@ -88,7 +88,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </h6>
           <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
-            {convertUTCToGMT(data?.startTime).format("hh:mm A")}
+            {convertUTCToGMT(data?.startTime).format("hh:mm A")} (GMT Time)
           </h6>
           <h6 className="text-base text-black font-font-droid font-normal">
             <span className="text-[#606060]">Duration: </span>

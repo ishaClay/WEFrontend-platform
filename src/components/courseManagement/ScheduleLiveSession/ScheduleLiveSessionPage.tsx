@@ -664,6 +664,9 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
             </div>
+            <p className="italic font-medium text-gray-200">
+              Note: The time you selected is in GMT timezone.
+            </p>
             <div className="flex flex-col gap-3">
               <div className="text-right">
                 <Button

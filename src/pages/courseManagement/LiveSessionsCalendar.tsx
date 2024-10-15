@@ -225,8 +225,6 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const CustomEvent = ({ event }: { event: any }) => {
-    if (event?.courseTitle === "test081002") {
-    }
     return (
       <Dialog>
         <DialogTrigger className="w-full text-left h-full">
@@ -240,7 +238,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
           </h3>
           <p className="mb-2">
             <strong>Meeting time:</strong> {event?.start.format("hh:mm a")} -
-            {event?.end.format("hh:mm a")}
+            {event?.end.format("hh:mm a")} (GMT Time)
           </p>
           <ScrollArea className="max-h-[500px]">
             <p className="mb-2 text-wrap max-w-[450px] break-words">

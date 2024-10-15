@@ -363,7 +363,7 @@ const ForumPage = () => {
                 </li>
                 <li
                   className="text-base text-[#606060] font-droid flex items-center gap-2 cursor-pointer group"
-                  onClick={() => setopenCommnet(x?.id)}
+                  onClick={() => setopenCommnet((prev) => (prev ? 0 : x?.id))}
                 >
                   <MessageCircle
                     className={`group-hover:text-[#00778B] text-[#A3A3A3] `}
@@ -374,11 +374,7 @@ const ForumPage = () => {
             </div>
             <div className="xl:px-6 px-4 py-3">
               <div className="flex flex-col gap-5">
-                <MessageList
-                  data={x}
-                  setopenCommnet={setopenCommnet}
-                  openCommnet={openCommnet}
-                />
+                <MessageList data={x} openCommnet={openCommnet} />
               </div>
             </div>
           </div>
