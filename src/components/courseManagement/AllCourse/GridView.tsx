@@ -144,7 +144,7 @@ const GridView = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
         title: "Success",
-        description: "Course Copied Successfully",
+        description: "Course copied successfully",
         variant: "success",
       });
     },
@@ -250,7 +250,7 @@ const GridView = ({
         publishCourseFun(payload);
       } else {
         toast({
-          title: "Please Create Cohort Group",
+          title: "Please create cohort group",
           variant: "destructive",
         });
       }
@@ -350,7 +350,7 @@ const GridView = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make DRAFT Status then You Can Edit",
+          title: "First course make DRAFT status then you can edit",
           variant: "destructive",
         });
       }

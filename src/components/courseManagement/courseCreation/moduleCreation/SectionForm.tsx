@@ -75,7 +75,7 @@ const SectionForm = ({
       toast({
         variant: "destructive",
         title:
-          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+          "Invalid file name. please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }

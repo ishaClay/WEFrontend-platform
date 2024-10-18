@@ -125,7 +125,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
               onClick={() => {
                 navigator.clipboard.writeText(data.zoomApiBaseUrl);
                 toast({
-                  description: "Meeting Url Copied",
+                  description: "Meeting url copied",
                   variant: "success",
                   duration: 3000,
                 });

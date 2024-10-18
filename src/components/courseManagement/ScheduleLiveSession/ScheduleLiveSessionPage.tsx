@@ -62,6 +62,7 @@ const ScheduleLiveSessionPage = () => {
   const { UserId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [LiveSession, setLiveSession] = useState("");
+  const [LiveSessionDesc, setLiveSessionDesc] = useState("");
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
 
   const convertTo12HourFormat = (time24: string) => {
@@ -312,6 +313,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("selectLiveSession", moduleSection?.id?.toString());
         setSelectLiveSession(moduleSection?.id?.toString());
         setLiveSession(moduleSection?.title);
+        setLiveSessionDesc(moduleSection?.information);
         setValue("sessionTime", convertUTCToGMT(startTime).format("HH:mm"));
         setValue("platform", !!platform);
         setValue("zoomUrl", zoomApiBaseUrl || "");
@@ -327,18 +329,14 @@ const ScheduleLiveSessionPage = () => {
       (item: any) => +item?.value === +data?.selectLiveSession
     );
 
-    const session = getLiveSessionData?.data?.find(
-      (item) => item.id?.toString() === selectLiveSession?.toString()
-    );
-
     const htmlString = new DOMParser().parseFromString(
-      session?.information || "",
+      LiveSessionDesc || "",
       "text/html"
     );
 
     const transformedData = {
       course: data?.selectCourse,
-      subtitle: session?.title,
+      subtitle: LiveSession,
       description: htmlString?.body?.innerText,
       sessionDuration:
         +data.selectDurationInHours * 60 +

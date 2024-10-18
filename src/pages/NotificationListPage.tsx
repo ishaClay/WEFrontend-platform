@@ -44,7 +44,7 @@ const NotificationListPage = () => {
         deleteNotificationById(notificationId),
       onSuccess: () => {
         toast({
-          title: "Notification deleted Successfully",
+          title: "Notification deleted successfully",
           variant: "success",
         });
         queryClient.invalidateQueries({

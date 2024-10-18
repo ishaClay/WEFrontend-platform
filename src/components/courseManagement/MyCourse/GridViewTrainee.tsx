@@ -124,7 +124,7 @@ const GridViewTrainee = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
         title: "Success",
-        description: "Course Copied Successfully",
+        description: "Course copied successfully",
         variant: "success",
       });
     },
@@ -223,7 +223,7 @@ const GridViewTrainee = ({
         publishCourseFun(payload);
       } else {
         toast({
-          title: "Please Create Module and Sections",
+          title: "Please create module and sections",
           variant: "destructive",
         });
       }
@@ -321,7 +321,7 @@ const GridViewTrainee = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make DRAFT Status then You Can Edit",
+          title: "First course make DRAFT status then you can edit",
           variant: "destructive",
         });
       }

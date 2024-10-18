@@ -285,7 +285,7 @@ function CompanyRegister() {
         clientId,
       });
     } else {
-      toast({ variant: "destructive", title: "Please Enter Company Name" });
+      toast({ variant: "destructive", title: "Please enter company name" });
     }
   };
 
@@ -315,7 +315,7 @@ function CompanyRegister() {
     setIsCompanyVerified(false);
     toast({
       variant: "destructive",
-      title: "Please Enter Valid Company Details",
+      title: "Please enter valid company details",
     });
   };
 

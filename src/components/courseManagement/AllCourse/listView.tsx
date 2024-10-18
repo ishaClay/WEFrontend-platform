@@ -146,7 +146,7 @@ const ListView = ({
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
         title: "Success",
-        description: "Course Copied Successfully",
+        description: "Course copied successfully",
         variant: "success",
       });
     },
@@ -208,7 +208,7 @@ const ListView = ({
         publishCourseFun(payload);
       } else {
         toast({
-          title: "Please Create Cohort Group",
+          title: "Please create cohort group",
           variant: "destructive",
         });
       }
@@ -343,7 +343,7 @@ const ListView = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make DRAFT Status then You Can Edit",
+          title: "First course make DRAFT status then you can edit",
           variant: "destructive",
         });
       }

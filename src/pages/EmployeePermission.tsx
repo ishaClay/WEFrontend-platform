@@ -50,7 +50,7 @@ function EmployeePermission() {
   const { mutate: update_employee, isPending: updatePending } = useMutation({
     mutationFn: updateEmployeeList,
     onSuccess: () => {
-      toast({ title: "Permission Updated Successfully", variant: "success" });
+      toast({ title: "Permission updated successfully", variant: "success" });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getEmployeeList],
       });

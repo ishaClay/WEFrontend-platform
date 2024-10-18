@@ -184,7 +184,7 @@ function Auth() {
           ) {
             toast({
               variant: "destructive",
-              title: "User Not found",
+              title: "User not found",
             });
           }
 
@@ -207,7 +207,7 @@ function Auth() {
           if (user.role == UserRole.Client) {
             toast({
               variant: "destructive",
-              title: "Only Company, Trainer Company and Trainee can login",
+              title: "Only company, trainer company and trainee can login",
             });
           }
 
@@ -231,7 +231,7 @@ function Auth() {
       } else {
         toast({
           variant: "destructive",
-          title: "User Not found",
+          title: "User not found",
         });
       }
     },
