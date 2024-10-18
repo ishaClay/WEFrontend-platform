@@ -262,15 +262,15 @@ const ForumPage = () => {
                   </h5>
                   <div className="flex gap-2.5">
                     <h6 className="text-[#5B5B5B] text-xs font-droid">
-                      {userData?.role === UserRole.Company
+                      {x?.user?.role === UserRole.Company
                         ? "Company"
-                        : userData?.role === UserRole.Trainer
+                        : x?.user?.role === UserRole.Trainer
                         ? "Trainer Company"
-                        : userData?.role === UserRole.Trainee
+                        : x?.user?.role === UserRole.Trainee
                         ? "Trainer"
-                        : userData?.role === UserRole.Employee
+                        : x?.user?.role === UserRole.Employee
                         ? "Company Employee"
-                        : userData?.role === UserRole.SuperAdmin
+                        : x?.user?.role === UserRole.SuperAdmin
                         ? "Super Admin"
                         : "Client"}
                     </h6>
