@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
@@ -102,6 +103,8 @@ function App() {
   const domain = document.location.origin;
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const LOGOUT_TIME = 5 * 60 * 1000;
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -215,6 +218,36 @@ function App() {
       );
     }
   }, [fetchClientmaturitylevel]);
+
+  const handleLogout = () => {
+    mutate(userData?.query.id);
+  };
+
+  const resetTimer = () => {
+    const currentTime: any = Date.now();
+    localStorage.setItem("lastActiveTime", currentTime); // Store the current time
+  };
+
+  useEffect(() => {
+    // Check the last active time on component mount
+    const lastActiveTime: any = localStorage.getItem("lastActiveTime");
+    if (lastActiveTime && Date.now() - lastActiveTime > LOGOUT_TIME) {
+      handleLogout(); // Log out if more than 5 minutes have passed
+    }
+
+    // Add event listeners for user activity
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keypress", resetTimer);
+
+    // Reset the timer when the component mounts
+    resetTimer();
+
+    // Clean up event listeners on component unmount
+    return () => {
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keypress", resetTimer);
+    };
+  }, []);
 
   return (
     <div className="App mx-auto">
