@@ -70,7 +70,7 @@ function Notification() {
         setIsDelete(false);
         navigate(`/${currentUser}/notification-list`);
         toast({
-          title: "Notification deleted Successfully",
+          title: "Notification deleted successfully",
           variant: "success",
         });
       },

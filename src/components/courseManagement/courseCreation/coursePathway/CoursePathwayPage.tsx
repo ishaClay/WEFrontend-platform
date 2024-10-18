@@ -78,7 +78,7 @@ const CoursePathwayPage = () => {
         }
         toast({
           title: "Success",
-          description: `Course Pathway ${
+          description: `Course pathway ${
             +courseId ? "updated" : "created"
           } successfully`,
           variant: "success",

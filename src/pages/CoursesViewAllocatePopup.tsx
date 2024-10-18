@@ -103,7 +103,7 @@ function CourseViewAllocatePopup({
     onSuccess: () => {
       toast({
         title: "Success",
-        description: "Course Allocated successfully.",
+        description: "Course allocated successfully.",
         variant: "success",
       });
       queryClient.invalidateQueries({

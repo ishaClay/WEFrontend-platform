@@ -121,7 +121,7 @@ function SupportAddNewTicket() {
         setVideo(undefined);
         setSelectAssignTo("");
         setSelectTicketPriority("");
-        toast({ title: "Ticket Created Successfully", variant: "success" });
+        toast({ title: "Ticket created successfully", variant: "success" });
         dispatch(
           setPath([
             {

@@ -71,7 +71,7 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
     } else {
       toast({
         title: "Error",
-        description: "group already created",
+        description: "Group already created",
         variant: "destructive",
       });
     }

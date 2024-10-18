@@ -38,7 +38,7 @@ const Question = ({
     } else {
       toast({
         variant: "success",
-        title: "Please Click on Submit button",
+        title: "Please click on submit button",
       });
     }
   };

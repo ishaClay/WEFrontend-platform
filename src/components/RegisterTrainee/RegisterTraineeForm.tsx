@@ -230,7 +230,7 @@ const RegisterTraineeForm = () => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
           title: "Error",
-          description: "Trainer invitation Already send.",
+          description: "Trainer invitation already send.",
           variant: "destructive",
         });
       } else {

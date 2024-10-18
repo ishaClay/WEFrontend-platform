@@ -207,7 +207,7 @@ const Message = () => {
           toast({
             variant: "destructive",
             title:
-              "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+              "Invalid file name. please use only letters, digits, underscores, hyphens, and a single period.",
           });
           return;
         } else {
@@ -220,7 +220,7 @@ const Message = () => {
             toast({
               variant: "destructive",
               title:
-                "Invalid file type. Please select a video, word, or excel file.",
+                "Invalid file type. please select a video, word, or excel file.",
             });
           } else {
             toast({
