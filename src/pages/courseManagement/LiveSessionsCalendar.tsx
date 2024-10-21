@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,6 +18,8 @@ import {
   ChevronLeft,
   ChevronRight,
   CirclePlus,
+  Eye,
+  EyeOff,
   List,
   NotepadText,
 } from "lucide-react";
@@ -67,6 +70,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
       description: session?.description,
       zoomlink: session?.zoomApiBaseUrl,
       courseTitle: session?.course?.title,
+      // @ts-ignore
+      passcode: session?.passcode,
     };
   });
 
@@ -225,6 +230,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const CustomEvent = ({ event }: { event: any }) => {
+    console.log("🚀 ~ CustomEvent ~ event:", event);
+    const [inputType, setInputType] = useState<"password" | "text">("password");
     return (
       <Dialog>
         <DialogTrigger className="w-full text-left h-full">
@@ -240,6 +247,27 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
             <strong>Meeting time:</strong> {event?.start.format("hh:mm a")} -
             {event?.end.format("hh:mm a")} (GMT Time)
           </p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center">
+              <p className="font-bold w-[130px]">Pass Code:</p>{" "}
+              <input
+                type={inputType}
+                className="max-w-[200px] w-full bg-white"
+                value={event?.passcode}
+                disabled
+              />
+            </div>
+            <Button
+              variant={"link"}
+              onClick={() =>
+                setInputType((prev) =>
+                  prev === "password" ? "text" : "password"
+                )
+              }
+            >
+              {inputType === "password" ? <Eye /> : <EyeOff />}
+            </Button>
+          </div>
           <ScrollArea className="max-h-[500px]">
             <p className="mb-2 text-wrap max-w-[450px] break-words">
               <strong>Description:</strong> {event?.description}
