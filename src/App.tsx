@@ -105,7 +105,6 @@ function App() {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const LOGOUT_TIME = 5 * 60 * 1000;
-  const SESSION_TIMEOUT = 10 * 60 * 1000;
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -268,6 +267,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    // Start the timer on component mount
+
+    // Reset timer on user activity
+    const resetTimer = () => {
+      startLogoutTimer();
+    };
     let logoutTimer: any;
 
     const startLogoutTimer = () => {
@@ -277,19 +282,7 @@ function App() {
       // Set a new timer for 10 minutes
       logoutTimer = setTimeout(() => {
         handleLogout();
-      }, SESSION_TIMEOUT);
-    };
-
-    const handleLogout = () => {
-      mutate(userData?.query.id);
-    };
-
-    // Start the timer on component mount
-    startLogoutTimer();
-
-    // Reset timer on user activity
-    const resetTimer = () => {
-      startLogoutTimer();
+      }, 600000);
     };
 
     // Add event listeners for user activity
@@ -302,7 +295,7 @@ function App() {
       window.removeEventListener("mousemove", resetTimer);
       window.removeEventListener("keypress", resetTimer);
     };
-  }, [history]);
+  }, [navigate]);
 
   return (
     <div className="App mx-auto">
