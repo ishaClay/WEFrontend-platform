@@ -7,7 +7,7 @@ import { convertUTCToGMT, isSessionOngoingAtTime } from "@/lib/utils";
 import { deleteLiveSessions } from "@/services/apiServices/liveSession";
 import { AllLivesessions } from "@/types/liveSession";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleCheck, Copy, Pencil, X } from "lucide-react";
+import { CircleCheck, Copy, Eye, EyeOff, Pencil, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const [isDelete, setIsDelete] = useState(false);
+  const [inputType, setInputType] = useState<"password" | "text">("password");
   const { mutate: deleteLiveSession, isPending } = useMutation({
     mutationFn: deleteLiveSessions,
     onSuccess: () => {
@@ -96,6 +97,28 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
               data?.sessionDuration % 60
             } Hours`}
           </h6>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center">
+            <p className="font-bold w-[100px]">Pass Code:</p>{" "}
+            <input
+              type={inputType}
+              className="max-w-[150px] w-full bg-white"
+              // @ts-ignore
+              value={data?.passcode}
+              disabled
+            />
+          </div>
+          <Button
+            variant={"link"}
+            onClick={() =>
+              setInputType((prev) =>
+                prev === "password" ? "text" : "password"
+              )
+            }
+          >
+            {inputType === "password" ? <Eye /> : <EyeOff />}
+          </Button>
         </div>
       </div>
       <div className="px-5 py-4 sm:h-[74px] h-auto flex items-center">

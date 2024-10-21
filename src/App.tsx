@@ -105,6 +105,7 @@ function App() {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const LOGOUT_TIME = 5 * 60 * 1000;
+  const SESSION_TIMEOUT = 10 * 60 * 1000;
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -228,6 +229,13 @@ function App() {
     localStorage.setItem("lastActiveTime", currentTime); // Store the current time
   };
 
+  const checkLogoutTime = () => {
+    const lastActiveTime: any = localStorage.getItem("lastActiveTime");
+    if (lastActiveTime && Date.now() - lastActiveTime > LOGOUT_TIME) {
+      mutate(userData?.query.id);
+    }
+  };
+
   useEffect(() => {
     // Check the last active time on component mount
     const lastActiveTime: any = localStorage.getItem("lastActiveTime");
@@ -239,6 +247,15 @@ function App() {
     window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keypress", resetTimer);
 
+    const handleVisibilityChange = () => {
+      resetTimer;
+      if (document.visibilityState === "visible") {
+        checkLogoutTime(); // Check logout time when the tab becomes visible
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     // Reset the timer when the component mounts
     resetTimer();
 
@@ -246,8 +263,46 @@ function App() {
     return () => {
       window.removeEventListener("mousemove", resetTimer);
       window.removeEventListener("keypress", resetTimer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
+
+  useEffect(() => {
+    let logoutTimer: any;
+
+    const startLogoutTimer = () => {
+      // Clear any existing timer
+      clearTimeout(logoutTimer);
+
+      // Set a new timer for 10 minutes
+      logoutTimer = setTimeout(() => {
+        handleLogout();
+      }, SESSION_TIMEOUT);
+    };
+
+    const handleLogout = () => {
+      mutate(userData?.query.id);
+    };
+
+    // Start the timer on component mount
+    startLogoutTimer();
+
+    // Reset timer on user activity
+    const resetTimer = () => {
+      startLogoutTimer();
+    };
+
+    // Add event listeners for user activity
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keypress", resetTimer);
+
+    // Clean up event listeners and timer on component unmount
+    return () => {
+      clearTimeout(logoutTimer);
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keypress", resetTimer);
+    };
+  }, [history]);
 
   return (
     <div className="App mx-auto">
