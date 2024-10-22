@@ -163,7 +163,10 @@ function App() {
     onError: (error: ResponseError) => {
       toast({
         title: "Error",
-        description: error?.data?.message || "Internal server error",
+        description:
+          typeof error?.data?.message === "string"
+            ? error?.data?.message
+            : "Internal server error",
         variant: "destructive",
       });
     },
