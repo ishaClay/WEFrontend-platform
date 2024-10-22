@@ -47,7 +47,7 @@ const HomeFooter = () => {
                   />
                 </div>
                 <div className="secondary-text sm:flex block justify-between items-center lg:hidden lg:order-3 order-3">
-                  <p className="lg:block hidden no-underline text-sm leading-5 font-droid font-bold">
+                  <p className="lg:block hidden no-underline !text-sm leading-5 font-droid font-bold footerText">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
@@ -97,7 +97,7 @@ const HomeFooter = () => {
                       <img src={RoundLogoImage} alt="round logo" />
                     </div>
                     <div>
-                      <h6 className="xl:text-base text-sm font-bold lg:text-[#002A3A] text-white text-left leading-4">
+                      <h6 className="!xl:text-base !text-sm font-bold lg:text-[#002A3A] text-white text-left leading-4 footerText">
                         Co-funded by
                         <br />
                         the European Union
@@ -108,7 +108,7 @@ const HomeFooter = () => {
               </div>
               <div className="lg:block hidden">
                 <div className="secondary-text sm:flex block justify-between items-center py-3 my-3">
-                  <p className="lg:block hidden no-underline text-sm leading-5 font-font-droid font-bold">
+                  <p className="lg:block hidden no-underline !text-sm leading-5 font-font-droid font-bold footerText">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
@@ -151,7 +151,7 @@ const HomeFooter = () => {
               <ul className=" text-white flex flex-col  sm:gap-y-[3px] gap-y-[10px] text-start secondary-text lg:p-0 px-5 sm:pr-[35px] pr-[29px] underline">
                 <Link
                   to={"/our-courses"}
-                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid !text-base font-bold cursor-pointer leading-5 footerText"
                 >
                   Our Courses
                 </Link>
@@ -163,7 +163,7 @@ const HomeFooter = () => {
                         ]?.toLowerCase()}/dashboard`
                       : "/register"
                   }
-                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid !text-base font-bold cursor-pointer leading-5 footerText"
                 >
                   Join Us
                 </Link>
@@ -175,12 +175,12 @@ const HomeFooter = () => {
                 </Link> */}
                 <Link
                   to={"/contact"}
-                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid !text-base font-bold cursor-pointer leading-5 footerText"
                 >
                   Contact Us
                 </Link>
               </ul>
-              <p className="lg:hidden block no-underline text-sm text-white leading-5 font-font-droid font-bold max-w-[165px] w-[165px] text-left">
+              <p className="lg:hidden block no-underline text-sm text-white leading-5 font-font-droid font-bold footerText max-w-[165px] w-[165px] text-left">
                 © County Wexford Chamber 2023. All Rights Reserved.
               </p>
             </div>
